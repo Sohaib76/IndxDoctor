@@ -22,7 +22,7 @@ export default function Fifth({ ScreenCounter }) {
   const [inputFour, setInputFour] = useState("");
   const [colorFour, SetColorFour] = useState(colors.Gray);
 
-  const [numb, setnumb] = useState()
+  const [numb, setnumb] = useState(0)
 
 
   useEffect(() => {
@@ -32,7 +32,9 @@ export default function Fifth({ ScreenCounter }) {
       setnumb(x.number)
 
     }
-    getNumber()
+    setTimeout(function () {
+      getNumber()
+    }, 100);
   }, [])
 
   return (

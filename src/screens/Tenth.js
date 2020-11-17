@@ -5,12 +5,23 @@ import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
 import Images from "../assets/Images";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Tenth = (props) => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState("Male");
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
   const [genderShower, setGenderShower] = useState(false);
+
+  const setGender = async () => {
+    props.ScreenCounter(11)
+    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    x = JSON.parse(jsonValue)
+    x.gender = input
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    alert(JSON.stringify(x))
+  }
+
 
   return (
     <View>
@@ -36,7 +47,7 @@ const Tenth = (props) => {
               setMale(true);
             }}
           >
-            <Text style={{ marginLeft: -60, color: colors.Gray }}>Choose your gender </Text>
+            <Text style={{ paddingLeft: 10, marginLeft: -100, color: colors.Gray }}>Choose your gender </Text>
           </TouchableOpacity>
         </View>
 
@@ -44,7 +55,7 @@ const Tenth = (props) => {
           <>
             <TouchableOpacity
               onPress={() => {
-                setMale(true), setFemale(false);
+                setMale(true), setFemale(false), setInput("Male");
               }}
               style={[
                 InputStyle.InputBlockStyle,
@@ -64,12 +75,12 @@ const Tenth = (props) => {
                   resizeMode="contain"
                 />
               ) : (
-                <Image
-                  source={Images.empty}
-                  style={{ marginLeft: 10, tintColor: colors.lightGreen, width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              )}
+                  <Image
+                    source={Images.empty}
+                    style={{ marginLeft: 10, tintColor: colors.lightGreen, width: 20, height: 20 }}
+                    resizeMode="contain"
+                  />
+                )}
               <Text style={{ marginLeft: 10, color: colors.Gray }}>Male</Text>
             </TouchableOpacity>
 
@@ -77,6 +88,7 @@ const Tenth = (props) => {
               onPress={() => {
                 setMale(false);
                 setFemale(true);
+                setInput("Female");
               }}
               style={[
                 InputStyle.InputBlockStyle,
@@ -96,12 +108,12 @@ const Tenth = (props) => {
                   resizeMode="contain"
                 />
               ) : (
-                <Image
-                  source={Images.empty}
-                  style={{ marginLeft: 10, tintColor: colors.lightGreen, width: 20, height: 20 }}
-                  resizeMode="contain"
-                />
-              )}
+                  <Image
+                    source={Images.empty}
+                    style={{ marginLeft: 10, tintColor: colors.lightGreen, width: 20, height: 20 }}
+                    resizeMode="contain"
+                  />
+                )}
               <Text style={{ marginLeft: 10, color: colors.Gray }}>Female</Text>
             </TouchableOpacity>
           </>
@@ -110,7 +122,7 @@ const Tenth = (props) => {
         {/* Proceed */}
 
         <TouchableOpacity
-          onPress={() => props.ScreenCounter(11)}
+          onPress={setGender}
           disabled={genderShower === true ? false : true}
           style={[
             InputStyle.InputBlockStyle,

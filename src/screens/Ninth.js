@@ -5,6 +5,7 @@ import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 //expo install @react-native-community/datetimepicker
@@ -21,7 +22,22 @@ const Ninth = (props) => {
     const currentDate = selectedDate || date;
     setCalenderShower(Platform.OS === 'ios');
     setDate(currentDate);
+    //alert(JSON.stringify(currentDate))
+    var yyyy = JSON.stringify(currentDate).substr(1, 4)
+    var mm = JSON.stringify(currentDate).substr(6, 2)
+    var dd = JSON.stringify(currentDate).substr(9, 2)
+    dd = parseInt(dd) + 1
+    setCalenderValue(`${dd}/${mm}/${yyyy}`)
   };
+
+  const setBirthDay = async () => {
+    props.ScreenCounter(10)
+    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    x = JSON.parse(jsonValue)
+    x.birthDate = calenderValue
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    alert(JSON.stringify(x))
+  }
 
   return (
     <View>
@@ -62,19 +78,20 @@ const Ninth = (props) => {
             mode="date"
             display="default"
             onChange={onChange}
+            dateFormat="day month year"
           />
         )}
 
         {/* Proceed Btn */}
-
+        {/* del gap */}
         {calenderValue !== "DD/MM/YYYY" ? (
           <TouchableOpacity
-            onPress={() => props.ScreenCounter(10)}
-            disabled={input !== "" ? false : true}
+            onPress={setBirthDay}
+            // disabled={input !== "" ? false : true}
             style={[
               InputStyle.InputBlockStyle,
               {
-                opacity: input !== "" ? 1 : 0.3,
+                // opacity: input !== "" ? 1 : 0.3,
                 backgroundColor: colors.darkGreen,
                 width: widthPercentageToDP("60%"),
               },
@@ -122,7 +139,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   BelowPart: {
-    top: "70%",
+    top: "30%",
     flexDirection: "row",
     justifyContent: "space-around",
   },

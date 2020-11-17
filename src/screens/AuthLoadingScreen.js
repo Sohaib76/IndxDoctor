@@ -10,8 +10,27 @@ import { View, Text, ActivityIndicator, StatusBar, StyleSheet } from 'react-nati
 
 //asyncstorage.clear, show all asyncstorage
 
+//Late state and async change in screen (Receive Code)  Done
+
+//Future
+//use filesystem if Add Photo problem occurs
+//this username already taken feature
+
 export default function AuthLoadingScreen({ navigation }) {
 
+
+    // const loadData = async () => {
+    //     const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+    //     alert(isLoggedIn)
+    //     navigation.navigate(isLoggedIn ? "App" : "Auth")
+    // }
+    // useEffect(() => {
+
+
+
+
+    //     loadData()
+    // }, [])
 
     const loadData = async () => {
         const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
@@ -19,6 +38,10 @@ export default function AuthLoadingScreen({ navigation }) {
         navigation.navigate(isLoggedIn ? "App" : "Auth")
     }
     useEffect(() => {
+
+
+
+
         loadData()
     }, [])
     return (

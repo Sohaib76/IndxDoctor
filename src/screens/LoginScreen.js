@@ -8,6 +8,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Pressable,
 
 } from "react-native";
 import colors from "../config/colors";
@@ -27,13 +28,66 @@ import Logo from "../assets/Images";
 
 //expo install expo-image-picker
 //LoginScreen
+
+
+
+
+
+// console.log(marvelHeroes);
+
 export default function LoginScreen({ navigation }) {
 
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
   const [userData, setuserData] = useState({})
 
-  const userInfo = { username: "admin", password: "pass" }
+
+
+
+  var tempAsync = []
+  // useEffect(() => {
+
+  //   const getAll = async () => {
+
+  //     const jsonValue = await AsyncStorage.getItem("globalUsers")
+  //     if (jsonValue != null) {
+  //       tempAsync = JSON.parse(jsonValue)
+  //       alert("Have data in Async")
+  //     }
+  //     else {
+  //       tempAsync = [
+  //         { username: "admin", password: "pass", examp: "examp" },
+  //         { username: "adn", password: "pas", examp: "examp" }
+  //       ]
+  //     }
+
+
+  //   }
+  //   getAll()
+
+  // }, [navigation])
+  // const getAll = async () => {
+
+  //   const jsonValue = await AsyncStorage.getItem("globalUsers")
+  //   if (jsonValue != null) {
+  //     tempAsync = JSON.parse(jsonValue)
+
+  //     alert("Have data in Async")
+  //   }
+  //   else {
+  //     tempAsync = [
+  //       { username: "admin", password: "pass", examp: "examp" },
+  //       { username: "adn", password: "pas", examp: "examp" }
+  //     ]
+  //   }
+
+
+  // }
+
+
+  const clearAsyncStorage = async () => {
+    AsyncStorage.clear();
+  }
 
   // useEffect(() => {
   //   // const e = getData()
@@ -47,16 +101,46 @@ export default function LoginScreen({ navigation }) {
     setpassword(text)
   };
 
-  const login = () => {
-    if (userInfo.username === username && userInfo.password === password) {
-      alert("Autherized")
-      //Navigation.navigate
-      storeData()
-      navigation.navigate("Home")
+  const login = async () => {
+    const jsonValue = await AsyncStorage.getItem("globalUsers")
+    if (jsonValue != null) {
+      tempAsync = JSON.parse(jsonValue)
+
+      // alert("Have data in Async")
+    }
+    else {
+      tempAsync = [
+        { username: "admin", password: "pass", examp: "examp" },
+        { username: "adn", password: "pas", examp: "examp" }
+      ]
+    }
+    // alert(JSON.stringify(tempAsync))
+    var userList = tempAsync.filter(function (object) {
+      return object.username == username;
+    });
+    if (userList != "") {
+      const userInfo = userList[0]
+      // alert("Not Null", userList)
+
+      if (userInfo.username === username && userInfo.password === password) {
+        alert("Authorized")
+        //Navigation.navigate
+        storeData()
+        navigation.navigate("HomeScreen",
+
+
+          { userObject: userInfo }
+
+        )
+
+      }
+      else {
+        alert("Incorrect Password")
+      }
 
     }
     else {
-      alert("Incorrect")
+      alert("Incorrect User")
     }
 
     // alert(JSON.stringify(userInfo))
@@ -164,7 +248,7 @@ export default function LoginScreen({ navigation }) {
         </View>
 
         <View style={styles.Footer}>
-          <Text style={styles.FooterText} onPress={() => alert("Terms")}>
+          <Text style={styles.FooterText} onPress={clearAsyncStorage}>
             TERMS & CONDITIONS
           </Text>
 

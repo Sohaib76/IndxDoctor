@@ -19,6 +19,7 @@ import { NavigationContainer } from '@react-navigation/native';
 // import { DrawerItems } from 'react-navigation-drawer';
 import React, { useState, useEffect } from "react";
 import Logout from "../screens/Logout";
+import Last from "../screens/Last";
 
 // const CustomDrawerContentComponent = (props) => (
 //   <ScrollView>
@@ -36,7 +37,7 @@ function HomeDrawer() {
   return (
 
     <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={HomeStack} />
+      <Drawer.Screen name="HomeStack" component={HomeStack} />
       <Drawer.Screen name="Logout" component={Logout} />
 
     </Drawer.Navigator>
@@ -48,7 +49,7 @@ function HomeDrawer() {
 function HomeStack() {
   return (
     <Stack.Navigator headerMode="none">
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Auth" component={AuthStack} />
     </Stack.Navigator>
   )
@@ -60,7 +61,8 @@ function AuthStack() {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <Stack.Screen name="Home" component={HomeDrawer} />
+      <Stack.Screen name="HomeDrawer" component={HomeDrawer} />
+      <Stack.Screen name="Last" component={Last} />
     </Stack.Navigator>
   );
 }

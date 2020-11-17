@@ -7,6 +7,7 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Eleventh = (props) => {
   const [input, setInput] = useState("");
@@ -39,8 +40,25 @@ const Eleventh = (props) => {
       alert("Please select Any Picture");
     } else {
       setImage(result.uri);
+
+
+
+
+      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+      x = JSON.parse(jsonValue)
+      x.imageUri = result.uri
+      x.isLoggedIn = "0"
+      await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+      //await AsyncStorage.setItem("isLoggedIn", "1")
+
+      alert(JSON.stringify(x))
+      // props.ScreenCounter(12)
+      props.navigation.navigate("Last")
+
     }
   };
+
+
 
   return (
     <View>
@@ -74,7 +92,7 @@ const Eleventh = (props) => {
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Last")}>
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>

@@ -20,6 +20,7 @@ import EigthScreen from "./Eigth";
 import NinthScreen from "./Ninth";
 import TenthScreen from "./Tenth";
 import EleventhScreen from "./Eleventh";
+import Last from "./Last";
 
 const SignUpScreen = (props) => {
   const [first, setFirst] = useState(true);
@@ -33,6 +34,7 @@ const SignUpScreen = (props) => {
   const [nine, setNineth] = useState(false);
   const [ten, setTenth] = useState(false);
   const [eleven, setEleventh] = useState(false);
+  const [last, setLast] = useState(false);
   const [counter, setCounter] = useState(1);
 
   const Counter = (count) => {
@@ -114,7 +116,23 @@ const SignUpScreen = (props) => {
       setNineth(false);
       setTenth(false);
       setEleventh(true);
-    } else {
+    }
+    // else if (count === 12) {
+    //   setFirst(false);
+    //   setSecond(false);
+    //   setThird(false);
+    //   setFourth(false);
+    //   setFifth(false);
+    //   setSixth(false);
+    //   setSeventh(false);
+    //   setEigth(false);
+    //   setNineth(false);
+    //   setTenth(false);
+    //   setEleventh(false);
+    //   setLast(true);
+    // }
+
+    else {
       return;
     }
   };
@@ -141,8 +159,12 @@ const SignUpScreen = (props) => {
     } else if (ten === true) {
       return <TenthScreen ScreenCounter={Counter} />;
     } else if (eleven === true) {
-      return <EleventhScreen ScreenCounter={Counter} />;
-    } else {
+      return <EleventhScreen ScreenCounter={Counter} navigation={props.navigation} />;
+    }
+    // else if (last === true) {
+    //   return <Last ScreenCounter={Counter} navigation={props.navigation} />;
+    // }
+    else {
       return;
     }
   };
@@ -265,7 +287,26 @@ const SignUpScreen = (props) => {
           <View style={styles.borderBlockStyle}></View>
         </>
       );
-    } else {
+    }
+    // else if (counter == 11) {
+    //   return (
+    //     <>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //       <View style={styles.borderBlockStyle}></View>
+    //     </>
+    //   );
+    // }
+    else {
       return;
     }
   };
@@ -274,7 +315,7 @@ const SignUpScreen = (props) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("LoginScreen")}
+          onPress={() => props.navigation.navigate("Login")}
           style={{ flexDirection: "row" }}
         >
           <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
