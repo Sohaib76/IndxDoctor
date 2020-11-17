@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextInput,
   StyleSheet,
@@ -8,8 +8,10 @@ import {
   Text,
   Image,
   TouchableOpacity,
+
 } from "react-native";
 import colors from "../config/colors";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {
   widthPercentageToDP as wp,
@@ -20,8 +22,67 @@ import InputStyle from "../components/InputStyle";
 
 import Logo from "../assets/Images";
 
+
+
+
+//expo install expo-image-picker
 //LoginScreen
-const LoginScreen = (props) => {
+export default function LoginScreen({ navigation }) {
+
+  const [username, setusername] = useState("")
+  const [password, setpassword] = useState("")
+  const [userData, setuserData] = useState({})
+
+  const userInfo = { username: "admin", password: "pass" }
+
+  // useEffect(() => {
+  //   // const e = getData()
+  //   console.log(JSON.stringify(e))
+  // }, [])
+
+  const handleUsername = text => {
+    setusername(text)
+  };
+  const handlePassword = text => {
+    setpassword(text)
+  };
+
+  const login = () => {
+    if (userInfo.username === username && userInfo.password === password) {
+      alert("Autherized")
+      //Navigation.navigate
+      storeData()
+      navigation.navigate("Home")
+
+    }
+    else {
+      alert("Incorrect")
+    }
+
+    // alert(JSON.stringify(userInfo))
+  }
+
+  const storeData = async () => {
+    try {
+      // const jsonValue = JSON.stringify(user)
+      await AsyncStorage.setItem('isLoggedIn', "1")
+    } catch (e) {
+      // saving error
+      console.log(e);
+    }
+  }
+
+
+  // const getData = async (user) => {
+  //   try {
+  //     const jsonValue = await AsyncStorage.getItem('userData')
+  //     return jsonValue != null ? JSON.parse(jsonValue) : null;
+  //   } catch (e) {
+  //     // error reading value
+  //   }
+  // }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.Header}>
@@ -45,7 +106,7 @@ const LoginScreen = (props) => {
 
           <TouchableOpacity
             onPress={() => {
-              props.navigation.navigate("SignUpScreen");
+              navigation.navigate("SignUpScreen");
             }}
             style={styles.HeaderSignUpButton}
           >
@@ -58,12 +119,20 @@ const LoginScreen = (props) => {
         <View style={styles.InputBlock}>
           {/* Username */}
           <View style={InputStyle.InputBlockStyle}>
-            <TextInput placeholder="Username" style={InputStyle.TextInputStyle} />
+            <TextInput
+              onChangeText={handleUsername}
+              placeholder="Uername" style={InputStyle.TextInputStyle}
+              autoCapitalize="none"
+            />
+
           </View>
 
           {/* Password */}
           <View style={InputStyle.InputBlockStyle}>
-            <TextInput placeholder="Password" style={InputStyle.TextInputStyle} />
+            <TextInput
+              autoCapitalize="none"
+              onChangeText={handlePassword}
+              placeholder="Password" style={InputStyle.TextInputStyle} />
           </View>
 
           {/* LogIn */}
@@ -75,6 +144,7 @@ const LoginScreen = (props) => {
                 backgroundColor: colors.darkGreen,
               },
             ]}
+            onPress={login}
           >
             <Text style={{ fontWeight: "600", color: "white" }}>LOG IN</Text>
           </TouchableOpacity>
@@ -104,10 +174,11 @@ const LoginScreen = (props) => {
         </View>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default LoginScreen;
+
+
 
 const styles = StyleSheet.create({
   container: {

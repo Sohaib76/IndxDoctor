@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TextInput, TouchableOpacity, StyleSheet, View, Text } from "react-native";
 import colors from "../config/colors";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import InputStyle from "../components/InputStyle";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Fifth = (props) => {
+
+
+export default function Fifth({ ScreenCounter }) {
   const [input, setInput] = useState("");
   const [inputOne, setInputOne] = useState("");
   const [colorOne, SetColorOne] = useState(colors.Gray);
@@ -19,10 +22,23 @@ const Fifth = (props) => {
   const [inputFour, setInputFour] = useState("");
   const [colorFour, SetColorFour] = useState(colors.Gray);
 
+  const [numb, setnumb] = useState()
+
+
+  useEffect(() => {
+    const getNumber = async () => {
+      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+      x = JSON.parse(jsonValue)
+      setnumb(x.number)
+
+    }
+    getNumber()
+  }, [])
+
   return (
     <View>
       <Text style={styles.textStyle}>Please verify by entering your 4 digit code</Text>
-      <Text style={styles.textStyleTwo}>we sent a text message to +633066283094</Text>
+      <Text style={styles.textStyleTwo}>We sent a text message to {numb}</Text>
       <View style={{ flexDirection: "row" }}>
         <Text
           style={[
@@ -66,6 +82,7 @@ const Fifth = (props) => {
           }}
           value={inputOne}
           onChangeText={(val) => setInputOne(val)}
+          maxLength={1}
           style={[styles.textInputStyle, { borderBottomWidth: 3, borderBottomColor: colorOne }]}
         />
 
@@ -81,6 +98,7 @@ const Fifth = (props) => {
           }}
           value={inputTwo}
           onChangeText={(val) => setInputTwo(val)}
+          maxLength={1}
           style={[styles.textInputStyle, { borderBottomWidth: 3, borderBottomColor: colorTwo }]}
         />
 
@@ -96,6 +114,7 @@ const Fifth = (props) => {
           }}
           value={inputThree}
           onChangeText={(val) => setInputThree(val)}
+          maxLength={1}
           style={[styles.textInputStyle, { borderBottomWidth: 3, borderBottomColor: colorThree }]}
         />
 
@@ -114,13 +133,14 @@ const Fifth = (props) => {
           }}
           value={inputFour}
           onChangeText={(val) => setInputFour(val)}
+          maxLength={1}
           style={[styles.textInputStyle, { borderBottomWidth: 3, borderBottomColor: colorFour }]}
         />
       </View>
 
       {/* Proceed */}
       <TouchableOpacity
-        onPress={() => props.ScreenCounter(6)}
+        onPress={() => ScreenCounter(6)}
         disabled={input !== "" ? false : true}
         style={[
           InputStyle.InputBlockStyle,
@@ -136,20 +156,19 @@ const Fifth = (props) => {
 
       {/*Footer */}
       <View style={styles.BelowPart}>
-        <TouchableOpacity onPress={() => props.ScreenCounter(4)} style={{ flexDirection: "row" }}>
+        <TouchableOpacity onPress={() => ScreenCounter(4)} style={{ flexDirection: "row" }}>
           <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => props.ScreenCounter(6)}>
+        <TouchableOpacity onPress={() => ScreenCounter(6)}>
           <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Fifth;
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -158,8 +177,9 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP("60%"),
     fontWeight: "700",
     lineHeight: 23,
-    marginLeft: widthPercentageToDP("19%"),
+    marginLeft: widthPercentageToDP("12%"),
     marginTop: 20,
+    textAlign: "center"
   },
   textStyleTwo: {
     color: "gray",
@@ -167,7 +187,7 @@ const styles = StyleSheet.create({
     width: widthPercentageToDP("80%"),
     fontWeight: "700",
     lineHeight: 23,
-    marginLeft: widthPercentageToDP("10%"),
+    marginLeft: widthPercentageToDP("12%"),
     marginTop: 20,
   },
   inputContainer: {

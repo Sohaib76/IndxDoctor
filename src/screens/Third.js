@@ -5,12 +5,31 @@ import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
 import Images from "../assets/Images";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Third = (props) => {
+
+
+export default function Third({ ScreenCounter }) {
   const [input, setInput] = useState("");
   const [repeat, setRepeat] = useState("");
   const [inputOne, setInputOne] = useState(true);
   const [inputTwo, setInputTwo] = useState(true);
+
+
+  const setPassword = async () => {
+    if (input === repeat) {
+      ScreenCounter(4)
+      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+      x = JSON.parse(jsonValue)
+      x.password = input
+      await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+      alert(JSON.stringify(x))
+    }
+    else {
+      alert("Passwords do not match")
+    }
+  }
+
 
   return (
     <View>
@@ -93,7 +112,7 @@ const Third = (props) => {
       {/* Proceed */}
 
       <TouchableOpacity
-        onPress={() => props.ScreenCounter(4)}
+        onPress={setPassword}
         disabled={input !== "" ? false : true}
         style={[
           InputStyle.InputBlockStyle,
@@ -108,20 +127,19 @@ const Third = (props) => {
       </TouchableOpacity>
 
       <View style={styles.BelowPart}>
-        <TouchableOpacity onPress={() => props.ScreenCounter(2)} style={{ flexDirection: "row" }}>
+        <TouchableOpacity onPress={() => ScreenCounter(2)} style={{ flexDirection: "row" }}>
           <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => props.ScreenCounter(4)}>
+        <TouchableOpacity onPress={() => ScreenCounter(4)}>
           <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Third;
 
 //Styles
 const styles = StyleSheet.create({

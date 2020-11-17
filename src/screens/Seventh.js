@@ -4,10 +4,21 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Seventh = (props) => {
+
+
+export default function Seventh({ ScreenCounter }) {
   const [input, setInput] = useState("");
 
+  const setMiddleName = async () => {
+    ScreenCounter(8)
+    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    x = JSON.parse(jsonValue)
+    x.middleName = input
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    alert(JSON.stringify(x))
+  }
   return (
     <View>
       <Text style={styles.textStyle}>Please Fill out your Contact Details below</Text>
@@ -42,7 +53,7 @@ const Seventh = (props) => {
         {/* Proceed */}
 
         <TouchableOpacity
-          onPress={() => props.ScreenCounter(8)}
+          onPress={setMiddleName}
           disabled={input !== "" ? false : true}
           style={[
             InputStyle.InputBlockStyle,
@@ -58,21 +69,20 @@ const Seventh = (props) => {
 
         {/* Below BelowPart */}
         <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => props.ScreenCounter(6)} style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => ScreenCounter(6)} style={{ flexDirection: "row" }}>
             <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.ScreenCounter(8)}>
+          <TouchableOpacity onPress={() => ScreenCounter(8)}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Seventh;
 
 const styles = StyleSheet.create({
   textStyle: {

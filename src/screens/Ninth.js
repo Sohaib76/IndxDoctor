@@ -4,10 +4,24 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+
+//expo install @react-native-community/datetimepicker
+
 
 const Ninth = (props) => {
   const [calenderValue, setCalenderValue] = useState("DD/MM/YYYY");
   const [calenderShower, setCalenderShower] = useState(false);
+  const [date, setDate] = useState(new Date(1598051730000));
+
+
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setCalenderShower(Platform.OS === 'ios');
+    setDate(currentDate);
+  };
 
   return (
     <View>
@@ -40,6 +54,16 @@ const Ninth = (props) => {
             <Text style={{ color: "gray", fontWeight: "300" }}>{calenderValue}</Text>
           </View>
         </View>
+
+        {calenderShower && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            display="default"
+            onChange={onChange}
+          />
+        )}
 
         {/* Proceed Btn */}
 

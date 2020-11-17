@@ -4,9 +4,20 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Fourth = (props) => {
+
+export default function Fourth({ ScreenCounter }) {
   const [input, setInput] = useState("");
+
+  const setNumber = async () => {
+    ScreenCounter(5)
+    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    x = JSON.parse(jsonValue)
+    x.number = `+63${input}`
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    alert(JSON.stringify(x))
+  }
 
   return (
     <View>
@@ -29,6 +40,8 @@ const Fourth = (props) => {
           <View style={{ flexDirection: "row" }}>
             <Text style={styles.phoneCode}>+63</Text>
             <TextInput
+              keyboardType="numeric"
+              textContentType="telephoneNumber"
               onChangeText={(val) => setInput(val)}
               value={input}
               style={[
@@ -44,7 +57,7 @@ const Fourth = (props) => {
         {/* Proceed */}
 
         <TouchableOpacity
-          onPress={() => props.ScreenCounter(5)}
+          onPress={setNumber}
           disabled={input !== "" ? false : true}
           style={[
             InputStyle.InputBlockStyle,
@@ -60,21 +73,20 @@ const Fourth = (props) => {
 
         {/* Below Part */}
         <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => props.ScreenCounter(3)} style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => ScreenCounter(3)} style={{ flexDirection: "row" }}>
             <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.ScreenCounter(5)}>
+          <TouchableOpacity onPress={() => ScreenCounter(5)}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Fourth;
 
 const styles = StyleSheet.create({
   textStyle: {
@@ -87,7 +99,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   phoneCode: {
-    marginTop: 15,
+    marginTop: 20,
     marginLeft: 30,
     color: "gray",
     height: 20,

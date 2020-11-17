@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ButtonStyle from "../components/InputStyle";
 import colors from "../config/colors";
@@ -7,8 +7,25 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const FirstScreen = (props) => {
+
+
+export default function FirstScreen({ ScreenCounter }) {
+
+  // const [profession, setprofession] = useState("")
+  const [personDict, setpersonDict] = useState({})
+
+  const selectProfession = async (text) => {
+    // setprofession(text)
+    alert(text)
+    ScreenCounter(2)
+    setpersonDict({ "profession": text })
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify({ "profession": text }))
+  }
+
+
+
   return (
     <>
       <View style={styles.blockTextStyle}>
@@ -21,19 +38,22 @@ const FirstScreen = (props) => {
       </View>
 
       <View style={{ marginTop: 40 }}>
-        <TouchableOpacity onPress={() => props.ScreenCounter(2)} style={styles.ButtonStyles}>
+        {/* <TouchableOpacity onPress={() => ScreenCounter(2)} style={styles.ButtonStyles}> */}
+        <TouchableOpacity onPress={() => selectProfession("dentist")} style={styles.ButtonStyles}>
+
           <Text style={styles.ButtonTextStyles}> DENTIST</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => props.ScreenCounter(2)} style={styles.ButtonStyles}>
+        <TouchableOpacity onPress={() => selectProfession("receptionist")} style={styles.ButtonStyles}>
           <Text style={styles.ButtonTextStyles}>RECEPTIONIST</Text>
         </TouchableOpacity>
       </View>
     </>
-  );
-};
+  )
+}
 
-export default FirstScreen;
+
+
 
 const styles = StyleSheet.create({
   blockTextStyle: {

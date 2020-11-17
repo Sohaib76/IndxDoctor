@@ -4,9 +4,20 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Sixth = (props) => {
+
+export default function Sixth({ ScreenCounter }) {
   const [input, setInput] = useState("");
+
+  const setFirstName = async () => {
+    ScreenCounter(7)
+    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    x = JSON.parse(jsonValue)
+    x.firstName = input
+    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    alert(JSON.stringify(x))
+  }
 
   return (
     <View>
@@ -42,7 +53,7 @@ const Sixth = (props) => {
         {/* Proceed */}
 
         <TouchableOpacity
-          onPress={() => props.ScreenCounter(7)}
+          onPress={setFirstName}
           disabled={input !== "" ? false : true}
           style={[
             InputStyle.InputBlockStyle,
@@ -58,21 +69,20 @@ const Sixth = (props) => {
 
         {/* Below BelowPart */}
         <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => props.ScreenCounter(5)} style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => ScreenCounter(5)} style={{ flexDirection: "row" }}>
             <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.ScreenCounter(7)}>
+          <TouchableOpacity onPress={() => ScreenCounter(7)}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>
       </View>
     </View>
-  );
-};
+  )
+}
 
-export default Sixth;
 
 const styles = StyleSheet.create({
   textStyle: {
