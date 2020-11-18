@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
@@ -10,20 +10,44 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Third({ ScreenCounter }) {
-  const [input, setInput] = useState("");
+  const [allusersData, setallusersData] = useState(null)
+  const [username, setusername] = useState(null)
+
+  useEffect(() => {
+    const getusername = async () => {
+      try {
+        const asynData = await AsyncStorage.multiGet(["globalUsers", "username"]);
+        let allUsersData = JSON.parse(asynData[0][1]);
+        // console.log(allUsersData);
+        setallusersData(allUsersData)
+        setusername(JSON.parse(asynData[1][1]))
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getusername()
+  }, [])
+  // ---------------------------------=========
+
+  const [pwdInput, setpwdInput] = useState("");
   const [repeat, setRepeat] = useState("");
   const [inputOne, setInputOne] = useState(true);
   const [inputTwo, setInputTwo] = useState(true);
 
 
   const setPassword = async () => {
-    if (input === repeat) {
-      ScreenCounter(4)
-      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-      x = JSON.parse(jsonValue)
-      x.password = input
-      await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-      alert(JSON.stringify(x))
+    if (pwdInput === repeat) {
+      // ScreenCounter(4)
+      // const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+      // x = JSON.parse(jsonValue)
+      // x.password = input
+
+      const currentUser = { ...allusersData[username], password: pwdInput }
+      // console.log(currentUser);
+      const globalData = { ...allusersData, [username]: currentUser }
+      await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
+      // await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+      // alert(JSON.stringify(x))
     }
     else {
       alert("Passwords do not match")
@@ -55,8 +79,8 @@ export default function Third({ ScreenCounter }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               secureTextEntry={inputOne}
-              onChangeText={(val) => setInput(val)}
-              value={input}
+              onChangeText={(val) => setpwdInput(val)}
+              value={pwdInput}
               style={[
                 InputStyle.TextInputStyle,
                 { marginLeft: 0, width: widthPercentageToDP("40%") },
@@ -113,11 +137,11 @@ export default function Third({ ScreenCounter }) {
 
       <TouchableOpacity
         onPress={setPassword}
-        disabled={input !== "" ? false : true}
+        disabled={pwdInput !== "" ? false : true}
         style={[
           InputStyle.InputBlockStyle,
           {
-            opacity: input !== "" ? 1 : 0.3,
+            opacity: pwdInput !== "" ? 1 : 0.3,
             backgroundColor: colors.darkGreen,
             width: widthPercentageToDP("60%"),
           },

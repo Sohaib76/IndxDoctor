@@ -15,7 +15,6 @@ export default function FirstScreen({ ScreenCounter }) {
 
   const [allusersData, setallusersData] = useState(null)
   const [username, setusername] = useState(null)
-  const [personDict, setpersonDict] = useState({})
 
   useEffect(() => {
     const getusername = async () => {

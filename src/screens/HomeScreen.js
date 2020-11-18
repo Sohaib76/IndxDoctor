@@ -15,9 +15,9 @@ export default function HomeScreen({ route, navigation }) {
         const getusername = async () => {
             try {
                 const username = await AsyncStorage.getItem("username");
-                let keys = await AsyncStorage.getAllKeys()
-                let alldata = await AsyncStorage.multiGet(keys)
-                console.log(alldata);
+                // let keys = await AsyncStorage.getAllKeys()
+                // let alldata = await AsyncStorage.multiGet(keys)
+                // // console.log(alldata);
                 setusername(username)
             } catch (e) {
                 console.log(e);
@@ -27,8 +27,8 @@ export default function HomeScreen({ route, navigation }) {
     }, [route])
 
 
-    const navigateFirstScreen = () => {
-        navigation.navigate("FirstScreen")
+    const handleNavigation = (screen) => {
+        navigation.navigate(screen)
     }
 
     return (
@@ -36,10 +36,30 @@ export default function HomeScreen({ route, navigation }) {
             <Text>Home</Text>
             <Text>Hi {username}</Text>
             <Button
-                onPress={navigateFirstScreen}
+                onPress={() => {
+                    handleNavigation("FirstScreen")
+                }}
                 title="Open First Screen"
                 color="#841584"
             />
+            <Text></Text>
+            <Button
+                onPress={() => {
+                    handleNavigation("SecondScreen")
+                }}
+                title="Open Second Screen"
+                color="#841584"
+            />
+            <Text></Text>
+
+            <Button
+                onPress={() => {
+                    handleNavigation("ThirdScreen")
+                }}
+                title="Open Third Screen"
+                color="#841584"
+            />
+
         </View>
     )
 }

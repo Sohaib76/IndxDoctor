@@ -4,7 +4,7 @@ import { View, Text, Alert } from 'react-native'
 
 export default function Logout({ navigation }) {
     const _logout = async () => {
-        await AsyncStorage.removeItem("isLoggedIn")
+        await AsyncStorage.setItem("isLoggedIn", "0")
         navigation.navigate('Auth', { screen: 'Login' });
     }
 

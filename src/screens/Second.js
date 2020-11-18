@@ -12,7 +12,21 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function Second({ ScreenCounter }) {
   const [input, setInput] = useState("");
 
+  const [allusersData, setallusersData] = useState(null)
+  const [username, setusername] = useState(null)
+
   useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const asynData = await AsyncStorage.multiGet(["globalUsers", "username"]);
+        let allUsersData = JSON.parse(asynData[0][1]);
+        setallusersData(allUsersData)
+        setusername(JSON.parse(asynData[1][1]))
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getUserData()
 
     const getData = async () => {
       try {

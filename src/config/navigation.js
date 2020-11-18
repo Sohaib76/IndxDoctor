@@ -21,6 +21,9 @@ import React, { useState, useEffect } from "react";
 import Logout from "../screens/Logout";
 import Last from "../screens/Last";
 import FirstScreen from "../screens/FirstScreen";
+import Second from "../screens/Second";
+import Third from "../screens/Third";
+
 
 // const CustomDrawerContentComponent = (props) => (
 //   <ScrollView>
@@ -50,6 +53,9 @@ function HomeStack() {
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Auth" component={AuthStack} />
       <Stack.Screen name="FirstScreen" component={FirstScreen} />
+      <Stack.Screen name="SecondScreen" component={Second} />
+      <Stack.Screen name="ThirdScreen" component={Third} />
+
     </Stack.Navigator>
   )
 }
@@ -122,7 +128,7 @@ export default function Container() {
     // dummy data --> for dev only
     const setdummydata = async () => {
       try {
-        await AsyncStorage.multiSet([["username", "Ben"], [
+        await AsyncStorage.multiSet([["username", "ben"], [
           "globalUsers", JSON.stringify(
             {
               "admin": {
