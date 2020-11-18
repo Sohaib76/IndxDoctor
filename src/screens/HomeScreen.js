@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Button } from 'react-native'
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen({ route, navigation }) {
     // const [name, setname] = useState()
@@ -7,35 +9,37 @@ export default function HomeScreen({ route, navigation }) {
     if (route.params != undefined) {
         userObject = route.params.userObject;
     }
-
-    console.log(route);
-
     const [username, setusername] = useState("")
 
     useEffect(() => {
-        // const getInfo = async () => {
-
-        //     const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-        //     x = JSON.parse(jsonValue)
-        //     x.gender = input
-
-        //   }
-        // if (userObject) {
-        //     alert(userObject)
-        // }
-        if (route.params != undefined) {
-
-            setusername(userObject.username)
+        const getusername = async () => {
+            try {
+                const username = await AsyncStorage.getItem("username");
+                let keys = await AsyncStorage.getAllKeys()
+                let alldata = await AsyncStorage.multiGet(keys)
+                console.log(alldata);
+                setusername(username)
+            } catch (e) {
+                console.log(e);
+            }
         }
-
-        // getInfo()
+        getusername()
     }, [route])
+
+
+    const navigateFirstScreen = () => {
+        navigation.navigate("FirstScreen")
+    }
 
     return (
         <View style={styles.container}>
             <Text>Home</Text>
             <Text>Hi {username}</Text>
-
+            <Button
+                onPress={navigateFirstScreen}
+                title="Open First Screen"
+                color="#841584"
+            />
         </View>
     )
 }

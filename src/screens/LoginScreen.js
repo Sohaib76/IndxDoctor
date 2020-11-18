@@ -37,14 +37,13 @@ import Logo from "../assets/Images";
 
 export default function LoginScreen({ navigation }) {
 
+  AsyncStorage.clear()
+
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
   const [userData, setuserData] = useState({})
 
-
-
-
-  var tempAsync = []
+  var tempAsync;
   // useEffect(() => {
 
   //   const getAll = async () => {
@@ -85,10 +84,10 @@ export default function LoginScreen({ navigation }) {
   // }
 
 
+  // empty async storage
   const clearAsyncStorage = async () => {
     AsyncStorage.clear();
   }
-
   // useEffect(() => {
   //   // const e = getData()
   //   console.log(JSON.stringify(e))
@@ -103,41 +102,44 @@ export default function LoginScreen({ navigation }) {
 
   const login = async () => {
     const jsonValue = await AsyncStorage.getItem("globalUsers")
+    console.log("jsonvaue from login screen ", jsonValue);
     if (jsonValue != null) {
       tempAsync = JSON.parse(jsonValue)
-
-      // alert("Have data in Async")
     }
     else {
-      tempAsync = [
-        { username: "admin", password: "pass", examp: "examp" },
-        { username: "adn", password: "pas", examp: "examp" }
-      ]
+      // dummy data
+      tempAsync = {
+        "admin": {
+          password: "pass",
+          role: "dentist",
+          patiens: []
+        },
+        "ben": {
+          password: "benpass",
+          role: "receptionist",
+          patiens: []
+        },
+      }
     }
-    // alert(JSON.stringify(tempAsync))
-    var userList = tempAsync.filter(function (object) {
-      return object.username == username;
+    // auth username
+    var userLoggedIn = Object.keys(tempAsync).find(function (user) {
+      return user == username;
     });
-    if (userList != "") {
-      const userInfo = userList[0]
-      // alert("Not Null", userList)
 
-      if (userInfo.username === username && userInfo.password === password) {
+    // user available confimed
+    if (userLoggedIn) {
+      // match pwd
+      if (tempAsync[userLoggedIn].password === password) {
         alert("Authorized")
-        //Navigation.navigate
-        storeData()
-        navigation.navigate("HomeScreen",
-
-
-          { userObject: userInfo }
-
+        // set loggin flag and username
+        setLoggedIn(userLoggedIn)
+        // redirect to home
+        navigation.navigate("Auth", { screen: "HomeDrawer", params: { userObject: userLoggedIn } }
         )
-
       }
       else {
         alert("Incorrect Password")
       }
-
     }
     else {
       alert("Incorrect User")
@@ -146,10 +148,15 @@ export default function LoginScreen({ navigation }) {
     // alert(JSON.stringify(userInfo))
   }
 
-  const storeData = async () => {
+  const setLoggedIn = async (username) => {
     try {
       // const jsonValue = JSON.stringify(user)
-      await AsyncStorage.setItem('isLoggedIn', "1")
+      await AsyncStorage.multiSet([['isLoggedIn', "1"], ["username", JSON.stringify(username)], ["globalUsers", JSON.stringify(tempAsync)]]);
+      // setItem();
+      // console.log(username);
+      // await AsyncStorage.setItem().then(() => {
+      ``
+      // })
     } catch (e) {
       // saving error
       console.log(e);

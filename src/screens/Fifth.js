@@ -6,8 +6,6 @@ import { Ionicons } from "@expo/vector-icons";
 import InputStyle from "../components/InputStyle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-
 export default function Fifth({ ScreenCounter }) {
   const [input, setInput] = useState("");
   const [inputOne, setInputOne] = useState("");
