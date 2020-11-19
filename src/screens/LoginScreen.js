@@ -13,27 +13,13 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
 import InputStyle from "../components/InputStyle";
-
 import Logo from "../assets/Images";
-
-
-
-
-//expo install expo-image-picker
-//LoginScreen
-
-
-
-
-
-// console.log(marvelHeroes);
+import { setdummydata } from "../utils/setDummyData"
 
 export default function LoginScreen({ navigation }) {
 
@@ -43,55 +29,24 @@ export default function LoginScreen({ navigation }) {
   const [password, setpassword] = useState("")
   const [userData, setuserData] = useState({})
 
-  var tempAsync;
-  // useEffect(() => {
-
-  //   const getAll = async () => {
-
-  //     const jsonValue = await AsyncStorage.getItem("globalUsers")
-  //     if (jsonValue != null) {
-  //       tempAsync = JSON.parse(jsonValue)
-  //       alert("Have data in Async")
-  //     }
-  //     else {
-  //       tempAsync = [
-  //         { username: "admin", password: "pass", examp: "examp" },
-  //         { username: "adn", password: "pas", examp: "examp" }
-  //       ]
-  //     }
-
-
-  //   }
-  //   getAll()
-
-  // }, [navigation])
-  // const getAll = async () => {
-
-  //   const jsonValue = await AsyncStorage.getItem("globalUsers")
-  //   if (jsonValue != null) {
-  //     tempAsync = JSON.parse(jsonValue)
-
-  //     alert("Have data in Async")
-  //   }
-  //   else {
-  //     tempAsync = [
-  //       { username: "admin", password: "pass", examp: "examp" },
-  //       { username: "adn", password: "pas", examp: "examp" }
-  //     ]
-  //   }
-
-
-  // }
-
-
+  let tempAsync;
   // empty async storage
   const clearAsyncStorage = async () => {
     AsyncStorage.clear();
   }
-  // useEffect(() => {
-  //   // const e = getData()
-  //   console.log(JSON.stringify(e))
-  // }, [])
+
+  // // ----------------
+  // const test = async () => {
+  //   const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
+  //     console.log("test,", rslt)
+  //   }))
+  // }
+  // ----------------
+
+  useEffect(() => {
+    // test()
+    setdummydata()
+  }, [])
 
   const handleUsername = text => {
     setusername(text)
@@ -101,8 +56,9 @@ export default function LoginScreen({ navigation }) {
   };
 
   const login = async () => {
-    const jsonValue = await AsyncStorage.getItem("globalUsers")
-    console.log("jsonvaue from login screen ", jsonValue);
+    const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
+      console.log("login: ", err, rslt);
+    }))
     if (jsonValue != null) {
       tempAsync = JSON.parse(jsonValue)
     }
@@ -144,35 +100,20 @@ export default function LoginScreen({ navigation }) {
     else {
       alert("Incorrect User")
     }
-
-    // alert(JSON.stringify(userInfo))
   }
 
   const setLoggedIn = async (username) => {
     try {
-      // const jsonValue = JSON.stringify(user)
-      await AsyncStorage.multiSet([['isLoggedIn', "1"], ["username", JSON.stringify(username)], ["globalUsers", JSON.stringify(tempAsync)]]);
-      // setItem();
-      // console.log(username);
-      // await AsyncStorage.setItem().then(() => {
-      ``
-      // })
+      await AsyncStorage.multiSet([['isLoggedIn', "1"],
+      ["username", JSON.stringify(username)]], ((err) => {
+        console.log("2nd");
+      }));
     } catch (e) {
       // saving error
       console.log(e);
     }
   }
-
-
-  // const getData = async (user) => {
-  //   try {
-  //     const jsonValue = await AsyncStorage.getItem('userData')
-  //     return jsonValue != null ? JSON.parse(jsonValue) : null;
-  //   } catch (e) {
-  //     // error reading value
-  //   }
-  // }
-
+  console.log("login loaded");
 
   return (
     <SafeAreaView style={styles.container}>

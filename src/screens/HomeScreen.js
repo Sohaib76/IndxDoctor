@@ -60,6 +60,17 @@ export default function HomeScreen({ route, navigation }) {
                 color="#841584"
             />
 
+            <Text></Text>
+
+            <Button
+                onPress={() => {
+                    handleNavigation("FourthScreen")
+                }}
+                title="Open Fourth Screen"
+                color="#841584"
+            />
+
+
         </View>
     )
 }

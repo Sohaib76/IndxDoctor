@@ -6,16 +6,17 @@ import InputStyle from "../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function Eigth({ ScreenCounter }) {
+export default function Eigth({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
 
   const setLastName = async () => {
+    setsignUpState({ lastname: input })
     ScreenCounter(9)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.lastName = input
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
+    // const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    // x = JSON.parse(jsonValue)
+    // x.lastName = input
+    // await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    // alert(JSON.stringify(x))
   }
 
   return (

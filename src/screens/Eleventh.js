@@ -9,7 +9,7 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Eleventh = (props) => {
+export default Eleventh = (props) => {
   const [input, setInput] = useState("");
   const [image, setImage] = useState("");
 
@@ -35,26 +35,12 @@ const Eleventh = (props) => {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       quality: 1,
     });
-
     if (result.cancelled === true) {
       alert("Please select Any Picture");
     } else {
       setImage(result.uri);
-
-
-
-
-      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-      x = JSON.parse(jsonValue)
-      x.imageUri = result.uri
-      x.isLoggedIn = "0"
-      await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-      //await AsyncStorage.setItem("isLoggedIn", "1")
-
-      alert(JSON.stringify(x))
-      // props.ScreenCounter(12)
-      props.navigation.navigate("Last")
-
+      props.setsignUpState({ photoUri: result.uri })
+      props.registerUser()
     }
   };
 
@@ -100,7 +86,6 @@ const Eleventh = (props) => {
   );
 };
 
-export default Eleventh;
 
 const styles = StyleSheet.create({
   textStyle: {

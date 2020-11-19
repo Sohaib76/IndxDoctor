@@ -9,31 +9,27 @@ import {
 } from "react-native-responsive-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { getUserData } from "../utils/GetAsyncData"
 
 
-export default function FirstScreen({ ScreenCounter }) {
 
+export default function FirstScreen({ ScreenCounter, signupState, setsignUpState }) {
+
+  const [usersList, setusersList] = useState([])
   const [allusersData, setallusersData] = useState(null)
   const [username, setusername] = useState(null)
 
   useEffect(() => {
-    const getusername = async () => {
-      try {
-        const asynData = await AsyncStorage.multiGet(["globalUsers", "username"]);
-        let allUsersData = JSON.parse(asynData[0][1]);
-        setallusersData(allUsersData)
-        setusername(JSON.parse(asynData[1][1]))
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getusername()
+    // getUserData([setallusersData, setusername], ["globalUsers", "username"])
   }, [])
 
-  const selectProfession = async (profession) => {
-    const currentUser = { ...allusersData[username], role: profession }
-    const globalData = { ...allusersData, [username]: currentUser }
-    await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
+  const selectProfession = (profession) => {
+    setsignUpState({ profession })
+    ScreenCounter(2)
+
+    // const currentUser = { ...allusersData[username], role: profession }
+    // const globalData = { ...allusersData, [username]: currentUser }
+    // await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
   }
 
   return (

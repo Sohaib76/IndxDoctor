@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, TextInput, StyleSheet, Text } from "react-native";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
@@ -7,22 +7,20 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Fourth({ ScreenCounter }) {
+export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
 
+  useEffect(() => {
+  }, [])
+
   const setNumber = async () => {
+    setsignUpState({ phone: `+63${input}` })
     ScreenCounter(5)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.number = `+63${input}`
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
   }
 
   return (
     <View>
       <Text style={styles.textStyle}>Please Fill out your Phone Number below</Text>
-
       <View>
         <View style={InputStyle.UserNameBlock}>
           <Text style={[InputStyle.UserNameTextStyle, { fontSize: 12 }]}>PHONE NUMBER</Text>

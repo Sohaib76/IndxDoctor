@@ -7,21 +7,15 @@ import { Ionicons } from "@expo/vector-icons";
 import Images from "../assets/Images";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Tenth = (props) => {
+const Tenth = ({ ScreenCounter, signupState, setsignUpState }) => {
   const [input, setInput] = useState("Male");
   const [male, setMale] = useState(false);
   const [female, setFemale] = useState(false);
   const [genderShower, setGenderShower] = useState(false);
-
   const setGender = async () => {
-    props.ScreenCounter(11)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.gender = input
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
+    setsignUpState({ gender: input })
+    ScreenCounter(11)
   }
-
 
   return (
     <View>
@@ -138,12 +132,12 @@ const Tenth = (props) => {
 
         {/* Below_Part */}
         <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => props.ScreenCounter(9)} style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => ScreenCounter(9)} style={{ flexDirection: "row" }}>
             <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.ScreenCounter(11)}>
+          <TouchableOpacity onPress={() => ScreenCounter(11)}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>

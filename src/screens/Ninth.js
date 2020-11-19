@@ -11,18 +11,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 //expo install @react-native-community/datetimepicker
 
 
-const Ninth = (props) => {
+const Ninth = ({ ScreenCounter, signupState, setsignUpState }) => {
   const [calenderValue, setCalenderValue] = useState("DD/MM/YYYY");
   const [calenderShower, setCalenderShower] = useState(false);
   const [date, setDate] = useState(new Date(1598051730000));
 
-
-
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setCalenderShower(Platform.OS === 'ios');
-    setDate(currentDate);
-    //alert(JSON.stringify(currentDate))
+    // setCalenderShower(false)
+    // setDate(currentDate);
     var yyyy = JSON.stringify(currentDate).substr(1, 4)
     var mm = JSON.stringify(currentDate).substr(6, 2)
     var dd = JSON.stringify(currentDate).substr(9, 2)
@@ -30,13 +28,9 @@ const Ninth = (props) => {
     setCalenderValue(`${dd}/${mm}/${yyyy}`)
   };
 
-  const setBirthDay = async () => {
-    props.ScreenCounter(10)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.birthDate = calenderValue
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
+  const setBirthDay = () => {
+    setsignUpState({dob:calenderValue})
+    ScreenCounter(10)
   }
 
   return (
@@ -103,12 +97,12 @@ const Ninth = (props) => {
 
         {/* Below BelowPart */}
         <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => props.ScreenCounter(8)} style={{ flexDirection: "row" }}>
+          <TouchableOpacity onPress={() => ScreenCounter(8)} style={{ flexDirection: "row" }}>
             <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => props.ScreenCounter(10)}>
+          <TouchableOpacity onPress={() => ScreenCounter(10)}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>

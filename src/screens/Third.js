@@ -5,49 +5,20 @@ import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
 import Images from "../assets/Images";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-
-export default function Third({ ScreenCounter }) {
-  const [allusersData, setallusersData] = useState(null)
-  const [username, setusername] = useState(null)
-
+export default function Third({ ScreenCounter, signupState, setsignUpState }) {
   useEffect(() => {
-    const getusername = async () => {
-      try {
-        const asynData = await AsyncStorage.multiGet(["globalUsers", "username"]);
-        let allUsersData = JSON.parse(asynData[0][1]);
-        // console.log(allUsersData);
-        setallusersData(allUsersData)
-        setusername(JSON.parse(asynData[1][1]))
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    getusername()
   }, [])
-  // ---------------------------------=========
 
   const [pwdInput, setpwdInput] = useState("");
   const [repeat, setRepeat] = useState("");
   const [inputOne, setInputOne] = useState(true);
   const [inputTwo, setInputTwo] = useState(true);
 
-
-  const setPassword = async () => {
+  const setPassword = () => {
     if (pwdInput === repeat) {
-      // ScreenCounter(4)
-      // const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-      // x = JSON.parse(jsonValue)
-      // x.password = input
-
-      const currentUser = { ...allusersData[username], password: pwdInput }
-      // console.log(currentUser);
-      const globalData = { ...allusersData, [username]: currentUser }
-      await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
-      // await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-      // alert(JSON.stringify(x))
+      setsignUpState({ password: pwdInput })
+      ScreenCounter(4)
     }
     else {
       alert("Passwords do not match")

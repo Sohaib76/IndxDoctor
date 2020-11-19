@@ -21,8 +21,40 @@ import NinthScreen from "./Ninth";
 import TenthScreen from "./Tenth";
 import EleventhScreen from "./Eleventh";
 import Last from "./Last";
+import { getUserData } from "../utils/GetAsyncData"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const SignUpScreen = (props) => {
+
+  const [signUpState, setsignUpState] = useState({})
+  const [allusersData, setallusersData] = useState(null)
+  const [username, setusername] = useState(null)
+  const [newUserName, setNewUsername] = useState("")
+
+  const handleSignUpstate = (state) => {
+    // set username key for global users
+    if (Object.keys(state)[0] == "username") {
+      setNewUsername(state["username"])
+    }
+    else {
+      let newState = { ...signUpState, ...state, }
+      console.log("signup state:", newState);
+      setsignUpState(newState)
+    }
+  }
+
+  const registerUser = () => {
+    const updatedUserData = { ...allusersData, [newUserName]: signUpState }
+    console.log("adding user: ", updatedUserData);
+    const addUserAsync = async () => {
+      const user = AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
+    }
+  }
+  useEffect(() => {
+    getUserData([setallusersData, setusername], ["globalUsers", "username"])
+  }, [])
+
+
   const [first, setFirst] = useState(true);
   const [second, setSecond] = useState(false);
   const [third, setThird] = useState(false);
@@ -137,29 +169,32 @@ const SignUpScreen = (props) => {
     }
   };
 
+  const statehandler = (state) => {
+  }
+
   const ScreenViewer = () => {
     if (first === true) {
-      return <FirstScreen ScreenCounter={Counter} />;
+      return <FirstScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (second === true) {
-      return <SecondScreen ScreenCounter={Counter} />;
+      return <SecondScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (third === true) {
-      return <ThirdScreen ScreenCounter={Counter} />;
+      return <ThirdScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (fourth === true) {
-      return <FourthScreen ScreenCounter={Counter} />;
+      return <FourthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (fifth === true) {
-      return <FifthScreen ScreenCounter={Counter} />;
+      return <FifthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (sixth === true) {
-      return <SixthScreen ScreenCounter={Counter} />;
+      return <SixthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (seven === true) {
-      return <SeventhScreen ScreenCounter={Counter} />;
+      return <SeventhScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (eight === true) {
-      return <EigthScreen ScreenCounter={Counter} />;
+      return <EigthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (nine === true) {
-      return <NinthScreen ScreenCounter={Counter} />;
+      return <NinthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (ten === true) {
-      return <TenthScreen ScreenCounter={Counter} />;
+      return <TenthScreen ScreenCounter={Counter} signupState={signUpState} setsignUpState={handleSignUpstate} />;
     } else if (eleven === true) {
-      return <EleventhScreen ScreenCounter={Counter} navigation={props.navigation} />;
+      return <EleventhScreen ScreenCounter={Counter} navigation={props.navigation} setsignUpState={handleSignUpstate} registerUser={registerUser} />;
     }
     // else if (last === true) {
     //   return <Last ScreenCounter={Counter} navigation={props.navigation} />;
@@ -288,24 +323,6 @@ const SignUpScreen = (props) => {
         </>
       );
     }
-    // else if (counter == 11) {
-    //   return (
-    //     <>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //       <View style={styles.borderBlockStyle}></View>
-    //     </>
-    //   );
-    // }
     else {
       return;
     }
@@ -326,11 +343,7 @@ const SignUpScreen = (props) => {
           <Text style={styles.headerTextStyle}>VIEW FULL FORM</Text>
         </TouchableOpacity>
       </View>
-
-      {/* borderGreen */}
-
       <View style={styles.borderBlock}>{greenBorderCounter()}</View>
-
       <View style={BlockStyle.blockStyle}>
         <Text style={styles.screenCounterTextStyle}>{counter === 11 ? "10" : counter} of 10</Text>
         {ScreenViewer()}
