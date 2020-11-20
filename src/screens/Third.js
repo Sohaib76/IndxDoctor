@@ -1,29 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Image, StyleSheet, TextInput, TouchableOpacity, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
 import Images from "../assets/Images";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
+export default function Third({ ScreenCounter, signupState, setsignUpState }) {
+  useEffect(() => {
+  }, [])
 
-
-export default function Third({ ScreenCounter }) {
-  const [input, setInput] = useState("");
+  const [pwdInput, setpwdInput] = useState("");
   const [repeat, setRepeat] = useState("");
   const [inputOne, setInputOne] = useState(true);
   const [inputTwo, setInputTwo] = useState(true);
 
-
-  const setPassword = async () => {
-    if (input === repeat) {
+  const setPassword = () => {
+    if (pwdInput === repeat) {
+      setsignUpState({ password: pwdInput })
       ScreenCounter(4)
-      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-      x = JSON.parse(jsonValue)
-      x.password = input
-      await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-      alert(JSON.stringify(x))
     }
     else {
       alert("Passwords do not match")
@@ -55,8 +50,8 @@ export default function Third({ ScreenCounter }) {
           <View style={{ flexDirection: "row" }}>
             <TextInput
               secureTextEntry={inputOne}
-              onChangeText={(val) => setInput(val)}
-              value={input}
+              onChangeText={(val) => setpwdInput(val)}
+              value={pwdInput}
               style={[
                 InputStyle.TextInputStyle,
                 { marginLeft: 0, width: widthPercentageToDP("40%") },
@@ -113,11 +108,11 @@ export default function Third({ ScreenCounter }) {
 
       <TouchableOpacity
         onPress={setPassword}
-        disabled={input !== "" ? false : true}
+        disabled={pwdInput !== "" ? false : true}
         style={[
           InputStyle.InputBlockStyle,
           {
-            opacity: input !== "" ? 1 : 0.3,
+            opacity: pwdInput !== "" ? 1 : 0.3,
             backgroundColor: colors.darkGreen,
             width: widthPercentageToDP("60%"),
           },

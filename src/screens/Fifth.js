@@ -6,9 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import InputStyle from "../components/InputStyle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-
-export default function Fifth({ ScreenCounter }) {
+export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
   const [inputOne, setInputOne] = useState("");
   const [colorOne, SetColorOne] = useState(colors.Gray);
@@ -26,16 +24,23 @@ export default function Fifth({ ScreenCounter }) {
 
 
   useEffect(() => {
-    const getNumber = async () => {
-      const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-      x = JSON.parse(jsonValue)
-      setnumb(x.number)
+    // const getNumber = async () => {
+    //   const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    //   x = JSON.parse(jsonValue)
+    //   setnumb(x.number)
 
-    }
-    setTimeout(function () {
-      getNumber()
-    }, 100);
+    // }
+    // setTimeout(function () {
+    //   getNumber()
+    // }, 100);
   }, [])
+
+  const submitHandler = () => {
+    const inputvalue = `${inputOne}${inputTwo}${inputThree}${inputFour}`
+    // console.log(inputvalue);
+    setsignUpState({ otpcode: inputvalue })
+    ScreenCounter(6)
+  }
 
   return (
     <View>
@@ -142,7 +147,7 @@ export default function Fifth({ ScreenCounter }) {
 
       {/* Proceed */}
       <TouchableOpacity
-        onPress={() => ScreenCounter(6)}
+        onPress={submitHandler}
         disabled={input !== "" ? false : true}
         style={[
           InputStyle.InputBlockStyle,

@@ -17,8 +17,6 @@ import { View, Text, ActivityIndicator, StatusBar, StyleSheet } from 'react-nati
 //this username already taken feature
 
 export default function AuthLoadingScreen({ navigation }) {
-
-
     // const loadData = async () => {
     //     const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
     //     alert(isLoggedIn)
@@ -34,14 +32,10 @@ export default function AuthLoadingScreen({ navigation }) {
 
     const loadData = async () => {
         const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-        alert(isLoggedIn)
+        // alert(isLoggedIn)
         navigation.navigate(isLoggedIn ? "App" : "Auth")
     }
     useEffect(() => {
-
-
-
-
         loadData()
     }, [])
     return (

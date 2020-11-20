@@ -1,5 +1,4 @@
 import { createAppContainer, createSwitchNavigator } from "react-navigation";
-// import { createStackNavigator } from "react-navigation-stack";
 import AuthLoadingScreen from "../screens/AuthLoadingScreen";
 import HomeScreen from "../screens/HomeScreen";
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -12,50 +11,41 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 
-// import { createDrawerNavigator } from 'react-navigation-drawer';
-
-// createDrawerNavigator(RouteConfigs, DrawerNavigatorConfig);
-// import SafeAreaView from 'react-native-safe-area-view';
-// import { DrawerItems } from 'react-navigation-drawer';
 import React, { useState, useEffect } from "react";
 import Logout from "../screens/Logout";
 import Last from "../screens/Last";
+import FirstScreen from "../screens/FirstScreen";
+import Second from "../screens/Second";
+import Third from "../screens/Third";
+import Fourth from "../screens/Fourth";
 
-// const CustomDrawerContentComponent = (props) => (
-//   <ScrollView>
-//     <SafeAreaView
-//       style={styles.container}
-//       forceInset={{ top: 'always', horizontal: 'never' }}
-//     >
-//       <DrawerItems {...props} />
-//     </SafeAreaView>
-//   </ScrollView>
-// );
+
+import { setdummydata } from "../utils/setDummyData"
 
 const Drawer = createDrawerNavigator();
 function HomeDrawer() {
   return (
-
     <Drawer.Navigator>
       <Drawer.Screen name="HomeStack" component={HomeStack} />
       <Drawer.Screen name="Logout" component={Logout} />
-
     </Drawer.Navigator>
-
-
   );
 }
 
+const Stack = createStackNavigator();
 function HomeStack() {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="Auth" component={AuthStack} />
+      <Stack.Screen name="FirstScreen" component={FirstScreen} />
+      <Stack.Screen name="SecondScreen" component={Second} />
+      <Stack.Screen name="ThirdScreen" component={Third} />
+      <Stack.Screen name="FourthScreen" component={Fourth} />
     </Stack.Navigator>
   )
 }
 
-const Stack = createStackNavigator();
 function AuthStack() {
   return (
     <Stack.Navigator headerMode="none">
@@ -67,61 +57,42 @@ function AuthStack() {
   );
 }
 
-// const AuthStack = createStackNavigator(
-//   {
-//     LoginScreen: {
-//       screen: LoginScreen,
-//     },
-//     SignUpScreen: {
-//       screen: SignUpScreen,
-//     },
-//   },
-//   { initialRouteName: "LoginScreen", headerMode: "none", mode: "modal" }
-// );
-
-// const AppStack = createStackNavigator(
-//   {
-
-//     Home: HomeScreen
-
-//   }
-
-// )
-
-// const Container = createAppContainer(createSwitchNavigator(
-//   {
-//     AuthLoading: AuthLoadingScreen,
-//     App: HomeDrawer,
-//     Auth: AuthStack,
-//   }
-// ))
-
-// export default Container;
+const setAsync = async (key, value) => {
+  try {
+    await AsyncStorage.setItem(key, JSON.stringify(value));
+  } catch (e) {
+    console.log(e);
+  }
+}
 
 
 
 export default function Container() {
+  console.log("navi");
 
   const [isLoggedIn, setisLoggedIn] = useState(false)
   const loadData = async () => {
-    const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
-    alert(isLoggedIn)
-    setisLoggedIn(isLoggedIn)
-
+    const isLoggedIn = await AsyncStorage.getItem("isLoggedIn", ((err, rslt) => {
+      // console.log(rslt);
+      setisLoggedIn(
+        rslt
+      )
+    }));
+    // console.log("islogged in", isLoggedIn);
   }
+
   useEffect(() => {
+    // dummy data --> for dev only
+    // ----------
+    setdummydata()
     loadData()
-    alert("use effect")
   }, [isLoggedIn])
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">
-        {isLoggedIn ? (
+        {isLoggedIn == 1 ? (
           <>
             <Stack.Screen name="Home" component={HomeDrawer} />
-
-
-
           </>
         ) : (
             <Stack.Screen name="Auth" component={AuthStack} />

@@ -1,46 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, TextInput, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, TextInput, StyleSheet, Text, Alert } from "react-native";
 import colors from "../config/colors";
 import InputStyle from "../components/InputStyle";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//Second
+import { getUserData } from "../utils/GetAsyncData"
 
-
-
-export default function Second({ ScreenCounter }) {
+export default function Second({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
+  const [usersList, setusersList] = useState([])
 
   useEffect(() => {
-
-    const getData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem('tempPersonDict')
-        x = JSON.parse(jsonValue)
-        x.username = "Adam"
-        console.log(x, "oo")
-        return jsonValue != null ? JSON.parse(jsonValue) : null;
-      } catch (e) {
-        // error reading value
-      }
+    const usersList = async () => {
+      let a = await AsyncStorage.getItem("globalUsers", (err, rslt) => {
+        setusersList(Object.keys(JSON.parse(rslt)))
+      })
     }
-    getData()
-
-
-    // console.log(data);
-
+    usersList()
   }, [])
 
-  const setUserName = async () => {
-    ScreenCounter(3)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.username = input
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
+  const setUserName = () => {
+    if (!usersList.find(user => (user == input))) {
+      setsignUpState({ username: input })
+      ScreenCounter(3)
+    } else {
+      alert("User already exists!")
+    }
   }
-
 
 
   return (

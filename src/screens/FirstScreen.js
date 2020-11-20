@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import ButtonStyle from "../components/InputStyle";
 import colors from "../config/colors";
@@ -9,22 +9,28 @@ import {
 } from "react-native-responsive-screen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import { getUserData } from "../utils/GetAsyncData"
 
 
-export default function FirstScreen({ ScreenCounter }) {
 
-  // const [profession, setprofession] = useState("")
-  const [personDict, setpersonDict] = useState({})
+export default function FirstScreen({ ScreenCounter, signupState, setsignUpState }) {
 
-  const selectProfession = async (text) => {
-    // setprofession(text)
-    alert(text)
+  const [usersList, setusersList] = useState([])
+  const [allusersData, setallusersData] = useState(null)
+  const [username, setusername] = useState(null)
+
+  useEffect(() => {
+    // getUserData([setallusersData, setusername], ["globalUsers", "username"])
+  }, [])
+
+  const selectProfession = (profession) => {
+    setsignUpState({ profession })
     ScreenCounter(2)
-    setpersonDict({ "profession": text })
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify({ "profession": text }))
+
+    // const currentUser = { ...allusersData[username], role: profession }
+    // const globalData = { ...allusersData, [username]: currentUser }
+    // await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
   }
-
-
 
   return (
     <>

@@ -8,16 +8,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-export default function Seventh({ ScreenCounter }) {
+export default function Seventh({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
-
   const setMiddleName = async () => {
+    setsignUpState({ middlename: input })
     ScreenCounter(8)
-    const jsonValue = await AsyncStorage.getItem("tempPersonDict")
-    x = JSON.parse(jsonValue)
-    x.middleName = input
-    await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
-    alert(JSON.stringify(x))
+    // const jsonValue = await AsyncStorage.getItem("tempPersonDict")
+    // x = JSON.parse(jsonValue)
+    // x.middleName = input
+    // await AsyncStorage.setItem("tempPersonDict", JSON.stringify(x))
+    // alert(JSON.stringify(x))
   }
   return (
     <View>
