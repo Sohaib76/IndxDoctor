@@ -44,6 +44,32 @@ export default function ({ navigation }) {
     //     },
     // ]
 
+    // ------------------------------------------------- //
+    // for opening patient detials (page 40)
+    const showPatientDetails = (uuid) => {
+        // accepts patient uuid and returns complted info
+        return allPatientsData.find(patient => {
+            return patient.uuid == uuid
+        })
+    }
+
+    // returns all appointments on a date/day
+    const showAppointmentsOnDate = (date) => {
+        allPatientsData.forEach(patient => {
+            let hasApnmnt = patient.appointments.find(apnmnt => {
+                apnmnt.date == date
+            })
+            // return patient basic details if has appointment
+            if (hasApnmnt) {
+                return {
+                    fullname: patient.fullname,
+                    uuid: patient.uuid
+                }
+            }
+        })
+    }
+    // ------------------------------------------------- //
+
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
@@ -57,6 +83,7 @@ export default function ({ navigation }) {
             })
             // all data (not for list)
             setAllpatientsData(patientsDataList)
+            // console.log(patientsDataList);
             let sortedPatientList = patientsDataList.map(patient => {
                 return {
                     fullname: patient.fullname,
@@ -64,6 +91,7 @@ export default function ({ navigation }) {
                 }
             })
             sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+            // segmented list
             // list to be displayed (use this)
             setpatientsNameList(sortedPatientList)
         }
@@ -75,7 +103,6 @@ export default function ({ navigation }) {
         </View>
     );
 
-    console.log(patientsNameList);
     return (
         <View style={styles.container}>
             <SectionList
