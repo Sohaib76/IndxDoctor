@@ -20,16 +20,11 @@ export default function FirstScreen({ ScreenCounter, signupState, setsignUpState
   const [username, setusername] = useState(null)
 
   useEffect(() => {
-    // getUserData([setallusersData, setusername], ["globalUsers", "username"])
   }, [])
 
   const selectProfession = (profession) => {
     setsignUpState({ profession })
     ScreenCounter(2)
-
-    // const currentUser = { ...allusersData[username], role: profession }
-    // const globalData = { ...allusersData, [username]: currentUser }
-    // await AsyncStorage.setItem("globalUsers", JSON.stringify(globalData))
   }
 
   return (

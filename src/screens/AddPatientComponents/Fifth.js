@@ -7,13 +7,12 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
+export default function Fifth({ ScreenCounter, handleAddPatientData }) {
     const [input, setInput] = useState("");
 
     const setFirstName = () => {
-        // setsignUpState({ firstname: input })
         ScreenCounter(6)
-
+        handleAddPatientData({ address: input })
     }
 
     return (
@@ -37,7 +36,7 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
                     <TextInput
                         onChangeText={(val) => setInput(val)}
                         value={input}
-                        placeholder="Enter Your First Name"
+                        placeholder="Enter Your Address"
                         style={[
                             InputStyle.TextInputStyle,
                             {

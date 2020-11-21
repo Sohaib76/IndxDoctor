@@ -5,6 +5,9 @@ import {
     heightPercentageToDP as hp,
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import { getUserData } from "../utils/GetAsyncData"
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { Ionicons } from "@expo/vector-icons";
 import BlockStyle from "../components/BlockStyle";
@@ -16,8 +19,6 @@ import Fifth from './AddPatientComponents/Fifth';
 import Sixth from './AddPatientComponents/Sixth';
 
 export default function AddPatient({ navigation }) {
-
-
     const [first, setFirst] = useState(true);
     const [second, setSecond] = useState(false);
     const [third, setThird] = useState(false);
@@ -27,6 +28,43 @@ export default function AddPatient({ navigation }) {
 
     const [last, setLast] = useState(false);
     const [counter, setCounter] = useState(1);
+
+    const [allusersData, setallusersData] = useState(null)
+    const [username, setusername] = useState(null)
+
+    const [addPatientState, setaddPatientState] = useState({})
+
+    useEffect(() => {
+        getUserData([setallusersData, setusername], ["globalUsers", "username"])
+        if (username && allusersData) {
+            console.log("all users: ", allusersData, username);
+        }
+    }, [])
+
+    const handleAddPatientData = (state) => {
+        let newState = { ...addPatientState, ...state }
+        setaddPatientState(newState)
+    }
+    const registerPatient = (state = { phone: "123" }) => {
+        let finalState = { ...addPatientState, ...state }
+        handleAddPatientData(state)
+
+        let currentUser = allusersData[username];
+        currentUser = {
+            ...currentUser, patients: [...currentUser.patients, finalState]
+        }
+        console.log(addPatientState);
+        const updatedUserData = { ...allusersData, [username]: currentUser }
+        const addUserAsync = async () => {
+            try {
+                await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        addUserAsync()
+    }
 
     const Counter = (count) => {
         setCounter(count);
@@ -131,21 +169,21 @@ export default function AddPatient({ navigation }) {
 
     const ScreenViewer = () => {
         if (first === true) {
-            return <One ScreenCounter={Counter} navigation={navigation} />;
+            return <One ScreenCounter={Counter} navigation={navigation} handleAddPatientData={handleAddPatientData} />;
         } else if (second === true) {
-            return <Two ScreenCounter={Counter} />;
+            return <Two ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (third === true) {
-            return <Third ScreenCounter={Counter} />;
+            return <Third ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (fourth === true) {
-            return <Fourth ScreenCounter={Counter} />;
+            return <Fourth ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (fifth === true) {
-            return <Fifth ScreenCounter={Counter} />;
+            return <Fifth ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (sixth === true) {
-            return <Sixth ScreenCounter={Counter} navigation={navigation} />;
+            return <Sixth ScreenCounter={Counter} navigation={navigation} registerPatient={registerPatient} handleAddPatientData={handleAddPatientData} />;
         }
 
         else {
@@ -155,6 +193,7 @@ export default function AddPatient({ navigation }) {
 
     return (
         <View>
+            {ScreenViewer()}
             <SafeAreaView style={styles.container}>
                 <View style={styles.header}>
                     <TouchableOpacity
@@ -172,7 +211,6 @@ export default function AddPatient({ navigation }) {
                 {/* <View style={styles.borderBlock}>{greenBorderCounter()}</View> */}
                 <View style={BlockStyle.blockStyle}>
                     <Text style={styles.screenCounterTextStyle}>{counter === 11 ? "10" : counter} of 10</Text>
-                    {ScreenViewer()}
                 </View>
             </SafeAreaView>
         </View>

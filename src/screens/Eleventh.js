@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, TextInput, StyleSheet, Text } from "react-native";
+import { View, TouchableOpacity, TextInput, StyleSheet, Text, Image } from "react-native";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../config/colors";
 import ButtonStyle from "../components/InputStyle";
@@ -49,7 +49,19 @@ export default Eleventh = (props) => {
   return (
     <View>
       <View style={styles.iconContainer}>
-        <FontAwesome name="user-circle-o" size={70} color={colors.lightGreen} />
+        {
+          image ? (
+            <Image
+              style={styles.avatar}
+              source={{
+                uri: image,
+              }}
+            />
+          ) : (
+
+              <FontAwesome name="user-circle-o" size={70} color={colors.lightGreen} />
+            )
+        }
       </View>
       <Text style={styles.textStyle}>Finally, Let's add your Photo</Text>
 
@@ -58,19 +70,39 @@ export default Eleventh = (props) => {
         for your profile completion.
       </Text>
 
-      <TouchableOpacity
-        onPress={() => getPhotoFromDevice()}
-        style={[
-          ButtonStyle.InputBlockStyle,
-          {
-            marginTop: 70,
-            backgroundColor: colors.darkGreen,
-          },
-        ]}
-      >
-        <Text style={{ color: "white" }}>Add Photo</Text>
-      </TouchableOpacity>
+      {
+        image ? (
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate("Last")}
+            style={[
+              ButtonStyle.InputBlockStyle,
+              {
+                marginTop: 70,
+                backgroundColor: colors.darkGreen,
+              },
+            ]}
+          >
+            <Text style={{ color: "white" }}>Register</Text>
+          </TouchableOpacity>
 
+        ) : (
+            <TouchableOpacity
+              onPress={() => getPhotoFromDevice()}
+              style={
+                [
+                  ButtonStyle.InputBlockStyle,
+                  {
+                    marginTop: 70,
+                    backgroundColor: colors.darkGreen,
+                  },
+                ]
+              }
+            >
+              <Text style={{ color: "white" }}>Add Photo</Text>
+            </TouchableOpacity >
+
+          )
+      }
       {/* Below Part */}
       <View style={styles.BelowPart}>
         <TouchableOpacity onPress={() => props.ScreenCounter(10)} style={{ flexDirection: "row" }}>
@@ -82,7 +114,7 @@ export default Eleventh = (props) => {
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View >
   );
 };
 
@@ -115,4 +147,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
+  avatar: {
+    width: 150,
+    height: 150
+  }
 });

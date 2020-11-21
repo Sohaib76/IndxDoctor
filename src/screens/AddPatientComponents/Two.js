@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 
-export default function Two({ ScreenCounter }) {
+export default function Two({ ScreenCounter, handleAddPatientData }) {
     const [input, setInput] = useState("");
 
     const pressed = () => {
-        alert(input)
+        // alert(input)
         ScreenCounter(3)
+        handleAddPatientData({ firstname: input })
     }
     return (
         <View style={styles.container}>

@@ -7,13 +7,12 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Third({ ScreenCounter, signupState, setsignUpState }) {
+export default function Third({ ScreenCounter, handleAddPatientData }) {
     const [input, setInput] = useState("");
 
     const setFirstName = () => {
-        // setsignUpState({ firstname: input })
         ScreenCounter(4)
-
+        handleAddPatientData({ middlename: input })
     }
 
     return (

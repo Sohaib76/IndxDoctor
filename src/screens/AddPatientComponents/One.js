@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
+const uuid = require('react-native-uuid');
 
-export default function One({ ScreenCounter, navigation }) {
+export default function One({ ScreenCounter, navigation, handleAddPatientData }) {
+
+    const [pressedState, setpressedState] = useState(false)
 
     const pressed = () => {
+        // for now keep this
+        setpressedState(true)
+        handleAddPatientData({ uuid: uuid.v4() })
+        console.log("AIF");
         ScreenCounter(2)
-
     }
     return (
         <View style={styles.container}>

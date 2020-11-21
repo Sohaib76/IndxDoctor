@@ -72,46 +72,23 @@ const setAsync = async (key, value) => {
 
 
 export default function Container() {
-  console.log("navi");
-
-  // const [isLoggedIn, setisLoggedIn] = useState(false)
   const [isLoggedIn, setisLoggedIn] = useState("")
   const loadData = async () => {
-    // const isLoggedIn = await AsyncStorage.getItem("isLoggedIn", ((err, rslt) => {
-    //   // console.log(rslt);
-    //   setisLoggedIn(
-    //     rslt
-    //   )
-    // }));
-    // console.log("islogged in", isLoggedIn);
     const v = await AsyncStorage.getItem("isLoggedIn")
     if (v == "1") {
       setisLoggedIn(v)
-
       console.log(v)
     }
     else {
       setisLoggedIn("0")
     }
-
   }
 
   useEffect(() => {
-    //test
-    // const p = async () => {
-    //   await AsyncStorage.setItem("abc", "1")
-    //   var x = await AsyncStorage.getItem("abc")
-    //   console.log(x, "nav 0 or 1");
-    // }
-    // p()
-
-    // dummy data --> for dev only
-    // ----------
-    // setdummydata() ????
+    // for first time only
+    // setdummydata()
     loadData()
-    console.log("check", isLoggedIn);
   }, [])
-  // isLoggedIn
   return (
     <NavigationContainer>
       <Stack.Navigator headerMode="none">

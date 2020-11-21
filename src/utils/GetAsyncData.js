@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const getUserData = async (stateHandler,getItemList) => {
+export const getUserData = async (stateHandler, getItemList) => {
     try {
-        const asynData = await AsyncStorage.multiGet(getItemList);
-        let allUsersData = JSON.parse(asynData[0][1]);
+        const asyncData = await AsyncStorage.multiGet(getItemList);
+        let allUsersData = JSON.parse(asyncData[0][1]);
         // console.log("allUsersData",allUsersData,asynData[1][1]);
         stateHandler[0](allUsersData)
-        stateHandler[1](asynData[1][1])
+        stateHandler[1](JSON.parse(asyncData[1][1]))
+        // console.log();
     } catch (e) {
         console.log(e);
     }

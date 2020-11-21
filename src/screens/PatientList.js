@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Pressable, SectionList, StyleSheet, Text, View } from 'react-native'
+import { getUserData } from "../utils/GetAsyncData"
 
-export default function PatientList({ navigation }) {
+export default function ({ navigation }) {
+    const [username, setusername] = useState(null)
+    const [usersData, setallusersData] = useState({})
 
-    const patientList = ["Annie", "Arry"]
     const DATA = [
         {
             title: "A",
@@ -17,29 +19,65 @@ export default function PatientList({ navigation }) {
             title: "C",
             data: ["Caster", "Caler", "Carter"]
         },
-
     ];
+    const [patientsNameList, setpatientsNameList] = useState(["Annie", "Arry"])
+    const [allPatientsData, setAllpatientsData] = useState([])
+
+    // data looks like this now
+    // allpatientdata = [
+    //     {
+    //         address: 'add', firstname, "f1",
+    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
+    //     },
+    //     {
+    //         address: 'add', firstname, "f1",
+    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
+    //     },
+    //     {
+    //         address: 'add', firstname, "f1",
+    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
+    //     },
+    //     {
+    //         address: 'add', firstname, "f1",
+    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
+    //     },
+
+    // ]
+
+    useEffect(() => {
+        getUserData([setallusersData, setusername], ["globalUsers", "username"])
+        if (username && usersData) {
+            setAllpatientsData(usersData[username].patients)
+            const patientsDataList = usersData[username].patients
+            setAllpatientsData(patientsDataList)
+            // setpatientsNameList(patientsDataList.forEach(patient => (patient["firstname"])))
+        }
+    }, [])
+
     const Item = ({ title }) => (
         <View style={styles.item}>
             <Text style={styles.title}>{title}</Text>
         </View>
     );
 
+    console.log("patientsNameList", allPatientsData);
     return (
         <View style={styles.container}>
-            <Text>PATIENTS</Text>
             <SectionList
                 sections={DATA}
                 keyExtractor={(item, index) => item + index}
                 renderItem={({ item }) => <Item title={item} />}
                 renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.header}>{title}</Text>
+                    <Text style={styles.header}>
+                        {title}
+                    </Text>
                 )}
             />
             <Pressable
                 style={{ margin: 20, height: 20 }}
-                onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text></Pressable>
-        </View>
+                onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
+            </Pressable>
+        </View >
     )
 }
 
