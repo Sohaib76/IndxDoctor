@@ -11,8 +11,7 @@ export default function Sixth({ ScreenCounter, handleAddPatientData, navigation,
     const [input, setInput] = useState("");
 
     const setFirstName = () => {
-        handleAddPatientData({ phone: input })
-        registerPatient()
+        registerPatient({ phone: input })
         alert("Patient added")
         navigation.navigate("HomeScreen")
     }

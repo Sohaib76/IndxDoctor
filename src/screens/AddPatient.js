@@ -36,19 +36,24 @@ export default function AddPatient({ navigation }) {
 
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
+        if (username && allusersData) {
+            console.log("all users: ", allusersData, username);
+        }
     }, [])
-
 
     const handleAddPatientData = (state) => {
         let newState = { ...addPatientState, ...state }
         setaddPatientState(newState)
     }
-    const registerPatient = () => {
-        console.log("registered");
+    const registerPatient = (state = { phone: "123" }) => {
+        let finalState = { ...addPatientState, ...state }
+        handleAddPatientData(state)
+
         let currentUser = allusersData[username];
         currentUser = {
-            ...currentUser, patients: [...currentUser.patients, addPatientState]
+            ...currentUser, patients: [...currentUser.patients, finalState]
         }
+        console.log(addPatientState);
         const updatedUserData = { ...allusersData, [username]: currentUser }
         const addUserAsync = async () => {
             try {
@@ -164,7 +169,7 @@ export default function AddPatient({ navigation }) {
 
     const ScreenViewer = () => {
         if (first === true) {
-            return <One ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
+            return <One ScreenCounter={Counter} navigation={navigation} handleAddPatientData={handleAddPatientData} />;
         } else if (second === true) {
             return <Two ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }

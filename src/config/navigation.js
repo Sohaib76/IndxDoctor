@@ -85,7 +85,8 @@ export default function Container() {
   }
 
   useEffect(() => {
-    setdummydata()
+    // for first time only
+    // setdummydata()
     loadData()
   }, [])
   return (

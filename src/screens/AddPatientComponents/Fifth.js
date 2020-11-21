@@ -36,7 +36,7 @@ export default function Fifth({ ScreenCounter, handleAddPatientData }) {
                     <TextInput
                         onChangeText={(val) => setInput(val)}
                         value={input}
-                        placeholder="Enter Your First Name"
+                        placeholder="Enter Your Address"
                         style={[
                             InputStyle.TextInputStyle,
                             {

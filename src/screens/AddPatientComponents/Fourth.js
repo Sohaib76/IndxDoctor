@@ -37,7 +37,7 @@ export default function Fourth({ ScreenCounter, handleAddPatientData }) {
                     <TextInput
                         onChangeText={(val) => setInput(val)}
                         value={input}
-                        placeholder="Enter Your First Name"
+                        placeholder="Enter Your Last Name"
                         style={[
                             InputStyle.TextInputStyle,
                             {

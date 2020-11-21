@@ -8,7 +8,7 @@ export default function Two({ ScreenCounter, handleAddPatientData }) {
     const pressed = () => {
         // alert(input)
         ScreenCounter(3)
-        handleAddPatientData({ username: input })
+        handleAddPatientData({ firstname: input })
     }
     return (
         <View style={styles.container}>
