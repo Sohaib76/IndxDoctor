@@ -72,17 +72,8 @@ const setAsync = async (key, value) => {
 
 
 export default function Container() {
-  // console.log("navi");
-  // const [isLoggedIn, setisLoggedIn] = useState(false)
   const [isLoggedIn, setisLoggedIn] = useState("")
   const loadData = async () => {
-    // const isLoggedIn = await AsyncStorage.getItem("isLoggedIn", ((err, rslt) => {
-    //   // console.log(rslt);
-    //   setisLoggedIn(
-    //     rslt
-    //   )
-    // }));
-    // console.log("islogged in", isLoggedIn);
     const v = await AsyncStorage.getItem("isLoggedIn")
     if (v == "1") {
       setisLoggedIn(v)

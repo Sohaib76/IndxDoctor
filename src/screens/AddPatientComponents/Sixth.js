@@ -7,14 +7,14 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Sixth({ ScreenCounter, signupState, setsignUpState, navigation }) {
+export default function Sixth({ ScreenCounter, handleAddPatientData, navigation, registerPatient }) {
     const [input, setInput] = useState("");
 
     const setFirstName = () => {
-        // setsignUpState({ firstname: input })
-        // ScreenCounter(7)
+        handleAddPatientData({ phone: input })
+        registerPatient()
+        alert("Patient added")
         navigation.navigate("HomeScreen")
-
     }
 
     return (

@@ -18,9 +18,6 @@ export default function HomeScreen({ route, navigation }) {
                 const username = await AsyncStorage.getItem("username");
                 const item = await AsyncStorage.getItem("globalUsers");
                 console.log("Start", item, "End")
-                // let keys = await AsyncStorage.getAllKeys()
-                // let alldata = await AsyncStorage.multiGet(keys)
-                // // console.log(alldata);
                 setusername(username)
             } catch (e) {
                 console.log(e);
