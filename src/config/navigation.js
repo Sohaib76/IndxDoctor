@@ -22,6 +22,7 @@ import Fourth from "../screens/Fourth";
 
 import { setdummydata } from "../utils/setDummyData"
 import AddPatient from "../screens/AddPatient";
+import PatientList from "../screens/PatientList";
 
 const Drawer = createDrawerNavigator();
 function HomeDrawer() {
@@ -39,6 +40,7 @@ function HomeStack() {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="AddPatient" component={AddPatient} />
+      <Stack.Screen name="PatientList" component={PatientList} />
       <Stack.Screen name="Auth" component={AuthStack} />
       {/* <Stack.Screen name="FirstScreen" component={FirstScreen} />
       <Stack.Screen name="SecondScreen" component={Second} />
