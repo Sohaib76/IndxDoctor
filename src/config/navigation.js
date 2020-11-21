@@ -23,11 +23,15 @@ import Fourth from "../screens/Fourth";
 import { setdummydata } from "../utils/setDummyData"
 import AddPatient from "../screens/AddPatient";
 import PatientList from "../screens/PatientList";
+import { Button } from "react-native";
+import CustomDrawerContent from '../components/CustomDrawer'
+
+
 
 const Drawer = createDrawerNavigator();
 function HomeDrawer() {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HomeStack" component={HomeStack} />
       <Drawer.Screen name="Logout" component={Logout} />
     </Drawer.Navigator>
