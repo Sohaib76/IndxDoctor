@@ -20,7 +20,8 @@ export default function ({ navigation }) {
             data: ["Caster", "Caler", "Carter"]
         },
     ];
-    const [patientsNameList, setpatientsNameList] = useState(["Annie", "Arry"])
+
+    const [patientsNameList, setpatientsNameList] = useState([])
     const [allPatientsData, setAllpatientsData] = useState([])
 
     // data looks like this now
@@ -41,18 +42,60 @@ export default function ({ navigation }) {
     //         address: 'add', firstname, "f1",
     //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
     //     },
-
     // ]
+
+    // ------------------------------------------------- //
+    // for opening patient detials (page 40)
+    const showPatientDetails = (uuid) => {
+        // accepts patient uuid and returns complted info
+        return allPatientsData.find(patient => {
+            return patient.uuid == uuid
+        })
+    }
+
+    // returns all appointments on a date/day
+    const showAppointmentsOnDate = (date) => {
+        allPatientsData.forEach(patient => {
+            let hasApnmnt = patient.appointments.find(apnmnt => {
+                apnmnt.date == date
+            })
+            // return patient basic details if has appointment
+            if (hasApnmnt) {
+                return {
+                    fullname: patient.fullname,
+                    uuid: patient.uuid
+                }
+            }
+        })
+    }
+    // ------------------------------------------------- //
 
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
-        if (username && usersData) {
-            setAllpatientsData(usersData[username].patients)
-            const patientsDataList = usersData[username].patients
-            setAllpatientsData(patientsDataList)
-            // setpatientsNameList(patientsDataList.forEach(patient => (patient["firstname"])))
-        }
     }, [])
+    useEffect(() => {
+        if (username && usersData) {
+            let patientsDataList = usersData[username].patients
+            patientsDataList = patientsDataList.map(patient => {
+                return {
+                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+                }
+            })
+            // all data (not for list)
+            setAllpatientsData(patientsDataList)
+            // console.log(patientsDataList);
+            let sortedPatientList = patientsDataList.map(patient => {
+                return {
+                    fullname: patient.fullname,
+                    uuid: patient.uuid
+                }
+            })
+            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+            // segmented list
+            // list to be displayed (use this)
+            setpatientsNameList(sortedPatientList)
+        }
+    }, [usersData, username])
 
     const Item = ({ title }) => (
         <View style={styles.item}>
@@ -60,7 +103,6 @@ export default function ({ navigation }) {
         </View>
     );
 
-    console.log("patientsNameList", allPatientsData);
     return (
         <View style={styles.container}>
             <SectionList
@@ -101,3 +143,9 @@ const styles = StyleSheet.create({
     }
 });
 
+
+
+// const date1 = new Date('7/13/2010');
+// const date2 = new Date('12/15/2010');
+// const diffTime = Math.abs(date2 - date1);
+// const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 

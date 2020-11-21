@@ -45,8 +45,10 @@ export default function AddPatient({ navigation }) {
         let newState = { ...addPatientState, ...state }
         setaddPatientState(newState)
     }
+
+    // sign up 
     const registerPatient = (state = { phone: "123" }) => {
-        let finalState = { ...addPatientState, ...state }
+        let finalState = { ...addPatientState, ...state, createdon: new Date(), appointments: [] }
         handleAddPatientData(state)
 
         let currentUser = allusersData[username];
