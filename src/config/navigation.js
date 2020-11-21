@@ -21,6 +21,7 @@ import Fourth from "../screens/Fourth";
 
 
 import { setdummydata } from "../utils/setDummyData"
+import AddPatient from "../screens/AddPatient";
 
 const Drawer = createDrawerNavigator();
 function HomeDrawer() {
@@ -37,11 +38,12 @@ function HomeStack() {
   return (
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="AddPatient" component={AddPatient} />
       <Stack.Screen name="Auth" component={AuthStack} />
-      <Stack.Screen name="FirstScreen" component={FirstScreen} />
+      {/* <Stack.Screen name="FirstScreen" component={FirstScreen} />
       <Stack.Screen name="SecondScreen" component={Second} />
       <Stack.Screen name="ThirdScreen" component={Third} />
-      <Stack.Screen name="FourthScreen" component={Fourth} />
+      <Stack.Screen name="FourthScreen" component={Fourth} /> */}
     </Stack.Navigator>
   )
 }
@@ -86,7 +88,6 @@ export default function Container() {
     }
     else {
       setisLoggedIn("0")
-      console.log(v)
     }
   }
 

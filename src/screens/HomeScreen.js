@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Button, Pressable } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function HomeScreen({ route, navigation }) {
     // const [name, setname] = useState()
@@ -37,40 +38,10 @@ export default function HomeScreen({ route, navigation }) {
         <View style={styles.container}>
             <Text>Home</Text>
             <Text>Hi {username}</Text>
-            <Button
-                onPress={() => {
-                    handleNavigation("FirstScreen")
-                }}
-                title="Open First Screen"
-                color="#841584"
-            />
-            <Text></Text>
-            <Button
-                onPress={() => {
-                    handleNavigation("SecondScreen")
-                }}
-                title="Open Second Screen"
-                color="#841584"
-            />
-            <Text></Text>
+            <Pressable onPress={() => navigation.navigate("AddPatient")}>
+                <Text>Add Patient</Text>
+            </Pressable>
 
-            <Button
-                onPress={() => {
-                    handleNavigation("ThirdScreen")
-                }}
-                title="Open Third Screen"
-                color="#841584"
-            />
-
-            <Text></Text>
-
-            <Button
-                onPress={() => {
-                    handleNavigation("FourthScreen")
-                }}
-                title="Open Fourth Screen"
-                color="#841584"
-            />
         </View>
     )
 }

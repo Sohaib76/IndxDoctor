@@ -19,7 +19,7 @@ const Ninth = ({ ScreenCounter, signupState, setsignUpState }) => {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setCalenderShower(Platform.OS === 'ios');
-    setCalenderShower(false)
+    // setCalenderShower(false)
     setDate(currentDate);
     var yyyy = JSON.stringify(currentDate).substr(1, 4)
     var mm = JSON.stringify(currentDate).substr(6, 2)
@@ -29,7 +29,7 @@ const Ninth = ({ ScreenCounter, signupState, setsignUpState }) => {
   };
 
   const setBirthDay = () => {
-    setsignUpState({dob:calenderValue})
+    setsignUpState({ dob: calenderValue })
     ScreenCounter(10)
   }
 

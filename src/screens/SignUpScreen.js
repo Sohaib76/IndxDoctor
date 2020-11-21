@@ -50,6 +50,7 @@ const SignUpScreen = (props) => {
       await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
     }
     addUserAsync()
+    props.navigation.navigate("Last")
   }
   useEffect(() => {
     getUserData([setallusersData, setusername], ["globalUsers", "username"])
