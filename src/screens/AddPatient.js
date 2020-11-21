@@ -131,7 +131,7 @@ export default function AddPatient({ navigation }) {
 
     const ScreenViewer = () => {
         if (first === true) {
-            return <One ScreenCounter={Counter} />;
+            return <One ScreenCounter={Counter} navigation={navigation} />;
         } else if (second === true) {
             return <Two ScreenCounter={Counter} />;
         }
