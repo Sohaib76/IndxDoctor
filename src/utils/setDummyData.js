@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export const setdummydata = async () => {
     try {
-        await AsyncStorage.multiSet([["isLoggedIn", "0"], ["username", "ben"], [
+        await AsyncStorage.multiSet([["isLoggedIn", "1"], ["username", "ben"], [
             "globalUsers", JSON.stringify(
                 {
                     "admin": {

@@ -47,8 +47,9 @@ const SignUpScreen = (props) => {
     const updatedUserData = { ...allusersData, [newUserName]: signUpState }
     console.log("adding user: ", updatedUserData);
     const addUserAsync = async () => {
-      const user = AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
+      await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
     }
+    addUserAsync()
   }
   useEffect(() => {
     getUserData([setallusersData, setusername], ["globalUsers", "username"])

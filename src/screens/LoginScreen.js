@@ -23,7 +23,7 @@ import { setdummydata } from "../utils/setDummyData"
 
 export default function LoginScreen({ navigation }) {
 
-  AsyncStorage.clear()
+  // AsyncStorage.clear()
 
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
@@ -89,6 +89,7 @@ export default function LoginScreen({ navigation }) {
         alert("Authorized")
         // set loggin flag and username
         setLoggedIn(userLoggedIn)
+        console.log("USER LOGGED IN", userLoggedIn);
         // redirect to home
         navigation.navigate("Auth", { screen: "HomeDrawer", params: { userObject: userLoggedIn } }
         )
@@ -112,8 +113,11 @@ export default function LoginScreen({ navigation }) {
       // saving error
       console.log(e);
     }
+    // await AsyncStorage.setItem("isLoggedIn", "1")
+    // var x = await AsyncStorage.getItem("isLoggedIn")
+    // console.log(x, "1 or 0");
   }
-  console.log("login loaded");
+  // console.log("login loaded");
 
   return (
     <SafeAreaView style={styles.container}>
