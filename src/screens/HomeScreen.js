@@ -71,8 +71,6 @@ export default function HomeScreen({ route, navigation }) {
                 title="Open Fourth Screen"
                 color="#841584"
             />
-
-
         </View>
     )
 }

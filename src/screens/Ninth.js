@@ -19,8 +19,8 @@ const Ninth = ({ ScreenCounter, signupState, setsignUpState }) => {
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setCalenderShower(Platform.OS === 'ios');
-    // setCalenderShower(false)
-    // setDate(currentDate);
+    setCalenderShower(false)
+    setDate(currentDate);
     var yyyy = JSON.stringify(currentDate).substr(1, 4)
     var mm = JSON.stringify(currentDate).substr(6, 2)
     var dd = JSON.stringify(currentDate).substr(9, 2)

@@ -45,7 +45,7 @@ export default function LoginScreen({ navigation }) {
 
   useEffect(() => {
     // test()
-    setdummydata()
+    // setdummydata()
   }, [])
 
   const handleUsername = text => {

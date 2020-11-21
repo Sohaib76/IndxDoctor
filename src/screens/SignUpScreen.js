@@ -45,7 +45,7 @@ const SignUpScreen = (props) => {
 
   const registerUser = () => {
     const updatedUserData = { ...allusersData, [newUserName]: signUpState }
-    console.log("adding user: ", updatedUserData);
+    // console.log("adding user: ", updatedUserData);
     const addUserAsync = async () => {
       await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
     }
