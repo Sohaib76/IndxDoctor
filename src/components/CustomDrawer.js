@@ -4,18 +4,20 @@ import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { color } from 'react-native-reanimated';
 import Colors from '../config/colors';
 import { AntDesign } from '@expo/vector-icons';
+import NavigationComponent from './NavigationComponent';
 
 export default function CustomDrawerContent({ navigation }) {
     return (
         <View style={{ backgroundColor: Colors.background }}>
             <View style={{
-                paddingTop: 50, paddingLeft: 20, marginBottom: 10,
+                paddingTop: 90, paddingLeft: 20,
                 backgroundColor: 'white',
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
                 shadowOpacity: 0.5,
                 shadowRadius: 2,
                 elevation: 2,
+                marginBottom: 20
             }}>
                 <View style={{ flexDirection: 'row', marginBottom: 20 }}>
                     <Text style={styles.title}>Good Day, </Text>
@@ -48,55 +50,29 @@ export default function CustomDrawerContent({ navigation }) {
                         <Pressable ><Text style={{
                             fontSize: 18
                             , color: Colors.darkGreen
+                            , marginBottom: 10,
+                            fontWeight: "bold"
                         }}>Edit Profile ></Text></Pressable>
                     </View>
                 </View>
             </View>
-            <ScrollView>
-                <TouchableOpacity
-                    onPress={() => alert("Dashboard")}
-                    style={{
-                        backgroundColor: 'white',
-                        flexDirection: "row", alignItems: 'center', paddingLeft: 15
-                        , shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 2 },
-                        shadowOpacity: 0.5,
-                        shadowRadius: 2,
-                        elevation: 2,
+            <ScrollView
+                // contentContainerStyle={ }
+                style={{
+                    height: '100%'
 
-                    }}>
-                    <View style={{
-                        margin: 10,
-                        padding: 6,
-                        borderWidth: 3, borderColor: Colors.darkGreen, borderRadius: 40
-                    }}>
-                        <AntDesign
-                            borderRadius={20}
-
-
-                            name="creditcard" size={24} color={Colors.darkGreen} />
-                    </View>
-
-                    <Text style={{
-                        padding: 10,
-                        fontSize: 20,
-                        color: Colors.darkGreen
-                    }}>Dashboard</Text>
-
-                    <View style={{
-
-                        width: '100%', height: '100%'
-                    }}>
-                        <View style={{
-                            marginLeft: 82,
-                            width: 8, height: '100%', backgroundColor: Colors.lightGreen
-                        }}>
-
-
-                        </View>
-
-                    </View>
-                </TouchableOpacity>
+                }}>
+                <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeStack"} />
+                <NavigationComponent name={"Process Payment"} navigation={navigation} where={"PatientDetail"} />
+                <NavigationComponent name={"Set Appoinment"} navigation={navigation} />
+                <NavigationComponent name={"Add Patient"} navigation={navigation} />
+                <NavigationComponent name={"Calendar"} navigation={navigation} />
+                <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />
+                {/* <NavigationComponent />
+                <NavigationComponent />
+                <NavigationComponent />
+                <NavigationComponent />
+                <NavigationComponent /> */}
                 <View style={{ backgroundColor: Colors.background, height: 20 }}></View>
             </ScrollView>
         </View >
@@ -106,15 +82,6 @@ export default function CustomDrawerContent({ navigation }) {
 const styles = StyleSheet.create({
     title: {
         fontSize: 20
-    },
-    name: {
-
-    },
-    email: {
-
-    },
-    edit_btn: {
-
     },
 
 })

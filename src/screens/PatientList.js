@@ -21,11 +21,11 @@ export default function ({ navigation }) {
         },
     ];
 
-    const [patientsNameList, setpatientsNameList] = useState([])
+    const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
     const [allPatientsData, setAllpatientsData] = useState([])
 
     // data looks like this now
-    // allpatientdata = [
+    // allpatientdata = [   // appointment[{id:,done,date,time}]
     //     {
     //         address: 'add', firstname, "f1",
     //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []

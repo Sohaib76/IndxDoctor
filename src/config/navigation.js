@@ -25,7 +25,19 @@ import AddPatient from "../screens/AddPatient";
 import PatientList from "../screens/PatientList";
 import { Button } from "react-native";
 import CustomDrawerContent from '../components/CustomDrawer'
+import PatientDetailScreen from "../screens/PatientDetailScreen";
 
+// const Tab =  TabNavigator({
+//   TabA: {
+//     screen: Home 
+//   },
+//   TabB: {
+//     screen: Home
+//   }
+// }, {
+//   order: ['TabA', 'TabB'],
+//   animationEnabled: true,
+// })
 
 
 const Drawer = createDrawerNavigator();
@@ -34,6 +46,9 @@ function HomeDrawer() {
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HomeStack" component={HomeStack} />
       <Drawer.Screen name="Logout" component={Logout} />
+      <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />
+      {/* Temp Move later Patient Detail */}
+      {/* <Drawer.Screen name="??" component={Tab} /> */}
     </Drawer.Navigator>
   );
 }
