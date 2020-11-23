@@ -27,9 +27,9 @@ export default function PatientDetailScreen({ navigation }) {
                 centerComponent={{ text: 'Patient Details', style: { color: 'darkblue', fontSize: 40, fontWeight: "bold" } }}
 
             />
+            {/* <Text>Hi</Text>
             <Text>Hi</Text>
-            <Text>Hi</Text>
-            <Text>Hi</Text>
+            <Text>Hi</Text> */}
         </View>
     )
 }

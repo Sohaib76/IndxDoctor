@@ -10,8 +10,14 @@ export default function Last({ navigation }) {
 
     return (
         <View style={styles.container}>
-            <Text>Profile Completed</Text>
-            <Pressable onPress={() => navigation.navigate("Login")}><Text>Click here to go Back To Login Page</Text></Pressable>
+            <Text
+                style={{ fontSize: 18 }}
+            >Profile Completed</Text>
+            <Pressable
+                style={{ padding: 10 }}
+                onPress={() => navigation.navigate("Login")}><Text
+                    style={{ fontSize: 20 }}
+                >Click here to go Back To Login Page</Text></Pressable>
         </View>
     )
 }

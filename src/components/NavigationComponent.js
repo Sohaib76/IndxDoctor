@@ -8,7 +8,8 @@ import { AntDesign } from '@expo/vector-icons';
 export default function NavigationComponent({ name, navigation, where }) {
     return (
         <TouchableOpacity
-            onPress={() => navigation.navigate(where)}
+
+            onPress={() => where ? navigation.navigate(where) : alert(`${name}`)}
             style={{
                 backgroundColor: 'white',
                 flexDirection: "row", alignItems: 'center', paddingLeft: 15

@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.indx.doctor"
     },
     "web": {
       "favicon": "./src/assets/favicon.png"

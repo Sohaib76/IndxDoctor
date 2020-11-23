@@ -18,7 +18,7 @@ export default function Logout({ navigation }) {
                 [
                     {
                         text: "Cancel",
-                        onPress: () => navigation.navigate("Home"),
+                        onPress: () => navigation.navigate("HomeStack"),
                         style: "cancel"
                     },
                     { text: "Log Out", onPress: _logout }
