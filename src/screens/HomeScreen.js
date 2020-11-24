@@ -14,6 +14,24 @@ import DashboardQueue from '../components/DashboardQueue';
 
 
 export default function HomeScreen({ route, navigation }) {
+    //------------------
+
+    //For Fetch
+    //For Today
+    const [currentAppointments, setcurrentAppointments] = useState("5")
+    const [pendingAppointments, setpendingAppointments] = useState("3")
+    const [cancelledAppointments, setcancelledAppointments] = useState("1")
+
+    //list of objects containing first,lastname,pic,isqueued,iscancelled
+    //sort with date then time  
+
+
+
+    //For Upload
+
+    //------------------
+
+
     // const [name, setname] = useState()
     var userObject = ""
     if (route.params != undefined) {

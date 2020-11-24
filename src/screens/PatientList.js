@@ -6,10 +6,25 @@ import { Portal, Searchbar, Provider } from 'react-native-paper';
 
 
 export default function ({ navigation }) {
+    //-------------------
+
+    // To Fetch
+    const [totalPatients, settotalPatients] = useState("120")
+
+    // User Data : This is to be decide
+    //list of objects containing >> Patient Image, firstname, lastname, uuid
+    //now igno sections
+    //-------------------
+
+    //For Search BAr
+    const [searchQuery, setSearchQuery] = useState('');
+
+
+
+
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
 
-    const [searchQuery, setSearchQuery] = useState('');
     const onChangeSearch = query => setSearchQuery(query);
 
     const DATA = [

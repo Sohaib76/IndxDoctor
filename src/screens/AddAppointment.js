@@ -1,9 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { Button, colors, Header, Icon } from 'react-native-elements';
 import { Portal, Searchbar, Provider } from 'react-native-paper';
 
 export default function AddAppointment({ navigation }) {
+
+
+    // This data will be given to backend
+
+    // Will Decide More after selecting Calendar
+    //https://github.com/amhinson/react-native-calendar
+    //https://react-native-components.gitbook.io/calendar/
+    // const [appointment, setappointmen] = useState("6/12/2019")
+
+    const [appointmentTime, setappointmentTime] = useState("10:00 AM")
+
+
+    //This data will be fetched
+    const [lastAppointment, setlastAppointment] = useState("6 months ago")
+    const [firstname, setfirstname] = useState("Alexander")
+    const [lastname, setlastname] = useState("Dela Costa")
+
+    //Will be fetched locally
+    const [appointmentDate, setappointmentDate] = useState("6")
+    const [appointmentMonth, setappointmentMonth] = useState("December")
+    const [appointmentWeekDay, setappointmentWeekDay] = useState("Monday")
+
+
+
     return (
         <View>
             <Header
