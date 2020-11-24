@@ -1,15 +1,12 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { colors, Header } from 'react-native-elements';
-import { Icon, Button, } from 'react-native-elements';
+import { Button, colors, Header } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Menu, Divider, Provider } from 'react-native-paper';
 
-
-import Colors from '../config/colors';
-
-export default function PatientDetailScreen({ navigation }) {
+export default function AddPatientMain({ navigation }) {
     return (
         <View>
             <Header
@@ -24,16 +21,19 @@ export default function PatientDetailScreen({ navigation }) {
 
                 }
 
-                centerComponent={{ text: 'View Patient', style: { color: 'darkblue', fontSize: 40, fontWeight: "bold" } }}
+                centerComponent={{ text: 'Add Patient', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
 
             />
             <Button
-                title="Appointments"
-                onPress={() => navigation.navigate("AddAppointment")}
+                containerStyle={{ marginBottom: 20 }}
+                title="Add Existing Patient"
+                onPress={() => navigation.navigate("PatientList")}
             />
-            {/* <Text>Hi</Text>
-            <Text>Hi</Text>
-            <Text>Hi</Text> */}
+            <Button
+                title="Create New Patient"
+                onPress={() => navigation.navigate("AddPatient")}
+            />
+
         </View>
     )
 }

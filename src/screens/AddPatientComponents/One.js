@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Button } from 'react-native-elements';
+
 const uuid = require('react-native-uuid');
 
 export default function One({ ScreenCounter, navigation, handleAddPatientData }) {
@@ -15,9 +17,17 @@ export default function One({ ScreenCounter, navigation, handleAddPatientData })
     }
     return (
         <View style={styles.container}>
-            <Text>Do you have </Text>
-            <Pressable onPress={() => navigation.navigate("PatientList")}><Text>Yes</Text></Pressable>
-            <Pressable onPress={pressed}><Text>No</Text></Pressable>
+            <Text>Do you have an existing</Text>
+            <Button
+                disabled={true}
+                title="Yes"
+            />
+            <Button
+
+                title="No"
+                onPress={pressed}
+            />
+
         </View>
     )
 }

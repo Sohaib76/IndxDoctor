@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Pressable, SectionList, StyleSheet, Text, View } from 'react-native'
 import { getUserData } from "../utils/GetAsyncData"
+import { Button, colors, Header, Icon } from 'react-native-elements';
+import { Portal, Searchbar, Provider } from 'react-native-paper';
+
 
 export default function ({ navigation }) {
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
+
+    const [searchQuery, setSearchQuery] = useState('');
+    const onChangeSearch = query => setSearchQuery(query);
 
     const DATA = [
         {
@@ -73,29 +79,29 @@ export default function ({ navigation }) {
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
-    useEffect(() => {
-        if (username && usersData) {
-            let patientsDataList = usersData[username].patients
-            patientsDataList = patientsDataList.map(patient => {
-                return {
-                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-                }
-            })
-            // all data (not for list)
-            setAllpatientsData(patientsDataList)
-            // console.log(patientsDataList);
-            let sortedPatientList = patientsDataList.map(patient => {
-                return {
-                    fullname: patient.fullname,
-                    uuid: patient.uuid
-                }
-            })
-            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-            // segmented list
-            // list to be displayed (use this)
-            setpatientsNameList(sortedPatientList)
-        }
-    }, [usersData, username])
+    // useEffect(() => {
+    //     if (username && usersData) {
+    //         let patientsDataList = usersData[username].patients
+    //         patientsDataList = patientsDataList.map(patient => {
+    //             return {
+    //                 ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+    //             }
+    //         })
+    //         // all data (not for list)
+    //         setAllpatientsData(patientsDataList)
+    //         // console.log(patientsDataList);
+    //         let sortedPatientList = patientsDataList.map(patient => {
+    //             return {
+    //                 fullname: patient.fullname,
+    //                 uuid: patient.uuid
+    //             }
+    //         })
+    //         sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+    //         // segmented list
+    //         // list to be displayed (use this)
+    //         setpatientsNameList(sortedPatientList)
+    //     }
+    // }, [usersData, username])
 
     const Item = ({ title }) => (
         <View style={styles.item}>
@@ -104,29 +110,78 @@ export default function ({ navigation }) {
     );
 
     return (
-        <View style={styles.container}>
-            <SectionList
-                sections={DATA}
-                keyExtractor={(item, index) => item + index}
-                renderItem={({ item }) => <Item title={item} />}
-                renderSectionHeader={({ section: { title } }) => (
-                    <Text style={styles.header}>
-                        {title}
-                    </Text>
-                )}
+        <Provider>
+            <Header
+                containerStyle={{ backgroundColor: 'white', padding: 20, height: 150 }}
+                placement="left"
+                leftComponent={
+                    <>
+                        <Icon style={{ color: '#000', padding: 10 }} name="menu" size={35} onPress={
+                            () => navigation.openDrawer()
+                        } />
+                    </>
+
+                }
+
+                centerComponent={{ text: 'Patients', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
+
             />
-            <Pressable
-                style={{ margin: 20, height: 20 }}
-                onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
-            </Pressable>
-        </View >
+            <Searchbar
+                placeholder="Search"
+                onChangeText={onChangeSearch}
+                value={searchQuery}
+            />
+            <Button
+                containerStyle={{ marginBottom: 20 }}
+                title="+ Add New Patient"
+                onPress={() => navigation.navigate("AddPatient")}
+
+            />
+
+            <View style={styles.container}>
+
+                <SectionList
+                    sections={DATA}
+                    keyExtractor={(item, index) => item + index}
+                    renderItem={({ item }) =>
+                        <View >
+                            <Item
+
+                                title={item} />
+                            <Text
+                                onPress={() => navigation.navigate("AddAppointment")}
+                                style={{ position: 'absolute', top: 35, right: 100 }}>Set appointment</Text>
+                            <Text
+                                onPress={() => navigation.navigate("PatientDetail")}
+                                style={{ position: 'absolute', top: 35, right: 20 }}>Patient Info</Text>
+                        </View>
+
+
+                    }
+                    renderSectionHeader={({ section: { title } }) => (
+
+                        <Text style={styles.header}>
+                            {title}
+                        </Text>
+
+
+                    )}
+                />
+
+
+                <Pressable
+                    style={{ margin: 20, height: 20 }}
+                    onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
+                </Pressable>
+            </View >
+        </Provider>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        marginTop: 80,
+
+        marginTop: 30,
         marginHorizontal: 16
     },
     item: {

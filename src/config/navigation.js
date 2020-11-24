@@ -26,6 +26,9 @@ import PatientList from "../screens/PatientList";
 import { Button } from "react-native";
 import CustomDrawerContent from '../components/CustomDrawer'
 import PatientDetailScreen from "../screens/PatientDetailScreen";
+import AddPatientMain from "../screens/AddPatientMain";
+import AddAppointment from "../screens/AddAppointment";
+import AddApointmentMain from "../screens/AddApointmentMain";
 
 // const Tab =  TabNavigator({
 //   TabA: {
@@ -46,7 +49,8 @@ function HomeDrawer() {
     <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="HomeStack" component={HomeStack} />
       <Drawer.Screen name="Logout" component={Logout} />
-      <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />
+      <Drawer.Screen name="AddPatientMain" component={AddPatientMain} />
+      <Stack.Screen name="AddAppointmentMain" component={AddApointmentMain} />
       {/* Temp Move later Patient Detail */}
       {/* <Drawer.Screen name="??" component={Tab} /> */}
     </Drawer.Navigator>
@@ -59,7 +63,10 @@ function HomeStack() {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="AddPatient" component={AddPatient} />
+      <Stack.Screen name="AddAppointment" component={AddAppointment} />
       <Stack.Screen name="PatientList" component={PatientList} />
+      <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />
+
       <Stack.Screen name="Auth" component={AuthStack} />
       {/* <Stack.Screen name="FirstScreen" component={FirstScreen} />
       <Stack.Screen name="SecondScreen" component={Second} />
