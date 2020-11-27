@@ -110,8 +110,8 @@ export default Eleventh = (props) => {
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => props.navigation.navigate("Last")}>
-          <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Skip</Text>
+        <TouchableOpacity onPress={() => props.navigation.navigate("Last")} disabled={true}>
+          <Text style={{ marginLeft: 5, color: colors.Gray }}>Skip</Text>
         </TouchableOpacity>
       </View>
     </View >

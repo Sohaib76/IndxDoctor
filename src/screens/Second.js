@@ -14,7 +14,13 @@ export default function Second({ ScreenCounter, signupState, setsignUpState }) {
   useEffect(() => {
     const usersList = async () => {
       let a = await AsyncStorage.getItem("globalUsers", (err, rslt) => {
-        setusersList(Object.keys(JSON.parse(rslt)))
+        if (a != null) {
+          setusersList(Object.keys(JSON.parse(rslt)))
+        }
+        else {
+          console.log("No User Already");
+        }
+
       })
     }
     usersList()
@@ -80,7 +86,7 @@ export default function Second({ ScreenCounter, signupState, setsignUpState }) {
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => ScreenCounter(3)}>
+        <TouchableOpacity onPress={() => ScreenCounter(3)} disabled={true}>
           <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>
