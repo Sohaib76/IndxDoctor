@@ -4,10 +4,12 @@ import { getUserData } from "../utils/GetAsyncData"
 import { Button, colors, Header, Icon } from 'react-native-elements';
 import { Portal, Searchbar, Provider } from 'react-native-paper';
 
+import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 
-export default function ({ navigation }) {
+export default function ({ navigation, route }) {
     //-------------------
 
+    // only avaiable if new appointment added
     // To Fetch
     const [totalPatients, settotalPatients] = useState("120")
 
@@ -18,9 +20,6 @@ export default function ({ navigation }) {
 
     //For Search BAr
     const [searchQuery, setSearchQuery] = useState('');
-
-
-
 
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
@@ -66,6 +65,10 @@ export default function ({ navigation }) {
     // ]
 
     // ------------------------------------------------- //
+    // ------------------------------------------------- //
+    // ------------------------------------------------- //
+    // ------------------------------------------------- //
+
     // for opening patient detials (page 40)
     const showPatientDetails = (uuid) => {
         // accepts patient uuid and returns complted info
@@ -89,34 +92,65 @@ export default function ({ navigation }) {
             }
         })
     }
+
+    // add new appointment details to patient data
+    const addNewAppointment = (uuid, newAppointmentDetails) => {
+        let updatedPatientData = allPatientsData.map(patient => {
+            if (patient.uuid == uuid && patient.appointments) {
+                return {
+                    ...patient, appointments: [
+                        ...patient.appointments, newAppointmentDetails
+                    ]
+                }
+            }
+            return patient
+        })
+        // update asyncstorage
+        console.log("updatedPatientData ", updatedPatientData);
+        // add updated patient data to user
+        let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
+        // add updated user to all data
+        let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
+
+        // util: update entire global users
+        updateGlobalUsersAsync(updatedAllUsersData)
+    }
+
+    // only runs if routed from add appointments
+    if (route.params) {
+        addNewAppointment("", route.params.appointmentDetails)
+    }
+    // ------------------------------------------------- //
+    // ------------------------------------------------- //
+    // ------------------------------------------------- //
     // ------------------------------------------------- //
 
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
-    // useEffect(() => {
-    //     if (username && usersData) {
-    //         let patientsDataList = usersData[username].patients
-    //         patientsDataList = patientsDataList.map(patient => {
-    //             return {
-    //                 ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-    //             }
-    //         })
-    //         // all data (not for list)
-    //         setAllpatientsData(patientsDataList)
-    //         // console.log(patientsDataList);
-    //         let sortedPatientList = patientsDataList.map(patient => {
-    //             return {
-    //                 fullname: patient.fullname,
-    //                 uuid: patient.uuid
-    //             }
-    //         })
-    //         sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-    //         // segmented list
-    //         // list to be displayed (use this)
-    //         setpatientsNameList(sortedPatientList)
-    //     }
-    // }, [usersData, username])
+    useEffect(() => {
+        if (username && usersData) {
+            let patientsDataList = usersData[username].patients
+            patientsDataList = patientsDataList.map(patient => {
+                return {
+                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+                }
+            })
+            // all data (not for list)
+            setAllpatientsData(patientsDataList)
+            // console.log(patientsDataList);
+            let sortedPatientList = patientsDataList.map(patient => {
+                return {
+                    fullname: patient.fullname,
+                    uuid: patient.uuid
+                }
+            })
+            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+            // segmented list
+            // list to be displayed (use this)
+            setpatientsNameList(sortedPatientList)
+        }
+    }, [usersData, username])
 
     const Item = ({ title }) => (
         <View style={styles.item}>
@@ -164,7 +198,10 @@ export default function ({ navigation }) {
 
                                 title={item} />
                             <Text
-                                onPress={() => navigation.navigate("AddAppointment")}
+                                onPress={() => navigation.navigate("AddAppointment", {
+                                    // passing patient uuid for appointment data recieving
+                                    patientUuid: "dummy-uuid"
+                                })}
                                 style={{ position: 'absolute', top: 35, right: 100 }}>Set appointment</Text>
                             <Text
                                 onPress={() => navigation.navigate("PatientDetail")}

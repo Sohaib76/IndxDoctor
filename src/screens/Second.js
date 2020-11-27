@@ -14,7 +14,9 @@ export default function Second({ ScreenCounter, signupState, setsignUpState }) {
   useEffect(() => {
     const usersList = async () => {
       let a = await AsyncStorage.getItem("globalUsers", (err, rslt) => {
-        setusersList(Object.keys(JSON.parse(rslt)))
+        if (!err) {
+          setusersList(Object.keys(JSON.parse(rslt)))
+        }
       })
     }
     usersList()

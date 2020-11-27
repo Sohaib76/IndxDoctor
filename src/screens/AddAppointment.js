@@ -3,9 +3,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { Button, colors, Header, Icon } from 'react-native-elements';
 import { Portal, Searchbar, Provider } from 'react-native-paper';
 
-export default function AddAppointment({ navigation }) {
-
-
+export default function AddAppointment({ navigation, route }) {
     // This data will be given to backend
 
     // Will Decide More after selecting Calendar
@@ -14,8 +12,6 @@ export default function AddAppointment({ navigation }) {
     // const [appointment, setappointmen] = useState("6/12/2019")
 
     const [appointmentTime, setappointmentTime] = useState("10:00 AM")
-
-
     //This data will be fetched
     const [lastAppointment, setlastAppointment] = useState("6 months ago")
     const [firstname, setfirstname] = useState("Alexander")
@@ -25,8 +21,6 @@ export default function AddAppointment({ navigation }) {
     const [appointmentDate, setappointmentDate] = useState("6")
     const [appointmentMonth, setappointmentMonth] = useState("December")
     const [appointmentWeekDay, setappointmentWeekDay] = useState("Monday")
-
-
 
     return (
         <View>
@@ -41,24 +35,33 @@ export default function AddAppointment({ navigation }) {
                     </>
 
                 }
-
                 centerComponent={{ text: 'Add Appointment', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
             />
             <Button
                 containerStyle={{ marginBottom: 300 }}
                 title="Tap to Change Patient"
-                onPress={() => navigation.navigate("PatientList")}
+                onPress={() => navigation.navigate("PatientList"
+                    , {
+                        patientUuid: route.params.patientUuid,
+                        appointmentDetails: {
+                            firstname,
+                            lastname,
+                            appointmentDate,
+                            appointmentTime
+                        }
+                    }
+                )}
             />
 
 
-            <Button
+            {/* <Button
                 containerStyle={{
                     marginBottom: 20
 
                 }}
                 title="Finish Appointment"
                 onPress={() => navigation.navigate("HomeScreen")}
-            />
+            /> */}
         </View>
     )
 }
