@@ -22,8 +22,9 @@ export default function PatientDetailScreen({ navigation }) {
     const [address, setaddress] = useState("12A Kamuning Quezon City")
     const [email, setemail] = useState("lexicota@gmail.com")
     const [phone, setphone] = useState('+639139902719')
+    const [uuid, setuuid] = useState("289|2018")
 
-    // Give all data from backend , no usage data for backend
+    // Get all data from backend , no usage data for backend
 
 
 
@@ -51,8 +52,44 @@ export default function PatientDetailScreen({ navigation }) {
             {/* <Text>Hi</Text>
             <Text>Hi</Text>
             <Text>Hi</Text> */}
+
+            <Surface style={{ padding: 20, margin: 15 }}>
+                <Text style={{ fontSize: 22, fontWeight: 'bold' }}>Basic Information</Text>
+                <Text style={{ color: 'grey', fontSize: 12 }}>ACCOUNT NUMBER {uuid}</Text>
+                <View style={{ flexDirection: 'row', paddingTop: 24 }}>
+                    <View style={{ flex: 2 }}>
+
+                        <Text style={styles.textTitle}>FIRST NAME</Text>
+                        <Text style={styles.textDetail}>{firstname}</Text>
+
+                        <Text style={styles.textTitle}>MIDDLE NAME</Text>
+                        <Text style={styles.textDetail}>{middlename}</Text>
+
+                        <Text style={styles.textTitle}>LAST NAME</Text>
+                        <Text style={styles.textDetail}>{lastname}</Text>
+
+                        <Text style={styles.textTitle}>DATE ADDED</Text>
+                        <Text style={styles.textDetail}>{dateAdded}</Text>
+                    </View>
+                    <View style={{ flex: 2 }}>
+                        <Text style={styles.textTitle}>AGE</Text>
+                        <Text style={styles.textDetail}>{age} Years Old</Text>
+
+                        <Text style={styles.textTitle}>SEX</Text>
+                        <Text style={styles.textDetail}>{gender}</Text>
+
+                        <Text style={styles.textTitle}>BIRTHDAY</Text>
+                        <Text style={styles.textDetail}>{birthday}</Text>
+
+                        <Text style={{ marginTop: 20, color: 'grey', fontSize: 16, fontWeight: 'bold' }}>--- {dateDifference}</Text>
+                    </View>
+                </View>
+            </Surface>
         </View>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    textTitle: { color: 'grey' }
+    , textDetail: { fontWeight: '500', fontSize: 18, marginBottom: 20, marginTop: 3 }
+})
