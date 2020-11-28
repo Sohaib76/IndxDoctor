@@ -4,11 +4,16 @@ import { getUserData } from "../utils/GetAsyncData"
 import { Button, colors, Header, Icon } from 'react-native-elements';
 import { Portal, Searchbar, Provider, Divider } from 'react-native-paper';
 import { ListItem, Avatar } from 'react-native-elements'
+import { Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 
 
 
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function ({ navigation, route }) {
     //-------------------
@@ -20,11 +25,7 @@ export default function ({ navigation, route }) {
     // Fetched
     const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
 
-    //What if first time, dummy for test
-    //Search, touch view myself
-    // Give Image??
-    //pop up mashwara (is clicked)
-    //Rerenders , Infinite loop Errors
+    const [filteredpatientsNameList, setfilteredpatientsNameList] = useState([])
 
 
     // const [opaq, setopaq] = useState(false)
@@ -42,7 +43,16 @@ export default function ({ navigation, route }) {
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
 
-    const onChangeSearch = query => setSearchQuery(query);
+    const onChangeSearch = query => {
+        setSearchQuery(query);
+        var t = list.filter((x) => (
+            x.name.includes(searchQuery)
+
+        ))
+        console.log(t);
+        setfilteredpatientsNameList(List(t))
+    }
+
 
     const DATA = [
         {
@@ -61,13 +71,81 @@ export default function ({ navigation, route }) {
 
     const list = [
         {
-            id: 0,
+            popupShow: true,
             name: 'Amy Farha',
             avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
 
         },
         {
-            id: 1,
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        },
+        {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        },
+        {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        }, {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        }, {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        }, {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        }, {
+            popupShow: true,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            popupShow: false,
             name: 'Chris Jackson',
             avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
 
@@ -200,17 +278,19 @@ export default function ({ navigation, route }) {
 
         return (
 
-            <View style={{
-                // top: props.id * 75,
-                position: "absolute",
-                backgroundColor: 'teal', width: '100%',
-                //height: `${100 / list.length}%`,
-                opacity: opaq ? 0.5 : 0,
-                height: "100%"
-            }}>
+            <Pressable
+                onPress={() => props.popupShow = !props.popupShow}
+                style={{
+                    // top: props.id * 75,
+                    position: "absolute",
+                    backgroundColor: 'teal', width: '100%',
+                    //height: `${100 / list.length}%`,
+                    opacity: props.popupShow ? 0.5 : 0,
+                    height: "100%"
+                }}>
                 <View></View>
 
-            </View>
+            </Pressable>
         )
     }
 
@@ -266,7 +346,7 @@ export default function ({ navigation, route }) {
 
             /> */}
 
-            <View>
+            <ScrollView>
                 {
                     list.map((l, i) => (
 
@@ -276,7 +356,8 @@ export default function ({ navigation, route }) {
                         //      >
                         <View key={i}>
                             <ListItem onPress={
-                                () => alert(l.id)
+                                () => alert(l.id),
+                                l.popupShow = !l.popupShow
                                 // setopaq(true)
 
                             } containerStyle={{
@@ -286,10 +367,32 @@ export default function ({ navigation, route }) {
                                 <ListItem.Content>
                                     <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.name}</ListItem.Title>
                                 </ListItem.Content>
-
+                                <ListItem.Content style={{
+                                    justifyContent: 'space-between',
+                                    flexDirection: 'row'
+                                }}>
+                                    <Feather
+                                        onPress={() => alert("Call")}
+                                        name="phone-call" size={24} color="black" />
+                                    <Octicons name="calendar" size={24} color="black"
+                                        onPress={() => navigation.navigate("AddAppointment", {
+                                            // passing patient uuid for appointment data recieving
+                                            patientUuid: "dummy-uuid"
+                                        })}
+                                    />
+                                    <Ionicons name="md-person" size={24} color="black"
+                                        onPress={() => navigation.navigate("PatientDetail", {
+                                            // passing patient uuid for appointment data recieving
+                                            patientUuid: "dummy-uuid"
+                                        })}
+                                    />
+                                    <MaterialCommunityIcons
+                                        onPress={() => alert("Document")}
+                                        name="file-document-edit" size={24} color="black" />
+                                </ListItem.Content>
 
                             </ListItem>
-                            {/* <Overlay id={l.id} /> */}
+                            {/* <Overlay popupShow={l.popupShow} /> */}
                         </View>
 
 
@@ -301,7 +404,20 @@ export default function ({ navigation, route }) {
 
                 }
 
-            </View >
+
+                <View style={{
+
+                    padding: 40,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    // position: 'absolute', bottom: 0
+                }}>
+                    <Text style={{
+                        fontSize: 20, fontWeight: 'bold', color: 'grey'
+                    }}>{totalPatients} Patients</Text>
+                </View>
+
+            </ScrollView >
             {/* <View style={styles.container}> */}
             {/* 
                 <SectionList
@@ -341,6 +457,7 @@ export default function ({ navigation, route }) {
                     onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
                 </Pressable>
             </View > */}
+
         </Provider >
     )
 }
