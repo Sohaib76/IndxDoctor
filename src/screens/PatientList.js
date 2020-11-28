@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react'
 import { Pressable, SectionList, StyleSheet, Text, View } from 'react-native'
 import { getUserData } from "../utils/GetAsyncData"
 import { Button, colors, Header, Icon } from 'react-native-elements';
-import { Portal, Searchbar, Provider } from 'react-native-paper';
+import { Portal, Searchbar, Provider, Divider } from 'react-native-paper';
+import { ListItem, Avatar } from 'react-native-elements'
+
+
+
 
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 
@@ -15,6 +19,16 @@ export default function ({ navigation, route }) {
 
     // Fetched
     const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
+
+    //What if first time, dummy for test
+    //Search, touch view myself
+    // Give Image??
+    //pop up mashwara (is clicked)
+    //Rerenders , Infinite loop Errors
+
+
+    // const [opaq, setopaq] = useState(false)
+
 
 
     // User Data : This is to be decide
@@ -44,6 +58,23 @@ export default function ({ navigation, route }) {
             data: ["Caster", "Caler", "Carter"]
         },
     ];
+
+    const list = [
+        {
+            id: 0,
+            name: 'Amy Farha',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+
+        },
+        {
+            id: 1,
+            name: 'Chris Jackson',
+            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+
+        },
+        // ... // more items
+    ]
+
 
     const [allPatientsData, setAllpatientsData] = useState([])
 
@@ -134,6 +165,7 @@ export default function ({ navigation, route }) {
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
+    //Commented bcz code explodes ,ask anees
     // useEffect(() => {
     //     if (username && usersData) {
     //         let patientsDataList = usersData[username].patients
@@ -164,10 +196,33 @@ export default function ({ navigation, route }) {
         </View>
     );
 
+    const Overlay = (props) => {
+
+        return (
+
+            <View style={{
+                // top: props.id * 75,
+                position: "absolute",
+                backgroundColor: 'teal', width: '100%',
+                //height: `${100 / list.length}%`,
+                opacity: opaq ? 0.5 : 0,
+                height: "100%"
+            }}>
+                <View></View>
+
+            </View>
+        )
+    }
+
+    const showOverlay = (i) => {
+        console.log(i);
+
+    }
+
     return (
         <Provider>
             <Header
-                containerStyle={{ backgroundColor: 'white', padding: 20, height: 150 }}
+                containerStyle={{ backgroundColor: 'white', padding: 20, height: 120 }}
                 placement="left"
                 leftComponent={
                     <>
@@ -180,21 +235,75 @@ export default function ({ navigation, route }) {
 
                 centerComponent={{ text: 'Patients', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
 
+                rightComponent={
+                    <Text
+                        onPress={() => navigation.navigate("AddPatient")}
+
+                        style={{ color: 'darkblue' }}
+                    >
+                        + Add Patient
+                    </Text>
+                }
+
             />
-            <Searchbar
-                placeholder="Search"
-                onChangeText={onChangeSearch}
-                value={searchQuery}
-            />
-            <Button
+            <View style={{ backgroundColor: 'white' }}>
+                <Searchbar
+                    style={{
+                        backgroundColor: 'lightgrey', opacity: 0.4
+                        , borderRadius: 20,
+                        margin: 20
+                    }}
+                    placeholder="Search"
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                />
+            </View>
+            <Divider />
+            {/* <Button
                 containerStyle={{ marginBottom: 20 }}
                 title="+ Add New Patient"
                 onPress={() => navigation.navigate("AddPatient")}
 
-            />
+            /> */}
 
-            <View style={styles.container}>
+            <View>
+                {
+                    list.map((l, i) => (
 
+                        // <Pressable
+
+                        //     onPress={showOverlay(i)}
+                        //      >
+                        <View key={i}>
+                            <ListItem onPress={
+                                () => alert(l.id)
+                                // setopaq(true)
+
+                            } containerStyle={{
+                                paddingTop: 20, paddingBottom: 20
+                            }} bottomDivider>
+                                <Avatar source={{ uri: l.avatar_url }} rounded />
+                                <ListItem.Content>
+                                    <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.name}</ListItem.Title>
+                                </ListItem.Content>
+
+
+                            </ListItem>
+                            {/* <Overlay id={l.id} /> */}
+                        </View>
+
+
+
+                        // </Pressable>
+
+
+                    ))
+
+                }
+
+            </View >
+            {/* <View style={styles.container}> */}
+            {/* 
                 <SectionList
                     sections={DATA}
                     keyExtractor={(item, index) => item + index}
@@ -224,15 +333,15 @@ export default function ({ navigation, route }) {
 
 
                     )}
-                />
+                /> */}
 
 
-                <Pressable
+            {/* <Pressable
                     style={{ margin: 20, height: 20 }}
                     onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
                 </Pressable>
-            </View >
-        </Provider>
+            </View > */}
+        </Provider >
     )
 }
 
