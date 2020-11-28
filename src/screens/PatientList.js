@@ -96,33 +96,36 @@ export default function ({ navigation, route }) {
         })
     }
 
-    // add new appointment details to patient data
-    const addNewAppointment = (uuid, newAppointmentDetails) => {
-        let updatedPatientData = allPatientsData.map(patient => {
-            if (patient.uuid == uuid && patient.appointments) {
-                return {
-                    ...patient, appointments: [
-                        ...patient.appointments, newAppointmentDetails
-                    ]
+    // runs only for adding new appointment
+    useEffect(() => {
+        // add new appointment details to patient data
+        const addNewAppointment = (uuid, newAppointmentDetails) => {
+            let updatedPatientData = allPatientsData.map(patient => {
+                if (patient.uuid == uuid && patient.appointments) {
+                    return {
+                        ...patient, appointments: [
+                            ...patient.appointments, newAppointmentDetails
+                        ]
+                    }
                 }
-            }
-            return patient
-        })
-        // update asyncstorage
-        console.log("updatedPatientData ", updatedPatientData);
-        // add updated patient data to user
-        let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
-        // add updated user to all data
-        let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
+                return patient
+            })
+            // update asyncstorage
+            console.log("updatedPatientData ", updatedPatientData);
+            // add updated patient data to user
+            let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
+            // add updated user to all data
+            let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
 
-        // util: update entire global users
-        updateGlobalUsersAsync(updatedAllUsersData)
-    }
+            // util: update entire global users
+            updateGlobalUsersAsync(updatedAllUsersData)
+        }
 
-    // only runs if routed from add appointments
-    if (route.params) {
-        addNewAppointment("", route.params.appointmentDetails)
-    }
+        // only runs if routed from add appointments
+        if (route.params) {
+            addNewAppointment(route.params.patientUuid, route.params.newAppointmentDetails)
+        }
+    }, [route.params])
     // ------------------------------------------------- //
     // ------------------------------------------------- //
     // ------------------------------------------------- //

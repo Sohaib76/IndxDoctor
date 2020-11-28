@@ -11,11 +11,9 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import { RadioButton } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
+const uuid = require("react-native-uuid")
 
-export default function AddAppointment({ navigation }) {
-
-
-
+export default function AddAppointment({ navigation, route }) {
     // This data will be given to backend
 
     // Will Decide More after selecting Calendar
@@ -24,7 +22,6 @@ export default function AddAppointment({ navigation }) {
     // const [appointment, setappointmen] = useState("6/12/2019")
 
     const [appointmentTime, setappointmentTime] = useState("TAP TO CHANGE")
-
 
     //This data will be fetched
     const [lastAppointment, setlastAppointment] = useState("6 months ago")
@@ -36,8 +33,6 @@ export default function AddAppointment({ navigation }) {
     const [appointmentDate, setappointmentDate] = useState("6")
     const [appointmentMonth, setappointmentMonth] = useState("December")
     const [appointmentWeekDay, setappointmentWeekDay] = useState("Monday")
-
-
 
     //Normal
     const [timeshower, settimeshower] = useState(false)
@@ -51,7 +46,7 @@ export default function AddAppointment({ navigation }) {
     //set it to default, same as appointment details, 
     //or disable btn unless both are not set
     const setDate = (d) => {
-        console.log(d.startDate);
+        // console.log(d.startDate);
         var ds = JSON.stringify(d.startDate)
         var year = ds.substr(0, 5)
         var month = ds.substr(6, 2)
@@ -67,7 +62,7 @@ export default function AddAppointment({ navigation }) {
         weekday[6] = "Saturday";
 
         var weekn = weekday[d.startDate.getDay()];
-        console.log(year, month, day, weekn);
+        // console.log(year, month, day, weekn);
 
         var month = new Array();
         month[0] = "January";
@@ -92,6 +87,21 @@ export default function AddAppointment({ navigation }) {
 
     }
 
+
+    const handleAddAppointment = () => {
+        const newAppointmentDetails = {
+            time: appointmentTime,
+            day: appointmentWeekDay,
+            date: appointmentDate,
+            month: appointmentMonth,
+            uuid: uuid.v4()
+        }
+        alert("Appointment Added!")
+        navigation.navigate("PatientList", {
+            patientUuid: route.params.patientUuid,
+            newAppointmentDetails
+        })
+    }
 
     useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -370,7 +380,7 @@ export default function AddAppointment({ navigation }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    disabled={doneDate && doneTime ? false : true}
+                    // disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',
                         padding: 16
@@ -387,7 +397,10 @@ export default function AddAppointment({ navigation }) {
                         fontWeight: 'bold'
                     }}
                     title="FINISH APPOINTMENT"
-                    onPress={() => navigation.navigate("HomeScreen")}
+                    onPress={() =>
+                        handleAddAppointment()
+                        // navigation.navigate("HomeScreen")
+                    }
                 />
             </ScrollView>
 
