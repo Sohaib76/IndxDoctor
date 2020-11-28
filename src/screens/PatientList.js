@@ -41,6 +41,9 @@ export default function ({ navigation, route }) {
     const [usersData, setallusersData] = useState({})
     const [allPatientsData, setAllpatientsData] = useState([])
 
+    // for overlay
+    const [overlayOn, setoverlayOn] = useState("")
+
     const onChangeSearch = query => setSearchQuery(query);
 
     // ------------------------------------------------------------------------------------------------ //
@@ -144,7 +147,7 @@ export default function ({ navigation, route }) {
         </View>
     );
 
-    const Overlay = (props) => {
+    const Overlay = (l) => {
         return (
             <View style={{
                 // top: props.id * 75,
@@ -154,7 +157,17 @@ export default function ({ navigation, route }) {
                 // opacity: opaq ? 0.5 : 0,
                 height: "100%"
             }}>
-                <View></View>
+                <View>
+                    <Text
+                        onPress={() => navigation.navigate("AddAppointment", {
+                            // passing patient uuid for appointment data recieving
+                            patientUuid: l.uuid,
+                            patientDetails: getPatientDetails(l.uuid)
+                        })}
+                    >
+                        Add Appointment
+                    </Text>
+                </View>
 
             </View>
         )
@@ -212,11 +225,19 @@ export default function ({ navigation, route }) {
 
                             <View key={i}>
                                 <ListItem
-                                    onPress={() => navigation.navigate("AddAppointment", {
-                                        // passing patient uuid for appointment data recieving
-                                        patientUuid: l.uuid,
-                                        patientDetails: getPatientDetails(l.uuid)
-                                    })}
+                                    onLongPress={
+                                        () => {
+                                            setoverlayOn(l.uuid)
+                                            setTimeout(() => {
+                                                setoverlayOn("")
+                                            }, 1000)
+                                        }
+                                    }
+                                    // onPress={() => navigation.navigate("AddAppointment", {
+                                    //     // passing patient uuid for appointment data recieving
+                                    //     patientUuid: l.uuid,
+                                    //     patientDetails: getPatientDetails(l.uuid)
+                                    // })}
                                     containerStyle={{
                                         paddingTop: 20, paddingBottom: 20
                                     }} bottomDivider>
@@ -224,10 +245,10 @@ export default function ({ navigation, route }) {
                                     <ListItem.Content>
                                         <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.fullname}</ListItem.Title>
                                     </ListItem.Content>
-
-
                                 </ListItem>
-                                {/* <Overlay id={l.uuid} /> */}
+                                {
+                                    overlayOn == l.uuid ? (<Overlay id={l} />) : (null)
+                                }
                             </View>
 
                         ))
