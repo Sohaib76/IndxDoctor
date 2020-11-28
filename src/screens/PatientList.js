@@ -4,11 +4,16 @@ import { getUserData } from "../utils/GetAsyncData"
 import { Button, colors, Header, Icon } from 'react-native-elements';
 import { Portal, Searchbar, Provider, Divider } from 'react-native-paper';
 import { ListItem, Avatar } from 'react-native-elements'
+import { Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 
 
 
 
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
+import { ScrollView } from 'react-native-gesture-handler';
 
 // for dev purpose only
 const dummyUuid = "c9464676-adfb-4c8c-9be1-197369a7d10e"
@@ -28,6 +33,9 @@ export default function ({ navigation, route }) {
     // Give Image??
     //pop up mashwara (is clicked)
     //Rerenders , Infinite loop Errors
+    const [filteredpatientsNameList, setfilteredpatientsNameList] = useState([])
+
+
     // const [opaq, setopaq] = useState(false)
     // User Data : This is to be decide
     //list of objects containing >> Patient Image, firstname, lastname, uuid
@@ -40,7 +48,6 @@ export default function ({ navigation, route }) {
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
     const [allPatientsData, setAllpatientsData] = useState([])
-
     // for overlay
     const [overlayOn, setoverlayOn] = useState("")
 
@@ -168,8 +175,6 @@ export default function ({ navigation, route }) {
                         Add Appointment
                     </Text>
                 </View>
-
-            </View>
         )
     }
 
