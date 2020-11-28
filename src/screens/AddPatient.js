@@ -6,6 +6,7 @@ import {
     widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { getUserData } from "../utils/GetAsyncData"
+import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -55,17 +56,10 @@ export default function AddPatient({ navigation }) {
         currentUser = {
             ...currentUser, patients: [...currentUser.patients, finalState]
         }
-        console.log(addPatientState);
+        console.log("Add patient file:: new patient: ", addPatientState);
         const updatedUserData = { ...allusersData, [username]: currentUser }
-        const addUserAsync = async () => {
-            try {
-                await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
-            }
-            catch (e) {
-                console.log(e);
-            }
-        }
-        addUserAsync()
+        // update entire global users
+        updateGlobalUsersAsync(updatedUserData)
     }
 
     const Counter = (count) => {
