@@ -81,7 +81,9 @@ export default function LoginScreen({ navigation }) {
     var userLoggedIn = Object.keys(tempAsync).find(function (user) {
       return user == username;
     });
-
+    // set dummy data if data doesnt exist
+    setdummydata()
+    
     // user available confimed
     if (userLoggedIn) {
       // match pwd

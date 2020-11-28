@@ -9,6 +9,6 @@ export const getUserData = async (stateHandler, getItemList) => {
         stateHandler[1](JSON.parse(asyncData[1][1]))
         // console.log();
     } catch (e) {
-        console.log(e);
+        console.log("not found:", e);
     }
 }

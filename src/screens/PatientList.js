@@ -15,6 +15,9 @@ import { Feather } from '@expo/vector-icons';
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 import { ScrollView } from 'react-native-gesture-handler';
 
+// for dev purpose only
+const dummyUuid = "c9464676-adfb-4c8c-9be1-197369a7d10e"
+
 export default function ({ navigation, route }) {
     //-------------------
 
@@ -25,13 +28,15 @@ export default function ({ navigation, route }) {
     // Fetched
     const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
 
+    //What if first time, dummy for test
+    //Search, touch view myself
+    // Give Image??
+    //pop up mashwara (is clicked)
+    //Rerenders , Infinite loop Errors
     const [filteredpatientsNameList, setfilteredpatientsNameList] = useState([])
 
 
     // const [opaq, setopaq] = useState(false)
-
-
-
     // User Data : This is to be decide
     //list of objects containing >> Patient Image, firstname, lastname, uuid
     //now igno sections
@@ -42,151 +47,25 @@ export default function ({ navigation, route }) {
 
     const [username, setusername] = useState(null)
     const [usersData, setallusersData] = useState({})
-
-    const onChangeSearch = query => {
-        setSearchQuery(query);
-        var t = list.filter((x) => (
-            x.name.includes(searchQuery)
-
-        ))
-        console.log(t);
-        setfilteredpatientsNameList(List(t))
-    }
-
-
-    const DATA = [
-        {
-            title: "A",
-            data: ["Ali", "Amir", "Aka"]
-        },
-        {
-            title: "B",
-            data: ["Bobby", "Baby", "Bonds"]
-        },
-        {
-            title: "C",
-            data: ["Caster", "Caler", "Carter"]
-        },
-    ];
-
-    const list = [
-        {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        },
-        {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        },
-        {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        }, {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        }, {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        }, {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        }, {
-            popupShow: true,
-            name: 'Amy Farha',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-
-        },
-        {
-            popupShow: false,
-            name: 'Chris Jackson',
-            avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-
-        },
-        // ... // more items
-    ]
-
-
     const [allPatientsData, setAllpatientsData] = useState([])
+    // for overlay
+    const [overlayOn, setoverlayOn] = useState("")
 
-    // data looks like this now
-    // allpatientdata = [   // appointment[{id:,done,date,time}]
-    //     {
-    //         address: 'add', firstname, "f1",
-    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
-    //     },
-    //     {
-    //         address: 'add', firstname, "f1",
-    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
-    //     },
-    //     {
-    //         address: 'add', firstname, "f1",
-    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
-    //     },
-    //     {
-    //         address: 'add', firstname, "f1",
-    //         lastname: "123", phone: "123", uuid: "12kas-asdjk", appointments: []
-    //     },
-    // ]
+    const onChangeSearch = query => setSearchQuery(query);
 
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
+    // ------------------------------------------------------------------------------------------------ //
+    // ------------------------------------------------------------------------------------------------ //
+    // ------------------------------------------------------------------------------------------------ //
+    // ------------------------------------------------------------------------------------------------ //
 
     // for opening patient detials (page 40)
-    const showPatientDetails = (uuid) => {
+    const getPatientDetails = (uuid) => {
         // accepts patient uuid and returns complted info
-        return allPatientsData.find(patient => {
+        const a = allPatientsData.find(patient => {
             return patient.uuid == uuid
         })
+        console.log(a);
+        return a
     }
 
     // returns all appointments on a date/day
@@ -211,6 +90,11 @@ export default function ({ navigation, route }) {
         const addNewAppointment = (uuid, newAppointmentDetails) => {
             let updatedPatientData = allPatientsData.map(patient => {
                 if (patient.uuid == uuid && patient.appointments) {
+                    // if (patient.appointments.length > 1) {
+                    //     let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
+                    //     sortedAppointmentList.sort(function (a, b) { return a["fulldate"].localeCompare(b["fulldate"]); });
+                    //     console.log("sortedAppointmentList", sortedAppointmentList);
+                    // }
                     return {
                         ...patient, appointments: [
                             ...patient.appointments, newAppointmentDetails
@@ -219,13 +103,11 @@ export default function ({ navigation, route }) {
                 }
                 return patient
             })
-            // update asyncstorage
-            console.log("updatedPatientData ", updatedPatientData);
+            console.log("updatedPatientData", updatedPatientData);
             // add updated patient data to user
             let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
             // add updated user to all data
             let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
-
             // util: update entire global users
             updateGlobalUsersAsync(updatedAllUsersData)
         }
@@ -235,38 +117,36 @@ export default function ({ navigation, route }) {
             addNewAppointment(route.params.patientUuid, route.params.newAppointmentDetails)
         }
     }, [route.params])
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
-    // ------------------------------------------------- //
+    // ------------------------------------------------------------------------------------------------------------------- //
+    // ------------------------------------------------------------------------------------------------------------------- //
+    // ------------------------------------------------------------------------------------------------------------------- //
+    // ------------------------------------------------------------------------------------------------------------------- //
 
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
-    //Commented bcz code explodes ,ask anees
-    // useEffect(() => {
-    //     if (username && usersData) {
-    //         let patientsDataList = usersData[username].patients
-    //         patientsDataList = patientsDataList.map(patient => {
-    //             return {
-    //                 ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-    //             }
-    //         })
-    //         // all data (not for list)
-    //         setAllpatientsData(patientsDataList)
-    //         // console.log(patientsDataList);
-    //         let sortedPatientList = patientsDataList.map(patient => {
-    //             return {
-    //                 fullname: patient.fullname,
-    //                 uuid: patient.uuid
-    //             }
-    //         })
-    //         sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-    //         // segmented list
-    //         // list to be displayed (use this)
-    //         setpatientsNameList(sortedPatientList)
-    //     }
-    // }, [usersData, username])
+    // working
+    useEffect(() => {
+        if (username && usersData) {
+            let patientsDataList = usersData[username].patients
+            patientsDataList = patientsDataList.map(patient => {
+                return {
+                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+                }
+            })
+            // all data (not for list)
+            setAllpatientsData(patientsDataList)
+            let sortedPatientList = patientsDataList.map(patient => {
+                return {
+                    fullname: patient.fullname,
+                    uuid: patient.uuid
+                }
+            })
+            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+            // segmented list
+            setpatientsNameList(sortedPatientList)
+        }
+    }, [usersData, username])
 
     const Item = ({ title }) => (
         <View style={styles.item}>
@@ -274,23 +154,27 @@ export default function ({ navigation, route }) {
         </View>
     );
 
-    const Overlay = (props) => {
-
+    const Overlay = (l) => {
         return (
-
-            <Pressable
-                onPress={() => props.popupShow = !props.popupShow}
-                style={{
-                    // top: props.id * 75,
-                    position: "absolute",
-                    backgroundColor: 'teal', width: '100%',
-                    //height: `${100 / list.length}%`,
-                    opacity: props.popupShow ? 0.5 : 0,
-                    height: "100%"
-                }}>
-                <View></View>
-
-            </Pressable>
+            <View style={{
+                // top: props.id * 75,
+                position: "absolute",
+                backgroundColor: 'teal', width: '100%',
+                //height: `${100 / list.length}%`,
+                // opacity: opaq ? 0.5 : 0,
+                height: "100%"
+            }}>
+                <View>
+                    <Text
+                        onPress={() => navigation.navigate("AddAppointment", {
+                            // passing patient uuid for appointment data recieving
+                            patientUuid: l.uuid,
+                            patientDetails: getPatientDetails(l.uuid)
+                        })}
+                    >
+                        Add Appointment
+                    </Text>
+                </View>
         )
     }
 
@@ -339,125 +223,51 @@ export default function ({ navigation, route }) {
                 />
             </View>
             <Divider />
-            {/* <Button
-                containerStyle={{ marginBottom: 20 }}
-                title="+ Add New Patient"
-                onPress={() => navigation.navigate("AddPatient")}
-
-            /> */}
-
-            <ScrollView>
+            <View>
                 {
-                    list.map((l, i) => (
+                    patientsNameList.length ? (
+                        patientsNameList.map((l, i) => (
 
-                        // <Pressable
+                            <View key={i}>
+                                <ListItem
+                                    onLongPress={
+                                        () => {
+                                            setoverlayOn(l.uuid)
+                                            setTimeout(() => {
+                                                setoverlayOn("")
+                                            }, 1000)
+                                        }
+                                    }
+                                    // onPress={() => navigation.navigate("AddAppointment", {
+                                    //     // passing patient uuid for appointment data recieving
+                                    //     patientUuid: l.uuid,
+                                    //     patientDetails: getPatientDetails(l.uuid)
+                                    // })}
+                                    containerStyle={{
+                                        paddingTop: 20, paddingBottom: 20
+                                    }} bottomDivider>
+                                    <Avatar source={{ uri: l.avatar_url }} rounded />
+                                    <ListItem.Content>
+                                        <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.fullname}</ListItem.Title>
+                                    </ListItem.Content>
+                                </ListItem>
+                                {
+                                    overlayOn == l.uuid ? (<Overlay id={l} />) : (null)
+                                }
+                            </View>
 
-                        //     onPress={showOverlay(i)}
-                        //      >
-                        <View key={i}>
-                            <ListItem onPress={
-                                () => alert(l.id),
-                                l.popupShow = !l.popupShow
-                                // setopaq(true)
+                        ))
 
-                            } containerStyle={{
-                                paddingTop: 20, paddingBottom: 20
-                            }} bottomDivider>
-                                <Avatar source={{ uri: l.avatar_url }} rounded />
-                                <ListItem.Content>
-                                    <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.name}</ListItem.Title>
-                                </ListItem.Content>
-                                <ListItem.Content style={{
-                                    justifyContent: 'space-between',
-                                    flexDirection: 'row'
-                                }}>
-                                    <Feather
-                                        onPress={() => alert("Call")}
-                                        name="phone-call" size={24} color="black" />
-                                    <Octicons name="calendar" size={24} color="black"
-                                        onPress={() => navigation.navigate("AddAppointment", {
-                                            // passing patient uuid for appointment data recieving
-                                            patientUuid: "dummy-uuid"
-                                        })}
-                                    />
-                                    <Ionicons name="md-person" size={24} color="black"
-                                        onPress={() => navigation.navigate("PatientDetail", {
-                                            // passing patient uuid for appointment data recieving
-                                            patientUuid: "dummy-uuid"
-                                        })}
-                                    />
-                                    <MaterialCommunityIcons
-                                        onPress={() => alert("Document")}
-                                        name="file-document-edit" size={24} color="black" />
-                                </ListItem.Content>
-
-                            </ListItem>
-                            {/* <Overlay popupShow={l.popupShow} /> */}
-                        </View>
-
-
-
-                        // </Pressable>
-
-
-                    ))
-
+                    ) : (
+                            <View>
+                                <Text>
+                                    No patients
+                                </Text>
+                            </View>
+                        )
                 }
 
-
-                <View style={{
-
-                    padding: 40,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    // position: 'absolute', bottom: 0
-                }}>
-                    <Text style={{
-                        fontSize: 20, fontWeight: 'bold', color: 'grey'
-                    }}>{totalPatients} Patients</Text>
-                </View>
-
-            </ScrollView >
-            {/* <View style={styles.container}> */}
-            {/* 
-                <SectionList
-                    sections={DATA}
-                    keyExtractor={(item, index) => item + index}
-                    renderItem={({ item }) =>
-                        <View >
-                            <Item
-
-                                title={item} />
-                            <Text
-                                onPress={() => navigation.navigate("AddAppointment", {
-                                    // passing patient uuid for appointment data recieving
-                                    patientUuid: "dummy-uuid"
-                                })}
-                                style={{ position: 'absolute', top: 35, right: 100 }}>Set appointment</Text>
-                            <Text
-                                onPress={() => navigation.navigate("PatientDetail")}
-                                style={{ position: 'absolute', top: 35, right: 20 }}>Patient Info</Text>
-                        </View>
-
-
-                    }
-                    renderSectionHeader={({ section: { title } }) => (
-
-                        <Text style={styles.header}>
-                            {title}
-                        </Text>
-
-
-                    )}
-                /> */}
-
-
-            {/* <Pressable
-                    style={{ margin: 20, height: 20 }}
-                    onPress={() => navigation.navigate("HomeScreen")}><Text>Back To Home</Text>
-                </Pressable>
-            </View > */}
-
+            </View >
         </Provider >
     )
 }

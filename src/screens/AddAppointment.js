@@ -12,10 +12,11 @@ import { RadioButton } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
 const uuid = require("react-native-uuid")
+// import moment from 'moment'
+
 
 export default function AddAppointment({ navigation, route }) {
     // This data will be given to backend
-
     // Will Decide More after selecting Calendar
     //https://github.com/amhinson/react-native-calendar
     //https://react-native-components.gitbook.io/calendar/
@@ -29,6 +30,7 @@ export default function AddAppointment({ navigation, route }) {
     const [lastname, setlastname] = useState("Dela Costa")
     const [image, setimage] = useState('https://reactnative.dev/img/tiny_logo.png')
 
+
     //Will be fetched locally
     const [appointmentDate, setappointmentDate] = useState("6")
     const [appointmentMonth, setappointmentMonth] = useState("December")
@@ -36,19 +38,16 @@ export default function AddAppointment({ navigation, route }) {
 
     //Normal
     const [timeshower, settimeshower] = useState(false)
-    //const [value, setValue] = useState('first');
     const [doneDate, setdoneDate] = useState(false)
     const [doneTime, setdoneTime] = useState(false)
     // const [timeStr, settimeStr] = useState("TAP TO CHANGE")
-
 
     //In finish appintment func check if appointmentTime not set 
     //set it to default, same as appointment details, 
     //or disable btn unless both are not set
     const setDate = (d) => {
-        // console.log(d.startDate);
         var ds = JSON.stringify(d.startDate)
-        var year = ds.substr(0, 5)
+        var year = ds.substr(1, 4)
         var month = ds.substr(6, 2)
         var day = JSON.stringify(Number(ds.substr(9, 2)) + 1)
 
@@ -62,7 +61,6 @@ export default function AddAppointment({ navigation, route }) {
         weekday[6] = "Saturday";
 
         var weekn = weekday[d.startDate.getDay()];
-        // console.log(year, month, day, weekn);
 
         var month = new Array();
         month[0] = "January";
@@ -79,14 +77,12 @@ export default function AddAppointment({ navigation, route }) {
         month[11] = "December";
         var monthn = month[d.startDate.getMonth()];
 
+        // setfulldate(year)
         setappointmentMonth(monthn)
         setappointmentDate(day)
         setappointmentWeekDay(weekn)
-
         setdoneDate(true)
-
     }
-
 
     const handleAddAppointment = () => {
         const newAppointmentDetails = {
@@ -94,7 +90,8 @@ export default function AddAppointment({ navigation, route }) {
             day: appointmentWeekDay,
             date: appointmentDate,
             month: appointmentMonth,
-            uuid: uuid.v4()
+            uuid: uuid.v4(),
+            // fulldate: new Date()
         }
         alert("Appointment Added!")
         navigation.navigate("PatientList", {
@@ -103,8 +100,39 @@ export default function AddAppointment({ navigation, route }) {
         })
     }
 
+    const getLastAppointment = (allAppointments) => {
+        if (allAppointments.length > 1) {
+            let lastUuid = ""
+            let lastDate;
+            let today = new Date()
+            allAppointments.forEach((appntmnt, i) => {
+                let adate = new Date(appntmnt.fulldate)
+                if (i == 0) {
+                    lastDate = adate
+                    lastUuid = appntmnt.uuid
+                }
+                if (i > 0 && adate > lastDate) {
+                    lastUuid = appntmnt.uuid
+                    lastDate = adate
+                }
+            })
+            const diffTime = Math.abs(today - lastDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            // return `${diffDays} days`
+            return lastDate.toDateString()
+        }
+        return "NA"
+    }
+
     useEffect(() => {
         LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+        // set patient details
+        // more to come here
+        if (route.params.patientDetails) {
+            setfirstname(route.params.patientDetails.firstname)
+            setlastname(route.params.patientDetails.lastname)
+            // setlastAppointment(getLastAppointment(route.params.patientDetails.appointments))
+        }
     }, [])
 
     return (
@@ -122,11 +150,6 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 centerComponent={{ text: 'Add Appointment', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
             />
-            {/* <Button
-                containerStyle={{ marginBottom: 300 }}
-                title="Tap to Change Patient"
-                onPress={() => navigation.navigate("PatientList")}
-            /> */}
             <ScrollView>
 
                 <Text style={{
@@ -157,30 +180,6 @@ export default function AddAppointment({ navigation, route }) {
                             style={{ color: 'darkblue' }}>Tap to change Patient</Text>
                     </View>
                 </Surface>
-                {/* 
-            <Calendar
-                currentMonth={'2015-08-01'}       // Optional date to set the currently displayed month after initialization
-                customStyle={{ day: { fontSize: 15, textAlign: 'center' } }} // Customize any pre-defined styles
-                dayHeadings={Array}               // Default: ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-                eventDates={['2015-07-01']}       // Optional array of moment() parseable dates that will show an event indicator
-                // events={[{ date: '2015-07-01' }]}// Optional array of event objects with a date property and custom styles for the event indicator
-                monthNames={Array}                // Defaults to english names of months
-                nextButtonText={'Next'}           // Text for next button. Default: 'Next'
-                onDateSelect={(date) => this.onDateSelect(date)} // Callback after date selection
-                //onSwipeNext={this.onSwipeNext}    // Callback for forward swipe event
-                //onSwipePrev={this.onSwipePrev}    // Callback for back swipe event
-                //onTouchNext={this.onTouchNext}    // Callback for next touch event
-                //onTouchPrev={this.onTouchPrev}    // Callback for prev touch event
-                prevButtonText={'Prev'}           // Text for previous button. Default: 'Prev'
-                scrollEnabled={true}              // False disables swiping. Default: False
-                selectedDate={'2015-08-15'}       // Day to be selected
-                showControls={true}               // False hides prev/next buttons. Default: False
-                showEventIndicators={true}        // False hides event indicators. Default:False
-                startDate={'2015-08-01'}          // The first month that will display. Default: current month
-                titleFormat={'MMMM YYYY'}         // Format for displaying current month. Default: 'MMMM YYYY'
-                today={'2017-05-16'}              // Defaults to today
-                weekStart={1} // Day on which week starts 0 - Sunday, 1 - Monday, 2 - Tuesday, etc, Default: 1
-            /> */}
                 <Text style={{
                     color: 'grey', margin: 25, marginBottom: 0
                 }}>SET DATE OF APPOINTMENT</Text>
@@ -191,10 +190,11 @@ export default function AddAppointment({ navigation, route }) {
 
                         numberOfMonths={2}
                         disableRange={true}
-                        onChange={(range) => setDate(range)}
+                        onChange={(range) => {
+                            setDate(range)
+                        }
+                        }
                         minDate={new Date(2018, 3, 20)}
-                        // startDate={new Date(2018, 3, 30)}
-                        // endDate={new Date(2018, 4, 5)}
                         theme={{
                             activeDayColor: {},
                             monthContainerStyle: {
@@ -380,7 +380,7 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    disabled={doneDate && doneTime ? false : true}
+                    // disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',
                         padding: 16
@@ -399,7 +399,6 @@ export default function AddAppointment({ navigation, route }) {
                     title="FINISH APPOINTMENT"
                     onPress={() =>
                         handleAddAppointment()
-                        // navigation.navigate("HomeScreen")
                     }
                 />
             </ScrollView>
