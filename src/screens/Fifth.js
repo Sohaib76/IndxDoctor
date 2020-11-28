@@ -168,7 +168,7 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
           <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => ScreenCounter(6)}>
+        <TouchableOpacity onPress={() => ScreenCounter(6)} disabled={true}>
           <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
         </TouchableOpacity>
       </View>

@@ -13,6 +13,10 @@ export default function ({ navigation, route }) {
     // To Fetch
     const [totalPatients, settotalPatients] = useState("120")
 
+    // Fetched
+    const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
+
+
     // User Data : This is to be decide
     //list of objects containing >> Patient Image, firstname, lastname, uuid
     //now igno sections
@@ -41,7 +45,6 @@ export default function ({ navigation, route }) {
         },
     ];
 
-    const [patientsNameList, setpatientsNameList] = useState([])  //use this [{}] uuid key, patient name
     const [allPatientsData, setAllpatientsData] = useState([])
 
     // data looks like this now

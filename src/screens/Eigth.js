@@ -74,7 +74,7 @@ export default function Eigth({ ScreenCounter, signupState, setsignUpState }) {
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => ScreenCounter(9)}>
+          <TouchableOpacity onPress={() => ScreenCounter(9)} disabled={true}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>

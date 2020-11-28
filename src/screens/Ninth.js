@@ -102,7 +102,7 @@ const Ninth = ({ ScreenCounter, signupState, setsignUpState }) => {
             <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => ScreenCounter(10)}>
+          <TouchableOpacity onPress={() => ScreenCounter(10)} disabled={true}>
             <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>
