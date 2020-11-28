@@ -1,12 +1,34 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Button, Image, Pressable } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { color } from 'react-native-reanimated';
 import Colors from '../config/colors';
 import { AntDesign } from '@expo/vector-icons';
 import NavigationComponent from './NavigationComponent';
+import { getUserData } from "../utils/GetAsyncData"
 
 export default function CustomDrawerContent({ navigation }) {
+
+
+    const [allUsersData, setallusersData] = useState({})
+    const [username, setusername] = useState("")
+
+    const [avataruri, setavataruri] = useState("")
+    const [fullname, setfullname] = useState("")
+    const [firstname, setfirstname] = useState("")
+    const [email, setemail] = useState("dummy@gmail.com")
+
+    useEffect(() => {
+        getUserData([setallusersData, setusername], ["globalUsers", "username"])
+        if (username && allUsersData) {
+            // console.log("uri: ", allUsersData[username]);
+            setavataruri(allUsersData[username].imageuri)
+            const fllnm = `${allUsersData[username].firstname} ${allUsersData[username].lastname} `
+            setfullname(fllnm)
+            setfirstname(allUsersData[username].firstname)
+        }
+    }, [])
+
     return (
         <View style={{ backgroundColor: Colors.background }}>
             <View style={{
@@ -24,7 +46,7 @@ export default function CustomDrawerContent({ navigation }) {
                     <Text style={{
                         fontSize: 20,
                         fontWeight: 'bold', color: Colors.darkGreen
-                    }}>Alexander!</Text>
+                    }}>{firstname}</Text>
                 </View>
                 <View style={{ flexDirection: "row" }}>
 
@@ -32,7 +54,7 @@ export default function CustomDrawerContent({ navigation }) {
 
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 40 }}
-                            source={{ uri: "https://reactnative.dev/img/tiny_logo.png" }} />
+                            source={{ uri: avataruri }} />
                     </View>
 
                     <View style={{
@@ -42,17 +64,17 @@ export default function CustomDrawerContent({ navigation }) {
                         <Text style={{
                             fontSize: 18
                             , marginBottom: 8
-                        }}>Alexander Dela Costa</Text>
+                        }}>{fullname}</Text>
                         <Text style={{
                             color: Colors.lightGray,
                             fontSize: 18, marginBottom: 8
-                        }}>Lexander@gmail.com</Text>
+                        }}>{email}</Text>
                         <Pressable ><Text style={{
                             fontSize: 18
                             , color: Colors.darkGreen
                             , marginBottom: 10,
                             fontWeight: "bold"
-                        }}>Edit Profile ></Text></Pressable>
+                        }}>Edit Profile </Text></Pressable>
                     </View>
                 </View>
             </View>
@@ -63,11 +85,11 @@ export default function CustomDrawerContent({ navigation }) {
 
                 }}>
                 <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeStack"} />
-                <NavigationComponent name={"Process Payment"} navigation={navigation} />
                 <NavigationComponent name={"Set Appoinment"} navigation={navigation} where={"AddAppointmentMain"} />
                 <NavigationComponent name={"Add Patient"} navigation={navigation} where={"AddPatientMain"} />
-                <NavigationComponent name={"Calendar"} navigation={navigation} />
                 <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />
+                <NavigationComponent name={"Calendar"} navigation={navigation} />
+                <NavigationComponent name={"Process Payment"} navigation={navigation} />
                 {/* <NavigationComponent />
                 <NavigationComponent />
                 <NavigationComponent />

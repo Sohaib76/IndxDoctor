@@ -39,8 +39,8 @@ export default Eleventh = (props) => {
       alert("Please select Any Picture");
     } else {
       setImage(result.uri);
-      props.setsignUpState({ photoUri: result.uri })
-      props.registerUser()
+      // props.setsignUpState({ photoUri: result.uri })
+      props.registerUser(result.uri)
     }
   };
 

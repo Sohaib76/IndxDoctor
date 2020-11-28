@@ -32,6 +32,7 @@ export default function LoginScreen({ navigation }) {
   let tempAsync;
   // empty async storage
   const clearAsyncStorage = async () => {
+    alert("Storage cleared")
     AsyncStorage.clear();
   }
 
@@ -43,11 +44,6 @@ export default function LoginScreen({ navigation }) {
   // }
   // ----------------
 
-  useEffect(() => {
-    // test()
-    // setdummydata()
-  }, [])
-
   const handleUsername = text => {
     setusername(text)
   };
@@ -55,35 +51,84 @@ export default function LoginScreen({ navigation }) {
     setpassword(text)
   };
 
+  const [globalData, setglobalData] = useState({})
+  useEffect(() => {
+    const getGlobalData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("globalUsers")
+        let userdata = JSON.parse(jsonValue)
+        if (!userdata) {
+          setglobalData({
+            "admin": {
+              password: "pass",
+              profession: "dentist",
+              patients: [],
+              imageuri: "",
+              firtname: "admin",
+              lastname: "Last"
+            },
+            "ben": {
+              password: "benpass",
+              profession: "receptionist",
+              patients: [],
+              imageuri: "",
+              firtname: "ben",
+              lastname: "eater"
+            },
+            "sohaib": {
+              password: "123",
+              profession: "BME",
+              patients: [],
+              imageuri: "",
+              firtname: "sohaib",
+              lastname: "zafar"
+            }
+          })
+          console.log("no user, setting dummy data");
+          setdummydata()
+        } else {
+          setglobalData(userdata)
+          console.log("got user data", userdata);
+        }
+      } catch (e) {
+        console.log("error from login", e);
+      }
+    }
+    getGlobalData()
+  }, [])
+
   const login = async () => {
-    const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
-      console.log("login: ", err, rslt);
-    }))
-    if (jsonValue != null) {
-      tempAsync = JSON.parse(jsonValue)
+    // const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
+    //   console.log("login: ", err, rslt);
+    // }))
+    if (globalData != null) {
+      tempAsync = globalData
     }
     else {
       // dummy data
       tempAsync = {
         "admin": {
           password: "pass",
-          role: "dentist",
-          patiens: []
+          profession: "dentist",
+          patients: []
         },
         "ben": {
           password: "benpass",
-          role: "receptionist",
-          patiens: []
+          profession: "receptionist",
+          patients: []
         },
+        "sohaib": {
+          password: "123",
+          profession: "BME",
+          patients: []
+        }
       }
     }
     // auth username
     var userLoggedIn = Object.keys(tempAsync).find(function (user) {
       return user == username;
     });
-    // set dummy data if data doesnt exist
-    setdummydata()
-    
+
     // user available confimed
     if (userLoggedIn) {
       // match pwd
@@ -109,7 +154,7 @@ export default function LoginScreen({ navigation }) {
     try {
       await AsyncStorage.multiSet([['isLoggedIn', "1"],
       ["username", JSON.stringify(username)]], ((err) => {
-        console.log("2nd");
+        // console.log("2nd");
       }));
     } catch (e) {
       // saving error

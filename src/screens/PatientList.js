@@ -175,7 +175,6 @@ export default function ({ navigation, route }) {
 
     const showOverlay = (i) => {
         console.log(i);
-
     }
 
     return (
@@ -222,7 +221,6 @@ export default function ({ navigation, route }) {
                 {
                     patientsNameList.length ? (
                         patientsNameList.map((l, i) => (
-
                             <View key={i}>
                                 <ListItem
                                     onLongPress={
