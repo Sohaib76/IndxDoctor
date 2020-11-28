@@ -5,17 +5,17 @@ export const setdummydata = async () => {
         {
             "admin": {
                 password: "pass",
-                role: "dentist",
+                profession: "dentist",
                 patients: []
             },
             "ben": {
                 password: "benpass",
-                role: "receptionist",
+                profession: "receptionist",
                 patients: []
             },
             "sohaib": {
                 password: "123",
-                role: "BME",
+                profession: "BME",
                 patients: []
             }
         }
