@@ -40,7 +40,7 @@ export default function AddAppointment({ navigation, route }) {
     const [doneDate, setdoneDate] = useState(false)
     const [doneTime, setdoneTime] = useState(false)
     // const [timeStr, settimeStr] = useState("TAP TO CHANGE")
-
+    const [fulldate, setfulldate] = setfulldate("")
 
     //In finish appintment func check if appointmentTime not set 
     //set it to default, same as appointment details, 
@@ -94,13 +94,14 @@ export default function AddAppointment({ navigation, route }) {
             day: appointmentWeekDay,
             date: appointmentDate,
             month: appointmentMonth,
-            uuid: uuid.v4()
+            uuid: uuid.v4(),
+            fulldate
         }
-        alert("Appointment Added!")
-        navigation.navigate("PatientList", {
-            patientUuid: route.params.patientUuid,
-            newAppointmentDetails
-        })
+        // alert("Appointment Added!", fulldate)
+        // navigation.navigate("PatientList", {
+        //     patientUuid: route.params.patientUuid,
+        //     newAppointmentDetails
+        // })
     }
 
     useEffect(() => {
@@ -191,7 +192,11 @@ export default function AddAppointment({ navigation, route }) {
 
                         numberOfMonths={2}
                         disableRange={true}
-                        onChange={(range) => setDate(range)}
+                        onChange={(range) => {
+                            setfulldate(range.startDate)
+                            setDate(range)
+                        }
+                        }
                         minDate={new Date(2018, 3, 20)}
                         // startDate={new Date(2018, 3, 30)}
                         // endDate={new Date(2018, 4, 5)}
