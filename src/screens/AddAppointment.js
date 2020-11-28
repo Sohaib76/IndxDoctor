@@ -380,7 +380,7 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    // disabled={doneDate && doneTime ? false : true}
+                    disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',
                         padding: 16

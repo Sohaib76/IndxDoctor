@@ -134,29 +134,29 @@ export default function ({ navigation, route }) {
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
     }, [])
-    useEffect(() => {
-        if (username && usersData) {
-            let patientsDataList = usersData[username].patients
-            patientsDataList = patientsDataList.map(patient => {
-                return {
-                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-                }
-            })
-            // all data (not for list)
-            setAllpatientsData(patientsDataList)
-            // console.log(patientsDataList);
-            let sortedPatientList = patientsDataList.map(patient => {
-                return {
-                    fullname: patient.fullname,
-                    uuid: patient.uuid
-                }
-            })
-            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-            // segmented list
-            // list to be displayed (use this)
-            setpatientsNameList(sortedPatientList)
-        }
-    }, [usersData, username])
+    // useEffect(() => {
+    //     if (username && usersData) {
+    //         let patientsDataList = usersData[username].patients
+    //         patientsDataList = patientsDataList.map(patient => {
+    //             return {
+    //                 ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+    //             }
+    //         })
+    //         // all data (not for list)
+    //         setAllpatientsData(patientsDataList)
+    //         // console.log(patientsDataList);
+    //         let sortedPatientList = patientsDataList.map(patient => {
+    //             return {
+    //                 fullname: patient.fullname,
+    //                 uuid: patient.uuid
+    //             }
+    //         })
+    //         sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+    //         // segmented list
+    //         // list to be displayed (use this)
+    //         setpatientsNameList(sortedPatientList)
+    //     }
+    // }, [usersData, username])
 
     const Item = ({ title }) => (
         <View style={styles.item}>
