@@ -29,6 +29,8 @@ export default function CustomDrawerContent({ navigation }) {
         }
     }, [])
 
+    //
+
     return (
         <View style={{ backgroundColor: Colors.background }}>
             <View style={{
