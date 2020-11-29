@@ -175,12 +175,18 @@ export default function ({ navigation, route }) {
                         Add Appointment
                     </Text>
                 </View>
+            </View>
         )
+
+
+
     }
 
-    const showOverlay = (i) => {
+    {/* const showOverlay = (i) => {
         console.log(i);
-    }
+
+    } */}
+
 
     return (
         <Provider>
