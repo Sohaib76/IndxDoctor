@@ -38,16 +38,22 @@ const SignUpScreen = (props) => {
     }
     else {
       let newState = { ...signUpState, ...state, }
-      console.log("signup state:", newState);
       setsignUpState(newState)
     }
   }
 
-  const registerUser = () => {
-    const updatedUserData = { ...allusersData, [newUserName]: signUpState }
+  const registerUser = (imageuri) => {
+    let finalState = { ...signUpState, imageuri }
+    const updatedUserData = { ...allusersData, [newUserName]: finalState }
     // console.log("adding user: ", updatedUserData);
+    handleSignUpstate({ imageuri: imageuri })
     const addUserAsync = async () => {
-      await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
+      try {
+        await AsyncStorage.setItem("globalUsers", JSON.stringify(updatedUserData));
+      }
+      catch (e) {
+        console.log("signup failed ", e);
+      }
     }
     addUserAsync()
     props.navigation.navigate("Last")

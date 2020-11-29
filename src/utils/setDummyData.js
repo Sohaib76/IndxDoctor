@@ -6,17 +6,26 @@ export const setdummydata = async () => {
             "admin": {
                 password: "pass",
                 profession: "dentist",
-                patients: []
+                patients: [],
+                imageuri: "",
+                firtname: "admin",
+                lastname: "Last"
             },
             "ben": {
                 password: "benpass",
                 profession: "receptionist",
-                patients: []
+                patients: [],
+                imageuri: "",
+                firtname: "ben",
+                lastname: "eater"
             },
             "sohaib": {
                 password: "123",
                 profession: "BME",
-                patients: []
+                patients: [],
+                imageuri: "",
+                firtname: "sohaib",
+                lastname: "zafar"
             }
         }
     ))

@@ -30,17 +30,6 @@ import AddPatientMain from "../screens/AddPatientMain";
 import AddAppointment from "../screens/AddAppointment";
 import AddApointmentMain from "../screens/AddApointmentMain";
 
-// const Tab =  TabNavigator({
-//   TabA: {
-//     screen: Home 
-//   },
-//   TabB: {
-//     screen: Home
-//   }
-// }, {
-//   order: ['TabA', 'TabB'],
-//   animationEnabled: true,
-// })
 
 
 const Drawer = createDrawerNavigator();

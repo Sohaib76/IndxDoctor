@@ -187,6 +187,7 @@ export default function ({ navigation, route }) {
 
     } */}
 
+
     return (
         <Provider>
             <Header
@@ -231,7 +232,6 @@ export default function ({ navigation, route }) {
                 {
                     patientsNameList.length ? (
                         patientsNameList.map((l, i) => (
-
                             <View key={i}>
                                 <ListItem
                                     onLongPress={

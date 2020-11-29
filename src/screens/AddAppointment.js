@@ -187,11 +187,11 @@ export default function AddAppointment({ navigation, route }) {
                 <Surface style={{ height: 320, margin: 20 }}>
                     <Calendar
                         nestedScrollEnabled={true}
-
                         numberOfMonths={2}
                         disableRange={true}
                         onChange={(range) => {
                             setDate(range)
+
                         }
                         }
                         minDate={new Date(2018, 3, 20)}
@@ -283,7 +283,6 @@ export default function AddAppointment({ navigation, route }) {
                             <AntDesign
                                 style={{
                                     paddingLeft: 20, marginLeft: -158
-                                    ,
                                 }}
                                 name="clockcircleo" size={24} color="black" />
                             <Text style={{ marginLeft: 20, color: 'grey', fontWeight: 'bold' }}>{appointmentTime}</Text>
