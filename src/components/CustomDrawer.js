@@ -23,6 +23,7 @@ export default function CustomDrawerContent({ navigation }) {
             const fllnm = `${allUsersData[username].firstname} ${allUsersData[username].lastname} `
             setfullname(fllnm)
             setfirstname(allUsersData[username].firstname)
+            setemail(`${allUsersData[username].firstname}@gmail.com`)
         }
     }
 
@@ -88,12 +89,14 @@ export default function CustomDrawerContent({ navigation }) {
                     height: '100%'
 
                 }}>
-                <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeStack"} />
-                <NavigationComponent name={"Set Appoinment"} navigation={navigation} where={"AddAppointmentMain"} />
+                <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeScreen"} />
+                {/* <NavigationComponent name={"Set Appoinment"} navigation={navigation} where={"AddAppointmentMain"} /> */}
                 <NavigationComponent name={"Add Patient"} navigation={navigation} where={"AddPatientMain"} />
-                <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />
+                <NavigationComponent name={"All Patients"} navigation={navigation} where={"PatientList"} />
                 <NavigationComponent name={"Calendar"} navigation={navigation} />
                 <NavigationComponent name={"Process Payment"} navigation={navigation} />
+                <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />
+
                 {/* <NavigationComponent />
                 <NavigationComponent />
                 <NavigationComponent />

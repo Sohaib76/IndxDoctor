@@ -82,7 +82,7 @@ export default function HomeScreen({ route, navigation }) {
                 centerComponent={{ text: 'Dashboard', style: { color: 'darkblue', fontSize: 40, fontWeight: "bold" } }}
 
             />
-            <Text style={{ fontSize: 20, margin: 10 }}>Logged IN: {username}</Text>
+            {/* <Text style={{ fontSize: 20, margin: 10 }}>Logged IN: {username}</Text> */}
             <ScrollView>
 
                 <Text style={{ fontSize: 18, color: 'grey', fontWeight: 'bold', marginStart: 20, marginTop: 20 }}>APPOINTMENTS</Text>

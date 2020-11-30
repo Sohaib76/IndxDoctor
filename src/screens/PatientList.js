@@ -173,7 +173,7 @@ export default function ({ navigation, route }) {
             <View style={{
                 // top: props.id * 75,
                 position: "absolute",
-                backgroundColor: 'teal', width: '100%',
+                backgroundColor: 'rgba(0,128,128,0.4)', width: '100%',
                 //height: `${100 / list.length}%`,
                 // opacity: opaq ? 0.5 : 0,
                 height: "100%"
@@ -265,7 +265,7 @@ export default function ({ navigation, route }) {
                                             setoverlayOn(l.uuid)
                                             setTimeout(() => {
                                                 setoverlayOn("")
-                                            }, 1000)
+                                            }, 3000)
                                         }
                                     }
                                     // onPress={() => navigation.navigate("AddAppointment", {

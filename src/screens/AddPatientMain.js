@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Menu, Divider, Provider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
+import Colors from '../config/colors';
 
 export default function AddPatientMain({ navigation }) {
     return (
@@ -45,11 +46,11 @@ export default function AddPatientMain({ navigation }) {
                         styles.circle
                     }
                 >
-                    <AntDesign name="adduser" size={60} color="teal" />
+                    <AntDesign name="adduser" size={60} color={Colors.lightGreen} />
 
 
                 </TouchableOpacity>
-                <Text style={{ color: 'grey', fontSize: 20, marginTop: -20, marginBottom: 20 }}>Add Existing Patient</Text>
+                <Text style={{ color: 'grey', fontSize: 20, marginTop: -35, marginBottom: 20 }}>Add Existing Patient</Text>
 
 
                 <View
@@ -63,11 +64,11 @@ export default function AddPatientMain({ navigation }) {
                             styles.circle
                         }
                     >
-                        <AntDesign name="addusergroup" size={60} color="teal" />
+                        <AntDesign name="addusergroup" size={60} color={Colors.lightGreen} />
 
 
                     </TouchableOpacity>
-                    <Text style={{ color: 'grey', fontSize: 20, marginTop: -20 }}>Add New Patient</Text>
+                    <Text style={{ color: 'grey', fontSize: 20, marginTop: -35 }}>Add New Patient</Text>
 
 
 
@@ -81,13 +82,13 @@ export default function AddPatientMain({ navigation }) {
 
 const styles = StyleSheet.create({
     circle: {
-        borderColor: 'teal',
+        borderColor: Colors.lightGreen,
         borderWidth: 6,
         alignItems: 'center',
         margin: 60,
-        padding: 40,
-        width: 150,
-        height: 150,
+        padding: 20,
+        width: 120,
+        height: 120,
         borderRadius: 150 / 2,
     }
 })
