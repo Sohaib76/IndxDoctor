@@ -142,7 +142,8 @@ export default function ({ navigation, route }) {
                     let sortedPatientList = patientsDataList.map(patient => {
                         return {
                             fullname: patient.fullname,
-                            uuid: patient.uuid
+                            uuid: patient.uuid,
+                            imageuri: patient.patientImage
                         }
                     })
                     sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
@@ -275,7 +276,7 @@ export default function ({ navigation, route }) {
                                     containerStyle={{
                                         paddingTop: 20, paddingBottom: 20
                                     }} bottomDivider>
-                                    <Avatar source={{ uri: l.avatar_url }} rounded />
+                                    <Avatar source={{ uri: l.imageuri }} rounded />
                                     <ListItem.Content>
                                         <ListItem.Title style={{ fontWeight: 'bold', color: 'grey' }}>{l.fullname}</ListItem.Title>
                                     </ListItem.Content>

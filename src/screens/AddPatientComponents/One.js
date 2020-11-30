@@ -19,9 +19,6 @@ export default function One({ ScreenCounter, navigation, handleAddPatientData })
         // for now keep this
         setpressedState(true)
         handleAddPatientData({ uuid: uuid.v4() })
-        console.log("AIF");
-
-
         ScreenCounter(2)
     }
     return (

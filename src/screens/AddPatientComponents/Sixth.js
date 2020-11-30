@@ -15,7 +15,6 @@ export default function Fourth({ ScreenCounter, signupState, setsignUpState, han
     const setNumber = async () => {
         // setsignUpState({ phone: `+63${input}` })
         handleAddPatientData({ phone: `+63${input}` })
-
         ScreenCounter(7)
     }
 
