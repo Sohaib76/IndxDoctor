@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, TextInput, StyleSheet, Text } from "react-native";
 import { widthPercentageToDP } from "react-native-responsive-screen";
 import colors from "../../config/colors";
 import InputStyle from "../../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Sixth({ ScreenCounter, handleAddPatientData, navigation, registerPatient }) {
+export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
     const [input, setInput] = useState("");
 
-    const setFirstName = () => {
-        registerPatient({ phone: input })
-        alert("Patient added")
-        navigation.navigate("HomeScreen")
+    useEffect(() => {
+    }, [])
+
+    const setNumber = async () => {
+        // setsignUpState({ phone: `+63${input}` })
+        ScreenCounter(7)
     }
 
     return (
         <View>
-            <Text style={styles.textStyle}>Please Fill out your Contact Details below</Text>
-
+            <Text style={styles.textStyle}>Please Fill out your Phone Number below</Text>
             <View>
                 <View style={InputStyle.UserNameBlock}>
-                    <Text style={[InputStyle.UserNameTextStyle, { fontSize: 12 }]}>Phone Number</Text>
+                    <Text style={[InputStyle.UserNameTextStyle, { fontSize: 12 }]}>PHONE NUMBER</Text>
                 </View>
 
                 <View
@@ -34,23 +34,27 @@ export default function Sixth({ ScreenCounter, handleAddPatientData, navigation,
                         },
                     ]}
                 >
-                    <TextInput
-                        onChangeText={(val) => setInput(val)}
-                        value={input}
-                        placeholder="Enter Your First Name"
-                        style={[
-                            InputStyle.TextInputStyle,
-                            {
-                                marginLeft: 70,
-                            },
-                        ]}
-                    />
+                    <View style={{ flexDirection: "row" }}>
+                        <Text style={styles.phoneCode}>+63</Text>
+                        <TextInput
+                            keyboardType="numeric"
+                            textContentType="telephoneNumber"
+                            onChangeText={(val) => setInput(val)}
+                            value={input}
+                            style={[
+                                InputStyle.TextInputStyle,
+                                {
+                                    width: widthPercentageToDP("48%"),
+                                },
+                            ]}
+                        />
+                    </View>
                 </View>
 
                 {/* Proceed */}
 
                 <TouchableOpacity
-                    onPress={setFirstName}
+                    onPress={setNumber}
                     disabled={input !== "" ? false : true}
                     style={[
                         InputStyle.InputBlockStyle,
@@ -64,17 +68,17 @@ export default function Sixth({ ScreenCounter, handleAddPatientData, navigation,
                     <Text style={{ color: "white" }}>Proceed</Text>
                 </TouchableOpacity>
 
-                {/* Below BelowPart */}
-                {/* <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => ScreenCounter(5)} style={{ flexDirection: "row" }}>
-            <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
-            <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
-          </TouchableOpacity>
+                {/* Below Part */}
+                <View style={styles.BelowPart}>
+                    <TouchableOpacity onPress={() => ScreenCounter(5)} style={{ flexDirection: "row" }}>
+                        <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
+                        <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
+                    </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => ScreenCounter(7)}>
-            <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
-          </TouchableOpacity>
-        </View> */}
+                    <TouchableOpacity onPress={() => ScreenCounter(5)} disabled={true}>
+                        <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )
@@ -92,7 +96,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     phoneCode: {
-        marginTop: 15,
+        marginTop: 20,
         marginLeft: 30,
         color: "gray",
         height: 20,

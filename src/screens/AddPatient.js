@@ -18,6 +18,9 @@ import Third from './AddPatientComponents/Third';
 import Fourth from './AddPatientComponents/Fourth';
 import Fifth from './AddPatientComponents/Fifth';
 import Sixth from './AddPatientComponents/Sixth';
+import Seventh_Birth from "./AddPatientComponents/Seventh_Birth";
+import Eight_Gender from "./AddPatientComponents/Eight_Gender";
+import Ninth_Photo from "./AddPatientComponents/Ninth_Photo";
 
 export default function AddPatient({ navigation }) {
     const [first, setFirst] = useState(true);
@@ -26,6 +29,9 @@ export default function AddPatient({ navigation }) {
     const [fourth, setFourth] = useState(false);
     const [fifth, setFifth] = useState(false);
     const [sixth, setSixth] = useState(false);
+    const [seventh, setSeventh] = useState(false);
+    const [eighth, setEigth] = useState(false);
+    const [ninth, setNineth] = useState(false);
 
     const [last, setLast] = useState(false);
     const [counter, setCounter] = useState(1);
@@ -180,6 +186,15 @@ export default function AddPatient({ navigation }) {
         }
         else if (sixth === true) {
             return <Sixth ScreenCounter={Counter} navigation={navigation} registerPatient={registerPatient} handleAddPatientData={handleAddPatientData} />;
+        }
+        else if (seventh === true) {
+            return <Seventh_Birth ScreenCounter={Counter} />;
+        }
+        else if (eighth === true) {
+            return <Eight_Gender ScreenCounter={Counter} />;
+        }
+        else if (ninth === true) {
+            return <Ninth_Photo ScreenCounter={Counter} />;
         }
 
         else {
