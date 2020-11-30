@@ -15,7 +15,7 @@ export default function Last({ navigation }) {
             >Profile Completed</Text>
             <Pressable
                 style={{ padding: 10 }}
-                onPress={() => navigation.navigate("Login")}><Text
+                onPress={() => navigation.navigate("Login", { newUserAdded: true })}><Text
                     style={{ fontSize: 20 }}
                 >Click here to go Back To Login Page</Text></Pressable>
         </View>

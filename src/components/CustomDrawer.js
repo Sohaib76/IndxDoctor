@@ -9,11 +9,10 @@ import { getUserData } from "../utils/GetAsyncData"
 
 export default function CustomDrawerContent({ navigation }) {
 
-
     const [allUsersData, setallusersData] = useState({})
     const [username, setusername] = useState("")
 
-    const [avataruri, setavataruri] = useState("")
+    const [avataruri, setavataruri] = useState("https://img.icons8.com/officel/2x/person-male.png")
     const [fullname, setfullname] = useState("")
     const [firstname, setfirstname] = useState("")
     const [email, setemail] = useState("dummy@gmail.com")
@@ -21,9 +20,10 @@ export default function CustomDrawerContent({ navigation }) {
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
         if (username && allUsersData) {
-            // console.log("uri: ", allUsersData[username]);
+            console.log("user from drwer: ", allUsersData[username]);
             setavataruri(allUsersData[username].imageuri)
             const fllnm = `${allUsersData[username].firstname} ${allUsersData[username].lastname} `
+            console.log(fllnm);
             setfullname(fllnm)
             setfirstname(allUsersData[username].firstname)
         }
@@ -56,7 +56,7 @@ export default function CustomDrawerContent({ navigation }) {
 
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 40 }}
-                            source={{ uri: avataruri }} />
+                            source={{ uri: "https://img.icons8.com/officel/2x/person-male.png" }} />
                     </View>
 
                     <View style={{

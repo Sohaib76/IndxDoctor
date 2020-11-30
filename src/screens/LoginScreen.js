@@ -19,9 +19,9 @@ import {
 } from "react-native-responsive-screen";
 import InputStyle from "../components/InputStyle";
 import Logo from "../assets/Images";
-import { setdummydata } from "../utils/setDummyData"
+import { dummydataValue, setdummydata } from "../utils/setDummyData"
 
-export default function LoginScreen({ navigation }) {
+export default function LoginScreen({ navigation, route }) {
 
   // AsyncStorage.clear()
 
@@ -36,14 +36,6 @@ export default function LoginScreen({ navigation }) {
     AsyncStorage.clear();
   }
 
-  // // ----------------
-  // const test = async () => {
-  //   const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
-  //     console.log("test,", rslt)
-  //   }))
-  // }
-  // ----------------
-
   const handleUsername = text => {
     setusername(text)
   };
@@ -51,51 +43,36 @@ export default function LoginScreen({ navigation }) {
     setpassword(text)
   };
 
+  const getGlobalData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("globalUsers")
+      let userdata = JSON.parse(jsonValue)
+      if (!userdata) {
+        setglobalData(dummydataValue)
+        console.log("no user, setting dummy data", dummydataValue);
+        setdummydata()
+      } else {
+        setglobalData(userdata)
+        console.log("got user data");
+      }
+    } catch (e) {
+      console.log("error from login", e);
+    }
+  }
+
   const [globalData, setglobalData] = useState({})
   useEffect(() => {
-    const getGlobalData = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem("globalUsers")
-        let userdata = JSON.parse(jsonValue)
-        if (!userdata) {
-          setglobalData({
-            "admin": {
-              password: "pass",
-              profession: "dentist",
-              patients: [],
-              imageuri: "",
-              firtname: "admin",
-              lastname: "Last"
-            },
-            "ben": {
-              password: "benpass",
-              profession: "receptionist",
-              patients: [],
-              imageuri: "",
-              firtname: "ben",
-              lastname: "eater"
-            },
-            "sohaib": {
-              password: "123",
-              profession: "BME",
-              patients: [],
-              imageuri: "",
-              firtname: "sohaib",
-              lastname: "zafar"
-            }
-          })
-          console.log("no user, setting dummy data");
-          setdummydata()
-        } else {
-          setglobalData(userdata)
-          console.log("got user data", userdata);
-        }
-      } catch (e) {
-        console.log("error from login", e);
-      }
-    }
     getGlobalData()
   }, [])
+  // when new user is added fetch updated data
+  useEffect(() => {
+    if (route.params) {
+      if (route.params.newUserAdded) {
+        console.log("new User added");
+        getGlobalData()
+      }
+    }
+  }, [route.params])
 
   const login = async () => {
     // const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
@@ -106,23 +83,7 @@ export default function LoginScreen({ navigation }) {
     }
     else {
       // dummy data
-      tempAsync = {
-        "admin": {
-          password: "pass",
-          profession: "dentist",
-          patients: []
-        },
-        "ben": {
-          password: "benpass",
-          profession: "receptionist",
-          patients: []
-        },
-        "sohaib": {
-          password: "123",
-          profession: "BME",
-          patients: []
-        }
-      }
+      tempAsync = dummydataValue;
     }
     // auth username
     var userLoggedIn = Object.keys(tempAsync).find(function (user) {
