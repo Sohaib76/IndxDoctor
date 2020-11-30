@@ -8,7 +8,6 @@ import NavigationComponent from './NavigationComponent';
 import { getUserData } from "../utils/GetAsyncData"
 
 export default function CustomDrawerContent({ navigation }) {
-
     const [allUsersData, setallusersData] = useState({})
     const [username, setusername] = useState("")
 
@@ -17,20 +16,23 @@ export default function CustomDrawerContent({ navigation }) {
     const [firstname, setfirstname] = useState("")
     const [email, setemail] = useState("dummy@gmail.com")
 
-    useEffect(() => {
+    const setUserdata = () => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
         if (username && allUsersData) {
-            console.log("user from drwer: ", allUsersData[username]);
             setavataruri(allUsersData[username].imageuri)
             const fllnm = `${allUsersData[username].firstname} ${allUsersData[username].lastname} `
-            console.log(fllnm);
             setfullname(fllnm)
             setfirstname(allUsersData[username].firstname)
         }
+    }
+
+    useEffect(() => {
+        setUserdata()
     }, [])
 
-    //
-
+    if (!fullname.length) {
+        setUserdata()
+    }
     return (
         <View style={{ backgroundColor: Colors.background }}>
             <View style={{
@@ -56,7 +58,7 @@ export default function CustomDrawerContent({ navigation }) {
 
                         <Image
                             style={{ width: 60, height: 60, borderRadius: 40 }}
-                            source={{ uri: "https://img.icons8.com/officel/2x/person-male.png" }} />
+                            source={{ uri: avataruri }} />
                     </View>
 
                     <View style={{

@@ -27,9 +27,9 @@ export default function LoginScreen({ navigation, route }) {
 
   const [username, setusername] = useState("")
   const [password, setpassword] = useState("")
-  const [userData, setuserData] = useState({})
+  // const [userData, setuserData] = useState({})
+  const [globalData, setglobalData] = useState({})
 
-  let tempAsync;
   // empty async storage
   const clearAsyncStorage = async () => {
     alert("Storage cleared")
@@ -48,19 +48,16 @@ export default function LoginScreen({ navigation, route }) {
       const jsonValue = await AsyncStorage.getItem("globalUsers")
       let userdata = JSON.parse(jsonValue)
       if (!userdata) {
-        setglobalData(dummydataValue)
-        console.log("no user, setting dummy data", dummydataValue);
-        setdummydata()
+        alert("Please Signup first")
+        navigation.navigate("SignUpScreen")
       } else {
         setglobalData(userdata)
-        console.log("got user data");
       }
     } catch (e) {
       console.log("error from login", e);
     }
   }
 
-  const [globalData, setglobalData] = useState({})
   useEffect(() => {
     getGlobalData()
   }, [])
@@ -68,23 +65,17 @@ export default function LoginScreen({ navigation, route }) {
   useEffect(() => {
     if (route.params) {
       if (route.params.newUserAdded) {
-        console.log("new User added");
         getGlobalData()
       }
     }
   }, [route.params])
 
   const login = async () => {
-    // const jsonValue = await AsyncStorage.getItem("globalUsers", ((err, rslt) => {
-    //   console.log("login: ", err, rslt);
-    // }))
-    if (globalData != null) {
+    let tempAsync = {};
+    if (globalData) {
       tempAsync = globalData
     }
-    else {
-      // dummy data
-      tempAsync = dummydataValue;
-    }
+
     // auth username
     var userLoggedIn = Object.keys(tempAsync).find(function (user) {
       return user == username;
@@ -97,7 +88,6 @@ export default function LoginScreen({ navigation, route }) {
         alert("Authorized")
         // set loggin flag and username
         setLoggedIn(userLoggedIn)
-        console.log("USER LOGGED IN", userLoggedIn);
         // redirect to home
         navigation.navigate("Auth", { screen: "HomeDrawer", params: { userObject: userLoggedIn } }
         )
@@ -115,17 +105,12 @@ export default function LoginScreen({ navigation, route }) {
     try {
       await AsyncStorage.multiSet([['isLoggedIn', "1"],
       ["username", JSON.stringify(username)]], ((err) => {
-        // console.log("2nd");
       }));
     } catch (e) {
       // saving error
       console.log(e);
     }
-    // await AsyncStorage.setItem("isLoggedIn", "1")
-    // var x = await AsyncStorage.getItem("isLoggedIn")
-    // console.log(x, "1 or 0");
   }
-  // console.log("login loaded");
 
   return (
     <SafeAreaView style={styles.container}>
