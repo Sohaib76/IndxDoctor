@@ -64,7 +64,6 @@ export default function ({ navigation, route }) {
         const a = allPatientsData.find(patient => {
             return patient.uuid == uuid
         })
-        console.log(a);
         return a
     }
 
@@ -103,7 +102,7 @@ export default function ({ navigation, route }) {
                 }
                 return patient
             })
-            console.log("updatedPatientData", updatedPatientData);
+            // console.log("updatedPatientData", updatedPatientData);
             // add updated patient data to user
             let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
             // add updated user to all data
@@ -128,7 +127,7 @@ export default function ({ navigation, route }) {
     // working
     useEffect(() => {
         if (username && usersData) {
-            console.log(usersData[username].patients, "....");
+            // console.log(usersData[username].patients, "....");
             try {
                 var patientsDataList = usersData[username].patients
                 if (patientsDataList.length) {
@@ -154,19 +153,14 @@ export default function ({ navigation, route }) {
             catch {
                 console.log("No Users");
             }
-
-            console.log("patient list: ", patientsDataList);
-            // run only if patients exist
-            //Its undefined broo, making error!!!
-
         }
     }, [usersData, username])
 
-    const Item = ({ title }) => (
-        <View style={styles.item}>
-            <Text style={styles.title}>{title}</Text>
-        </View>
-    );
+    // const Item = ({ title }) => (
+    //     <View style={styles.item}>
+    //         <Text style={styles.title}>{title}</Text>
+    //     </View>
+    // );
 
     const Overlay = (l) => {
         return (
@@ -183,8 +177,8 @@ export default function ({ navigation, route }) {
                     <Text
                         onPress={() => navigation.navigate("AddAppointment", {
                             // passing patient uuid for appointment data recieving
-                            patientUuid: l.uuid,
-                            patientDetails: getPatientDetails(l.uuid)
+                            patientUuid: l.id.uuid,
+                            patientDetails: getPatientDetails(l.id.uuid)
                         })}
                     >
                         Add Appointment
@@ -194,8 +188,8 @@ export default function ({ navigation, route }) {
                     <Text
                         onPress={() => navigation.navigate("PatientDetail", {
                             // passing patient uuid for appointment data recieving
-                            patientUuid: l.uuid,
-                            patientDetails: getPatientDetails(l.uuid)
+                            patientUuid: l.id.uuid,
+                            patientDetails: getPatientDetails(l.id.uuid)
                         })}
                     >
                         Patient Info

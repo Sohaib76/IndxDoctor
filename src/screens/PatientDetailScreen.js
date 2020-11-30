@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { colors, Header } from 'react-native-elements';
@@ -10,11 +10,9 @@ import { Feather } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-
-
 import Colors from '../config/colors';
 
-export default function PatientDetailScreen({ navigation }) {
+export default function PatientDetailScreen({ navigation, route }) {
 
     const [firstname, setfirstname] = useState("Alexander")
     const [middlename, setmiddlename] = useState("Gomex")
@@ -32,6 +30,40 @@ export default function PatientDetailScreen({ navigation }) {
 
     // Get all data from backend , no usage data for backend
 
+    useEffect(() => {
+        // console.log(route.params);
+        const { firstname, middlename, createdon, lastname, phone, gender, address, dob, patientImage } = route.params.patientDetails;
+        // get difference
+        let createdDiff = new Date() - new Date(createdon)
+        createdDiff = Math.floor(createdDiff / (1000 * 60 * 60))
+        console.log(createdDiff);
+        if (createdDiff > 24) {
+            createdDiff = Math.floor(createdDiff / 24) + " Days"
+        }
+        else {
+            if (createdDiff > 30) {
+                createdDiff = Math.floor(createdDiff / 30) + " Months"
+            } else {
+                createdDiff = createdDiff + " Hours"
+            }
+        }
+
+        // get age
+        // let agenow = new Date() - new Date(dob)
+        // console.log(new Date(dob), dob);
+        // Math.floor(agenow / (1000 * 60 * 60 * 24 * 30))
+        // setage(agenow)
+        setfirstname(firstname)
+        setmiddlename(middlename)
+        setlastname(lastname)
+        setaddress(address)
+        setgender(gender)
+        setbirthday(dob)
+        setphone(phone)
+        setimage(patientImage)
+        setdateAdded(createdon.slice(0, 10))
+        setdateDifference(createdDiff)
+    }, [route.params])
 
 
     return (
