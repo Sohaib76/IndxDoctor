@@ -128,6 +128,7 @@ export default function ({ navigation, route }) {
     // working
     useEffect(() => {
         if (username && usersData) {
+            console.log(usersData[username].patients, "....");
             let patientsDataList = usersData[username].patients
             patientsDataList = patientsDataList.map(patient => {
                 return {
