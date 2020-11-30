@@ -9,10 +9,13 @@ export default function Tenth__Back({ navigation }) {
             >Patient Profile Completed</Text>
             <Pressable
                 style={{ padding: 10 }}
-                onPress={() => alert("Patient added"),
-                    navigation.navigate("HomeScreen")}><Text
-                        style={{ fontSize: 20 }}
-                    >Send To Dentist</Text></Pressable>
+                onPress={() => {
+                    navigation.navigate("HomeScreen")
+                }
+                }>
+                <Text style={{ fontSize: 20 }}>
+                    Send To Dentist
+                </Text></Pressable>
         </View>
     )
 }

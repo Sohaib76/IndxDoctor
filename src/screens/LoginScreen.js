@@ -150,7 +150,7 @@ export default function LoginScreen({ navigation, route }) {
           <View style={InputStyle.InputBlockStyle}>
             <TextInput
               onChangeText={handleUsername}
-              placeholder="Uername" style={InputStyle.TextInputStyle}
+              placeholder="Username" style={InputStyle.TextInputStyle}
               autoCapitalize="none"
             />
 

@@ -43,9 +43,9 @@ const SignUpScreen = (props) => {
   }
 
   const registerUser = (imageuri) => {
-    let finalState = { ...signUpState, imageuri }
+    let finalState = { ...signUpState, imageuri, patients: [] }
     const updatedUserData = { ...allusersData, [newUserName]: finalState }
-    // console.log("adding user: ", updatedUserData);
+    console.log("adding user: ", updatedUserData);
     handleSignUpstate({ imageuri: imageuri })
     const addUserAsync = async () => {
       try {

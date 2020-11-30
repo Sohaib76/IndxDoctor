@@ -38,20 +38,14 @@ export default Ninth_Photo = (props) => {
             alert("Please select Any Picture");
         } else {
             setImage(result.uri);
-            // props.setsignUpState({ photoUri: result.uri })
-
-            // props.({ gender: input })
-            //Use THis oNe //props.registerUser(result.uri)
-
-
-            //props.ScreenCounter(10) //Phaat rha he Yhan
-            props.navigation.navigate("SendToDentist")
-            // props.registerPatient({ patientImage: result.uri })
-
-
+            // props.navigation.navigate("SendToDentist")
         }
     };
 
+    const handleRegister = () => {
+        props.ScreenCounter(10)
+        props.registerPatient({ patientImage: image })
+    }
 
 
     return (
@@ -81,7 +75,8 @@ export default Ninth_Photo = (props) => {
             {
                 image ? (
                     <TouchableOpacity
-                        onPress={() => props.navigation.navigate("Last")}
+                        onPress={handleRegister
+                        }
                         style={[
                             ButtonStyle.InputBlockStyle,
                             {
@@ -92,7 +87,6 @@ export default Ninth_Photo = (props) => {
                     >
                         <Text style={{ color: "white" }}>Register</Text>
                     </TouchableOpacity>
-
                 ) : (
                         <TouchableOpacity
                             onPress={() => getPhotoFromDevice()}

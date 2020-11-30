@@ -46,28 +46,28 @@ export default function AddPatient({ navigation }) {
     useEffect(() => {
         getUserData([setallusersData, setusername], ["globalUsers", "username"])
         if (username && allusersData) {
-            console.log("all users: ", allusersData, username);
+            // console.log("all users: ", allusersData, username);
         }
     }, [])
 
     const handleAddPatientData = (state) => {
         let newState = { ...addPatientState, ...state }
         setaddPatientState(newState)
-        console.log(newState);
     }
 
     // sign up 
-    const registerPatient = (state = { phone: "123" }) => {
-        // navigation.navigate("SendToDentist")
-
+    const registerPatient = (state) => {
         let finalState = { ...addPatientState, ...state, createdon: new Date(), appointments: [] }
         handleAddPatientData(state)
-
         let currentUser = allusersData[username];
+        console.log("currentUser", currentUser);
         currentUser = {
-            ...currentUser, patients: [...currentUser.patients, finalState]
+            ...currentUser, patients: [
+                ...currentUser.patients,
+                finalState
+            ]
         }
-        console.log("Add patient file:: new patient: ", addPatientState);
+        alert("Patient added")
         const updatedUserData = { ...allusersData, [username]: currentUser }
         // update entire global users
         updateGlobalUsersAsync(updatedUserData)
@@ -153,21 +153,6 @@ export default function AddPatient({ navigation }) {
             setTenth(false);
             setEleventh(true);
         }
-        // else if (count === 12) {
-        //   setFirst(false);
-        //   setSecond(false);
-        //   setThird(false);
-        //   setFourth(false);
-        //   setFifth(false);
-        //   setSixth(false);
-        //   setSeventh(false);
-        //   setEigth(false);
-        //   setNineth(false);
-        //   setTenth(false);
-        //   setEleventh(false);
-        //   setLast(true);
-        // }
-
         else {
             return;
         }
