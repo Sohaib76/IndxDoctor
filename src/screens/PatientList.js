@@ -8,12 +8,13 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-
+import { AntDesign } from '@expo/vector-icons';
 
 
 
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import Colors from '../config/colors';
 
 // for dev purpose only
 const dummyUuid = "c9464676-adfb-4c8c-9be1-197369a7d10e"
@@ -148,6 +149,7 @@ export default function ({ navigation, route }) {
                     sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
                     // segmented list
                     setpatientsNameList(sortedPatientList)
+                    settotalPatients(sortedPatientList.length)
                 }
             }
             catch {
@@ -167,13 +169,57 @@ export default function ({ navigation, route }) {
             <View style={{
                 // top: props.id * 75,
                 position: "absolute",
-                backgroundColor: 'rgba(0,128,128,0.4)', width: '100%',
+                backgroundColor: 'rgba(0,128,128,0.6)', width: '100%',
                 //height: `${100 / list.length}%`,
                 // opacity: opaq ? 0.5 : 0,
                 height: "100%"
-                , flexDirection: 'row'
+                , flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                padding: 15
             }}>
-                <View>
+                <TouchableOpacity
+                    onPress={() => alert("Call")}
+                    style={{ alignItems: 'center' }}>
+                    <Feather name="phone-call" size={30} color="white" />
+                    <Text
+                        style={styles.overlayText}
+                    >CALL</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("AddAppointment", {
+                        // passing patient uuid for appointment data recieving
+                        patientUuid: l.id.uuid,
+                        patientDetails: getPatientDetails(l.id.uuid)
+                    })}
+                    style={{ alignItems: 'center' }}>
+                    <AntDesign name="calendar" size={30} color="white" />
+                    <Text
+                        style={styles.overlayText}
+                    >SET APPOINTMENT</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("PatientDetail", {
+                        // passing patient uuid for appointment data recieving
+                        patientUuid: l.id.uuid,
+                        patientDetails: getPatientDetails(l.id.uuid)
+                    })}
+                    style={{ alignItems: 'center' }}>
+                    <AntDesign name="user" size={30} color="white" />
+                    <Text
+                        style={styles.overlayText}
+                    >PATIENT INFO</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => alert("Dental Document")}
+                    style={{ alignItems: 'center' }}>
+                    <MaterialCommunityIcons name="file-document-edit-outline" size={30} color="white" />
+                    <Text
+                        style={styles.overlayText}
+                    >DENTAL DOCUMENT</Text>
+                </TouchableOpacity>
+
+                {/* <View>
                     <Text
                         onPress={() => navigation.navigate("AddAppointment", {
                             // passing patient uuid for appointment data recieving
@@ -194,7 +240,7 @@ export default function ({ navigation, route }) {
                     >
                         Patient Info
                     </Text>
-                </View>
+                </View> */}
             </View>
         )
 
@@ -248,7 +294,7 @@ export default function ({ navigation, route }) {
                 />
             </View>
             <Divider />
-            <View>
+            <ScrollView contentContainerStyle={{ height: "100%" }}>
                 {
                     patientsNameList.length ? (
                         patientsNameList.map((l, i) => (
@@ -278,9 +324,19 @@ export default function ({ navigation, route }) {
                                 {
                                     overlayOn == l.uuid ? (<Overlay id={l} />) : (null)
                                 }
+
+
+
                             </View>
 
+
+
+
+
+
                         ))
+
+
 
                     ) : (
                             <View style={{
@@ -299,7 +355,32 @@ export default function ({ navigation, route }) {
                         )
                 }
 
-            </View >
+
+
+
+
+
+
+            </ScrollView >
+            {console.log("Total Patients", totalPatients)}
+            {/* {patientsNameList.length &&
+
+                <Text style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                    padding: 40,
+                    fontWeight: '700',
+                    fontSize: 25,
+                    color: 'grey',
+                    opacity: 0.5
+
+                }}>{totalPatients} Patients</Text>
+            } */}
+
+            {/* Code phatt rha he if we add this, solve */}
+
+
         </Provider >
     )
 }
@@ -322,6 +403,16 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 24
     }
+    ,
+    overlayText: {
+        textAlign: 'right',
+        // marginLeft: 5,
+        paddingTop: 10,
+        color: 'white'
+        , fontSize: 10,
+        fontWeight: 'bold'
+    },
+
 });
 
 

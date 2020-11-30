@@ -75,7 +75,7 @@ export default function Container() {
     const v = await AsyncStorage.getItem("isLoggedIn")
     if (v == "1") {
       setisLoggedIn(v)
-      alert("Welcome back!")
+      //alert("Welcome back!")
     }
     else {
       setisLoggedIn("0")

@@ -11,6 +11,7 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import { RadioButton } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
+import Colors from '../config/colors';
 const uuid = require("react-native-uuid")
 // import moment from 'moment'
 
@@ -174,10 +175,10 @@ export default function AddAppointment({ navigation, route }) {
                         <Text
                             style={{ fontWeight: 'bold', fontSize: 20 }}
                         >{firstname} {lastname}</Text>
-                        <Text style={{ color: 'lightblue', fontWeight: 'bold' }}>Last appointment: {lastAppointment}</Text>
+                        <Text style={{ color: Colors.lightGreen, fontWeight: 'bold' }}>Last appointment: {lastAppointment}</Text>
                         <Text
                             onPress={() => navigation.navigate("PatientList")}
-                            style={{ color: 'darkblue' }}>Tap to change Patient</Text>
+                            style={{ color: Colors.darkGreen }}>Tap to change Patient</Text>
                     </View>
                 </Surface>
                 <Text style={{
@@ -379,6 +380,7 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
+                    disabled={true}
                     // disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',

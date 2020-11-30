@@ -63,6 +63,7 @@ export default function PatientDetailScreen({ navigation, route }) {
         setimage(patientImage)
         setdateAdded(createdon.slice(0, 10))
         setdateDifference(createdDiff)
+        setemail(`${firstname}@gmail.com`)
     }, [route.params])
 
 
@@ -134,7 +135,9 @@ export default function PatientDetailScreen({ navigation, route }) {
                             <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>CALL</Text>
                         </View>
                         <Pressable
-                            onPress={() => navigation.navigate("AddAppointment")}
+                            onPress={() => navigation.navigate("AddAppointment", {
+                                patientDetails: route.params.patientDetails
+                            })}
                             style={{ alignItems: 'center' }}>
                             <Octicons name="calendar" size={30} color="white" />
                             <Text style={{ color: 'white', fontSize: 10, fontWeight: 'bold' }}>APPOINTMENT</Text>
