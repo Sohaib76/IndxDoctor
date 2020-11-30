@@ -14,13 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useState, useEffect } from "react";
 import Logout from "../screens/Logout";
 import Last from "../screens/Last";
-import FirstScreen from "../screens/FirstScreen";
-import Second from "../screens/Second";
-import Third from "../screens/Third";
-import Fourth from "../screens/Fourth";
 
-
-import { setdummydata } from "../utils/setDummyData"
 import AddPatient from "../screens/AddPatient";
 import PatientList from "../screens/PatientList";
 import { Button } from "react-native";
@@ -57,10 +51,6 @@ function HomeStack() {
       <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />
 
       <Stack.Screen name="Auth" component={AuthStack} />
-      {/* <Stack.Screen name="FirstScreen" component={FirstScreen} />
-      <Stack.Screen name="SecondScreen" component={Second} />
-      <Stack.Screen name="ThirdScreen" component={Third} />
-      <Stack.Screen name="FourthScreen" component={Fourth} /> */}
     </Stack.Navigator>
   )
 }
@@ -76,23 +66,14 @@ function AuthStack() {
   );
 }
 
-const setAsync = async (key, value) => {
-  try {
-    await AsyncStorage.setItem(key, JSON.stringify(value));
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-
-
 export default function Container() {
   const [isLoggedIn, setisLoggedIn] = useState("")
+
   const loadData = async () => {
     const v = await AsyncStorage.getItem("isLoggedIn")
     if (v == "1") {
       setisLoggedIn(v)
-      console.log(v)
+      alert("Welcome back!")
     }
     else {
       setisLoggedIn("0")
@@ -100,8 +81,6 @@ export default function Container() {
   }
 
   useEffect(() => {
-    // for first time only
-    // setdummydata()
     loadData()
   }, [])
   return (

@@ -129,22 +129,26 @@ export default function ({ navigation, route }) {
     useEffect(() => {
         if (username && usersData) {
             let patientsDataList = usersData[username].patients
-            patientsDataList = patientsDataList.map(patient => {
-                return {
-                    ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-                }
-            })
-            // all data (not for list)
-            setAllpatientsData(patientsDataList)
-            let sortedPatientList = patientsDataList.map(patient => {
-                return {
-                    fullname: patient.fullname,
-                    uuid: patient.uuid
-                }
-            })
-            sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-            // segmented list
-            setpatientsNameList(sortedPatientList)
+            console.log("patient list: ", patientsDataList);
+            // run only if patients exist
+            if (patientsDataList.length) {
+                patientsDataList = patientsDataList.map(patient => {
+                    return {
+                        ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+                    }
+                })
+                // all data (not for list)
+                setAllpatientsData(patientsDataList)
+                let sortedPatientList = patientsDataList.map(patient => {
+                    return {
+                        fullname: patient.fullname,
+                        uuid: patient.uuid
+                    }
+                })
+                sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+                // segmented list
+                setpatientsNameList(sortedPatientList)
+            }
         }
     }, [usersData, username])
 

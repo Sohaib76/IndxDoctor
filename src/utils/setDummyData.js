@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+// delete this file when deploying
 export const dummydataValue = {
     "admin": {
         password: "pass",
