@@ -6,7 +6,7 @@ import InputStyle from "../../components/InputStyle";
 import { Ionicons } from "@expo/vector-icons";
 
 
-export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
+export default function Fourth({ ScreenCounter, signupState, setsignUpState, handleAddPatientData }) {
     const [input, setInput] = useState("");
 
     useEffect(() => {
@@ -14,12 +14,14 @@ export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
 
     const setNumber = async () => {
         // setsignUpState({ phone: `+63${input}` })
+        handleAddPatientData({ phone: `+63${input}` })
+
         ScreenCounter(7)
     }
 
     return (
         <View>
-            <Text style={styles.textStyle}>Please Fill out your Phone Number below</Text>
+            <Text style={styles.textStyle}>Enter Patient Phone Number</Text>
             <View>
                 <View style={InputStyle.UserNameBlock}>
                     <Text style={[InputStyle.UserNameTextStyle, { fontSize: 12 }]}>PHONE NUMBER</Text>

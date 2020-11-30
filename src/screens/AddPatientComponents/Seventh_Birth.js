@@ -8,7 +8,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-export default function Seventh_Birth({ ScreenCounter }) {
+export default function Seventh_Birth({ ScreenCounter, handleAddPatientData }) {
     const [calenderValue, setCalenderValue] = useState("DD/MM/YYYY");
     const [calenderShower, setCalenderShower] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
@@ -27,11 +27,12 @@ export default function Seventh_Birth({ ScreenCounter }) {
     const setBirthDay = () => {
         //setsignUpState({ dob: calenderValue })
         ScreenCounter(8)
+        handleAddPatientData({ dob: calenderValue })
     }
 
     return (
         <View>
-            <Text style={styles.textStyle}>Please Fill out your Contact Details below</Text>
+            <Text style={styles.textStyle}>Please Fill out Patient Date of Birth below</Text>
 
             <View>
                 <View style={InputStyle.UserNameBlock}>
@@ -93,7 +94,7 @@ export default function Seventh_Birth({ ScreenCounter }) {
 
                 {/* Below BelowPart */}
                 <View style={styles.BelowPart}>
-                    <TouchableOpacity onPress={() => ScreenCounter(8)} style={{ flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => ScreenCounter(6)} style={{ flexDirection: "row" }}>
                         <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
                         <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
                     </TouchableOpacity>

@@ -21,6 +21,7 @@ import Sixth from './AddPatientComponents/Sixth';
 import Seventh_Birth from "./AddPatientComponents/Seventh_Birth";
 import Eight_Gender from "./AddPatientComponents/Eight_Gender";
 import Ninth_Photo from "./AddPatientComponents/Ninth_Photo";
+import Tenth__Back from "./AddPatientComponents/Tenth__Back";
 
 export default function AddPatient({ navigation }) {
     const [first, setFirst] = useState(true);
@@ -32,6 +33,7 @@ export default function AddPatient({ navigation }) {
     const [seventh, setSeventh] = useState(false);
     const [eighth, setEigth] = useState(false);
     const [ninth, setNineth] = useState(false);
+    const [tenth, setTenth] = useState(false)
 
     const [last, setLast] = useState(false);
     const [counter, setCounter] = useState(1);
@@ -51,10 +53,13 @@ export default function AddPatient({ navigation }) {
     const handleAddPatientData = (state) => {
         let newState = { ...addPatientState, ...state }
         setaddPatientState(newState)
+        console.log(newState);
     }
 
     // sign up 
     const registerPatient = (state = { phone: "123" }) => {
+        // navigation.navigate("SendToDentist")
+
         let finalState = { ...addPatientState, ...state, createdon: new Date(), appointments: [] }
         handleAddPatientData(state)
 
@@ -185,16 +190,19 @@ export default function AddPatient({ navigation }) {
             return <Fifth ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (sixth === true) {
-            return <Sixth ScreenCounter={Counter} navigation={navigation} registerPatient={registerPatient} handleAddPatientData={handleAddPatientData} />;
+            return <Sixth ScreenCounter={Counter} navigation={navigation} handleAddPatientData={handleAddPatientData} />;
         }
         else if (seventh === true) {
-            return <Seventh_Birth ScreenCounter={Counter} />;
+            return <Seventh_Birth ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (eighth === true) {
-            return <Eight_Gender ScreenCounter={Counter} />;
+            return <Eight_Gender ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} />;
         }
         else if (ninth === true) {
-            return <Ninth_Photo ScreenCounter={Counter} />;
+            return <Ninth_Photo ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} registerPatient={registerPatient} navigation={navigation} />;
+        }
+        else if (tenth === true) {
+            return <Tenth__Back ScreenCounter={Counter} handleAddPatientData={handleAddPatientData} navigation={navigation} />;
         }
 
         else {
@@ -202,29 +210,152 @@ export default function AddPatient({ navigation }) {
         }
     };
 
-    return (
-        <View>
-            {ScreenViewer()}
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <TouchableOpacity
-                        onPress={() => props.navigation.navigate("Login")}
-                        style={{ flexDirection: "row" }}
-                    >
-                        <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
-                        <Text style={[styles.headerTextStyle, { marginLeft: 2 }]}> Back to login</Text>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.headerText}>
-                        <Text style={styles.headerTextStyle}>VIEW FULL FORM</Text>
-                    </TouchableOpacity>
-                </View>
-                {/* <View style={styles.borderBlock}>{greenBorderCounter()}</View> */}
-                <View style={BlockStyle.blockStyle}>
-                    <Text style={styles.screenCounterTextStyle}>{counter === 11 ? "10" : counter} of 10</Text>
-                </View>
-            </SafeAreaView>
-        </View>
+    const greenBorderCounter = () => {
+        if (counter === 1) {
+            return <View style={styles.borderBlockStyle}></View>;
+        } else if (counter == 2) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 3) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 4) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 5) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 6) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 7) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 8) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 9) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 10) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        } else if (counter == 11) {
+            return (
+                <>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                    <View style={styles.borderBlockStyle}></View>
+                </>
+            );
+        }
+        else {
+            return;
+        }
+    };
+
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate("AddPatientMain")}
+                    style={{ flexDirection: "row" }}
+                >
+                    <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
+                    <Text style={[styles.headerTextStyle, { marginLeft: 2 }]}> Back to ADD PATIENT</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.headerText}>
+                    <Text style={styles.headerTextStyle}>VIEW FULL FORM</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.borderBlock}>{greenBorderCounter()}</View>
+            <View style={BlockStyle.blockStyle}>
+                <Text style={styles.screenCounterTextStyle}>{counter === 11 ? "10" : counter} of 10</Text>
+                {ScreenViewer()}
+            </View>
+        </SafeAreaView>
     )
 }
 

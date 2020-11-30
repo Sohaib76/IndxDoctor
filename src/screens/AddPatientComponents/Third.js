@@ -17,7 +17,7 @@ export default function Third({ ScreenCounter, handleAddPatientData }) {
 
     return (
         <View>
-            <Text style={styles.textStyle}>Please Fill out your Contact Details below</Text>
+            <Text style={styles.textStyle}>Enter Patient Middle Name</Text>
 
             <View>
                 <View style={InputStyle.UserNameBlock}>
@@ -36,7 +36,7 @@ export default function Third({ ScreenCounter, handleAddPatientData }) {
                     <TextInput
                         onChangeText={(val) => setInput(val)}
                         value={input}
-                        placeholder="Enter Your First Name"
+                        placeholder="Enter Your Middle Name"
                         style={[
                             InputStyle.TextInputStyle,
                             {
@@ -64,16 +64,16 @@ export default function Third({ ScreenCounter, handleAddPatientData }) {
                 </TouchableOpacity>
 
                 {/* Below BelowPart */}
-                {/* <View style={styles.BelowPart}>
-          <TouchableOpacity onPress={() => ScreenCounter(5)} style={{ flexDirection: "row" }}>
-            <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
-            <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
-          </TouchableOpacity>
+                <View style={styles.BelowPart}>
+                    <TouchableOpacity onPress={() => ScreenCounter(2)} style={{ flexDirection: "row" }}>
+                        <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
+                        <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
+                    </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => ScreenCounter(7)}>
-            <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
-          </TouchableOpacity>
-        </View> */}
+                    <TouchableOpacity onPress={() => ScreenCounter(7)}>
+                        <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )

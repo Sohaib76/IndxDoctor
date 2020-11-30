@@ -129,27 +129,35 @@ export default function ({ navigation, route }) {
     useEffect(() => {
         if (username && usersData) {
             console.log(usersData[username].patients, "....");
-            let patientsDataList = usersData[username].patients
+            try {
+                var patientsDataList = usersData[username].patients
+                if (patientsDataList.length) {
+                    patientsDataList = patientsDataList.map(patient => {
+                        return {
+                            ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
+                        }
+                    })
+                    // all data (not for list)
+                    setAllpatientsData(patientsDataList)
+                    let sortedPatientList = patientsDataList.map(patient => {
+                        return {
+                            fullname: patient.fullname,
+                            uuid: patient.uuid
+                        }
+                    })
+                    sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
+                    // segmented list
+                    setpatientsNameList(sortedPatientList)
+                }
+            }
+            catch {
+                console.log("No Users");
+            }
+
             console.log("patient list: ", patientsDataList);
             // run only if patients exist
-            if (patientsDataList.length) {
-                patientsDataList = patientsDataList.map(patient => {
-                    return {
-                        ...patient, fullname: `${patient.firstname} ${patient.middlename} ${patient.lastname}`
-                    }
-                })
-                // all data (not for list)
-                setAllpatientsData(patientsDataList)
-                let sortedPatientList = patientsDataList.map(patient => {
-                    return {
-                        fullname: patient.fullname,
-                        uuid: patient.uuid
-                    }
-                })
-                sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
-                // segmented list
-                setpatientsNameList(sortedPatientList)
-            }
+            //Its undefined broo, making error!!!
+
         }
     }, [usersData, username])
 
@@ -168,6 +176,7 @@ export default function ({ navigation, route }) {
                 //height: `${100 / list.length}%`,
                 // opacity: opaq ? 0.5 : 0,
                 height: "100%"
+                , flexDirection: 'row'
             }}>
                 <View>
                     <Text
@@ -178,6 +187,17 @@ export default function ({ navigation, route }) {
                         })}
                     >
                         Add Appointment
+                    </Text>
+                </View>
+                <View>
+                    <Text
+                        onPress={() => navigation.navigate("PatientDetail", {
+                            // passing patient uuid for appointment data recieving
+                            patientUuid: l.uuid,
+                            patientDetails: getPatientDetails(l.uuid)
+                        })}
+                    >
+                        Patient Info
                     </Text>
                 </View>
             </View>
@@ -268,8 +288,16 @@ export default function ({ navigation, route }) {
                         ))
 
                     ) : (
-                            <View>
-                                <Text>
+                            <View style={{
+                                justifyContent: 'center'
+                                , alignItems: 'center',
+                                height: '60%'
+                            }}>
+                                <Text
+                                    style={{
+                                        color: 'grey',
+                                        fontSize: 20
+                                    }}>
                                     No patients
                                 </Text>
                             </View>

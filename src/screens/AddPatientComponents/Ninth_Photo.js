@@ -40,8 +40,15 @@ export default Ninth_Photo = (props) => {
             setImage(result.uri);
             // props.setsignUpState({ photoUri: result.uri })
 
-
+            // props.({ gender: input })
             //Use THis oNe //props.registerUser(result.uri)
+
+
+            //props.ScreenCounter(10) //Phaat rha he Yhan
+            props.navigation.navigate("SendToDentist")
+            // props.registerPatient({ patientImage: result.uri })
+
+
         }
     };
 
@@ -64,7 +71,7 @@ export default Ninth_Photo = (props) => {
                         )
                 }
             </View>
-            <Text style={styles.textStyle}>Finally, Let's add your Photo</Text>
+            <Text style={styles.textStyle}>Finally, Let's add the Patient Photo</Text>
 
             <Text style={styles.secondTextStyle}>
                 Add your personal photo! it makes people easy to remember! Please add just one photo of you
@@ -106,7 +113,7 @@ export default Ninth_Photo = (props) => {
             }
             {/* Below Part */}
             <View style={styles.BelowPart}>
-                <TouchableOpacity onPress={() => props.ScreenCounter(10)} style={{ flexDirection: "row" }}>
+                <TouchableOpacity onPress={() => props.ScreenCounter(8)} style={{ flexDirection: "row" }}>
                     <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
                     <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
                 </TouchableOpacity>
@@ -129,6 +136,7 @@ const styles = StyleSheet.create({
         lineHeight: 23,
         marginLeft: widthPercentageToDP("10%"),
         marginTop: 20,
+        letterSpacing: 0.9
     },
     secondTextStyle: {
         color: "gray",

@@ -23,6 +23,7 @@ import PatientDetailScreen from "../screens/PatientDetailScreen";
 import AddPatientMain from "../screens/AddPatientMain";
 import AddAppointment from "../screens/AddAppointment";
 import AddApointmentMain from "../screens/AddApointmentMain";
+import Tenth__Back from "../screens/AddPatientComponents/Tenth__Back";
 
 
 
@@ -46,6 +47,7 @@ function HomeStack() {
     <Stack.Navigator headerMode="none">
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="AddPatient" component={AddPatient} />
+      <Stack.Screen name="SendToDentist" component={Tenth__Back} />
       <Stack.Screen name="AddAppointment" component={AddAppointment} />
       <Stack.Screen name="PatientList" component={PatientList} />
       <Stack.Screen name="PatientDetail" component={PatientDetailScreen} />

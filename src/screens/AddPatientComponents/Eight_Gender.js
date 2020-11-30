@@ -7,7 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Images from "../../assets/Images";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Eight_Gender = ({ ScreenCounter, signupState, setsignUpState }) => {
+const Eight_Gender = ({ ScreenCounter, signupState, setsignUpState, handleAddPatientData }) => {
     const [input, setInput] = useState("Male");
     const [male, setMale] = useState(false);
     const [female, setFemale] = useState(false);
@@ -15,11 +15,12 @@ const Eight_Gender = ({ ScreenCounter, signupState, setsignUpState }) => {
     const setGender = async () => {
         // setsignUpState({ gender: input })
         ScreenCounter(9)
+        handleAddPatientData({ gender: input })
     }
 
     return (
         <View>
-            <Text style={styles.textStyle}>Please Fill out your Contact Details below</Text>
+            <Text style={styles.textStyle}>Please Select Patient Gender below</Text>
 
             <View>
                 <View style={InputStyle.UserNameBlock}>
@@ -132,7 +133,7 @@ const Eight_Gender = ({ ScreenCounter, signupState, setsignUpState }) => {
 
                 {/* Below_Part */}
                 <View style={styles.BelowPart}>
-                    <TouchableOpacity onPress={() => ScreenCounter(9)} style={{ flexDirection: "row" }}>
+                    <TouchableOpacity onPress={() => ScreenCounter(7)} style={{ flexDirection: "row" }}>
                         <Ionicons name="ios-arrow-back" size={18} color={colors.darkGreen} />
                         <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Back</Text>
                     </TouchableOpacity>
