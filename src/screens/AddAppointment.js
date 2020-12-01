@@ -63,8 +63,12 @@ export default function AddAppointment({ navigation, route }) {
     //Giving Date OBJ
     const [dateobject, setdateobject] = useState("")
 
+    const [markDates, setmarkDates] = useState(['2020-12-22', '2020-12-23'])
+
+
     //Testing
     const [selected, setselected] = useState("")
+
 
 
 
@@ -226,7 +230,13 @@ export default function AddAppointment({ navigation, route }) {
                 <Surface style={{ height: 320, margin: 20 }}>
 
                     <Calendar
+
+
                         markedDates={{
+
+                            [markDates[0]]: { selectedColor: 'grey', textColor: 'white', selected: true },
+                            // '2021-01-23': { color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white' },
+                            // '2021-01-24': { color: '#70d7c7', textColor: 'white' },
                             [selected]: {
                                 selected: true,
                                 disableTouchEvent: true,
@@ -304,7 +314,7 @@ export default function AddAppointment({ navigation, route }) {
                             textDayHeaderFontSize: 16
                         }}
                     // Replace default month and year title with custom one. the function receive a date as parameter.
-                    //renderHeader={(date) => {  }}
+                    //renderHeader={(date) => { }}
                     // Enable the option to swipe between months. Default = false
                     //enableSwipeMonths={true}
                     />
@@ -375,7 +385,7 @@ export default function AddAppointment({ navigation, route }) {
                 {/* Setting Time */}
                 <Text style={{
                     color: 'grey', margin: 25, marginBottom: 0
-                    , marginTop: 8
+                    , marginTop: 30
                 }}>SET TIME OF APPOINTMENT</Text>
 
                 <Surface style={{ margin: 20, paddingBottom: 20 }}>
