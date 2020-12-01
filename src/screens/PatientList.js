@@ -72,7 +72,7 @@ export default function ({ navigation, route }) {
     const showAppointmentsOnDate = (date) => {
         allPatientsData.forEach(patient => {
             let hasApnmnt = patient.appointments.find(apnmnt => {
-                apnmnt.date == date
+                apnmnt.fulldate == date
             })
             // return patient basic details if has appointment
             if (hasApnmnt) {
@@ -83,6 +83,7 @@ export default function ({ navigation, route }) {
             }
         })
     }
+    console.log("patient list rendered");
 
     // runs only for adding new appointment
     useEffect(() => {
@@ -90,11 +91,15 @@ export default function ({ navigation, route }) {
         const addNewAppointment = (uuid, newAppointmentDetails) => {
             let updatedPatientData = allPatientsData.map(patient => {
                 if (patient.uuid == uuid && patient.appointments) {
-                    // if (patient.appointments.length > 1) {
-                    //     let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
-                    //     sortedAppointmentList.sort(function (a, b) { return a["fulldate"].localeCompare(b["fulldate"]); });
-                    //     console.log("sortedAppointmentList", sortedAppointmentList);
-                    // }
+                    if (patient.appointments.length > 1) {
+                        let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
+                        sortedAppointmentList.sort(function (a, b) {
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            return new Date(a.fulldate) - new Date(b.fulldate);
+                        });
+                        return sortedAppointmentList;
+                    }
                     return {
                         ...patient, appointments: [
                             ...patient.appointments, newAppointmentDetails
@@ -103,17 +108,19 @@ export default function ({ navigation, route }) {
                 }
                 return patient
             })
-            // console.log("updatedPatientData", updatedPatientData);
+            console.log("updatedPatientData", updatedPatientData);
             // add updated patient data to user
             let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
             // add updated user to all data
             let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
             // util: update entire global users
             updateGlobalUsersAsync(updatedAllUsersData)
+            setallusersData(updatedAllUsersData)
         }
 
         // only runs if routed from add appointments
         if (route.params) {
+            console.log("got params");
             addNewAppointment(route.params.patientUuid, route.params.newAppointmentDetails)
         }
     }, [route.params])
@@ -362,7 +369,6 @@ export default function ({ navigation, route }) {
 
 
             </ScrollView >
-            {console.log("Total Patients", totalPatients)}
             {/* {patientsNameList.length &&
 
                 <Text style={{

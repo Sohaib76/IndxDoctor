@@ -29,9 +29,6 @@ export default function AddAppointment({ navigation, route }) {
     //https://github.com/amhinson/react-native-calendar
     //https://react-native-components.gitbook.io/calendar/
 
-
-
-
     // const [appointment, setappointmen] = useState("6/12/2019")
 
 
@@ -73,17 +70,10 @@ export default function AddAppointment({ navigation, route }) {
 
 
     const setDate = (day) => {
-        // var ds = JSON.stringify(d.startDate)
-        // var year = ds.substr(1, 4)
-        // var month = ds.substr(6, 2)
-        // var day = JSON.stringify(Number(ds.substr(9, 2)) + 1)
-
-        console.log('selected day', day)
         setselected(day.dateString)
 
         var date_ob = new Date(day.timestamp);
         setdateobject(date_ob)
-        console.log(date_ob, "dob");
 
         var weekday = new Array(7);
         weekday[0] = "Sunday";
@@ -112,19 +102,10 @@ export default function AddAppointment({ navigation, route }) {
         month[11] = "December";
         var monthn = month[date_ob.getMonth()];
 
-        // setfulldate(year)
         setappointmentMonth(monthn)
         setappointmentDate(day.day)
         setappointmentWeekDay(weekn)
         setdoneDate(true)
-
-
-
-        // let copyOf = d.startDate.toDateString()
-        // // var x = new Date(copyOf)
-        // setdateobject(copyOf)
-
-        // console.log(copyOf, "as");
     }
 
     const handleAddAppointment = () => {
@@ -134,9 +115,10 @@ export default function AddAppointment({ navigation, route }) {
             date: appointmentDate,
             month: appointmentMonth,
             uuid: uuid.v4(),
-            // fulldate: new Date()
+            fulldate: dateobject.toDateString()
         }
         alert("Appointment Added!")
+        console.log("newAppointmentDetails, ", newAppointmentDetails);
         navigation.navigate("PatientList", {
             patientUuid: route.params.patientUuid,
             newAppointmentDetails
@@ -161,7 +143,6 @@ export default function AddAppointment({ navigation, route }) {
             })
             const diffTime = Math.abs(today - lastDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            // return `${diffDays} days`
             return lastDate.toDateString()
         }
         return "NA"
@@ -512,8 +493,8 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    disabled={true}
-                    // disabled={doneDate && doneTime ? false : true}
+                    // disabled={true}
+                    disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',
                         padding: 16
