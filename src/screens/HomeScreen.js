@@ -109,7 +109,7 @@ export default function HomeScreen({ route, navigation }) {
                             , color: Colors.lightGray
                         }}>November 22,2019</Text>
                     </View>
-                    <View style={{ padding: 18, flexDirection: 'row' }}>
+                    <View style={{ marginLeft: 8, paddingBottom: 10, paddingTop: 18, flexDirection: 'row', justifyContent: 'space-between' }}>
 
                         <View style={{ flex: 2 }}>
                             <View style={{
@@ -120,9 +120,13 @@ export default function HomeScreen({ route, navigation }) {
                                 backgroundColor: "rgba(176,224,230,0.4)", borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 60, color: "darkblue" }}>5</Text>
+                                <Text style={{ fontSize: 50, color: "darkblue" }}>5</Text>
                             </View>
-                            <Text style={{ marginLeft: -30, marginTop: 8, fontSize: 14, textAlign: 'center' }}>Current Appointments</Text>
+                            <Text style={{
+
+
+                                marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center'
+                            }}>Current {"\n"}Appointments</Text>
                         </View>
 
 
@@ -137,9 +141,9 @@ export default function HomeScreen({ route, navigation }) {
                                 , borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 60, color: "green" }}>3</Text>
+                                <Text style={{ fontSize: 50, color: "green" }}>3</Text>
                             </View>
-                            <Text style={{ marginLeft: -30, marginTop: 8, fontSize: 14, textAlign: 'center' }}>Pending Appointments</Text>
+                            <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Pending {"\n"} Appointments</Text>
                         </View>
 
 
@@ -154,9 +158,9 @@ export default function HomeScreen({ route, navigation }) {
                                 backgroundColor: "rgba(176,224,230,0.4)", borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 60, color: "red" }}>1</Text>
+                                <Text style={{ fontSize: 50, color: "red" }}>1</Text>
                             </View>
-                            <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 14, textAlign: 'center' }}>Cancelled Appointments</Text>
+                            <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Cancelled Appointments</Text>
                         </View>
 
 
@@ -165,13 +169,13 @@ export default function HomeScreen({ route, navigation }) {
 
                 </Surface>
 
-                {/* Another 1**************** */}
+                {/* Another PATIENTS 1**************** */}
                 <Text style={{ fontSize: 18, color: 'grey', fontWeight: 'bold', marginStart: 20, marginTop: 20 }}>PATIENTS</Text>
 
                 <Surface style={{ padding: 20, margin: 20 }}>
                     <View style={{
                         flexDirection: "row", alignItems: 'center'
-                        , justifyContent: 'space-between'
+                        // , justifyContent: 'flex-start'
                     }}>
 
                         <View style={{
@@ -189,6 +193,14 @@ export default function HomeScreen({ route, navigation }) {
 
                         <Text style={{ fontSize: 20, }}>Total Patients</Text>
 
+
+                    </View>
+
+                    <View style={{
+                        marginTop: -20,
+                        justifyContent: 'flex-end', flexDirection: 'row'
+                    }}
+                    >
                         <Menu
                             visible={visible}
                             onDismiss={closeMenu}
@@ -198,7 +210,6 @@ export default function HomeScreen({ route, navigation }) {
                             <Menu.Item onPress={() => { }} title="Add Existing Patient" />
 
                         </Menu>
-
                     </View>
                     <Divider style={{ margin: 20 }} />
 

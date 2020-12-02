@@ -26,15 +26,18 @@ export default function PatientQueue({ isQueued, isCancelled }) {
             return (
                 <>
                     <Button
-                        labelStyle={{ color: 'white', fontWeight: 'bold', fontSize: 12 }}
-                        style={{ backgroundColor: 'darkblue', marginRight: -16, borderWidth: 2 }}
+                        labelStyle={{ fontWeight: 'bold', fontSize: 12 }}
+                        style={{ backgroundColor: 'darkblue', marginRight: -16, borderWidth: 0 }}
                         mode="contained" onPress={() => console.log('Pressed')}>
                         Check
                 </Button>
 
                     <Button
                         labelStyle={{ color: 'red', fontWeight: 'bold', fontSize: 12 }}
-                        style={{ borderColor: 'red', borderWidth: 2 }}
+                        style={{
+                            borderColor: 'red', borderWidth: 2
+                            , width: 93, height: 35, marginLeft: 10
+                        }}
                         mode="outlined" onPress={() => console.log('Pressed')}>
                         Cancel
                 </Button>
@@ -108,9 +111,9 @@ export default function PatientQueue({ isQueued, isCancelled }) {
                 <View style={{ flexDirection: 'row', padding: 5, justifyContent: 'space-between', alignItems: 'center' }}>
                     <View>
                         <Text
-                            style={{ marginBottom: 5, color: 'grey', fontSize: 16 }}
+                            style={{ marginBottom: 5, color: 'grey', fontSize: 12 }}
                         >Cheif Complaint</Text>
-                        <Text style={{ fontSize: 16 }}>Extraction</Text>
+                        <Text style={{ fontSize: 12 }}>Extraction</Text>
                     </View>
 
                     <RenderBtn />

@@ -32,12 +32,12 @@ export default function NavigationComponent({ name, navigation, where }) {
                     borderRadius={20}
 
 
-                    name="creditcard" size={24} color={Colors.darkGreen} />
+                    name="creditcard" size={20} color={Colors.darkGreen} />
             </View>
 
             <Text style={{
                 padding: 10,
-                fontSize: 20,
+                fontSize: 16,
                 color: Colors.darkGreen
             }}>{name}</Text>
 

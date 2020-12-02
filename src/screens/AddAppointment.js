@@ -191,7 +191,7 @@ export default function AddAppointment({ navigation, route }) {
                     </>
 
                 }
-                centerComponent={{ text: 'Add Appointment', style: { color: 'darkblue', fontSize: 35, fontWeight: "bold" } }}
+                centerComponent={{ text: 'Add Appointment', style: { color: 'darkblue', fontSize: 30, fontWeight: "bold" } }} //default 35
             />
             <ScrollView>
 
@@ -200,10 +200,11 @@ export default function AddAppointment({ navigation, route }) {
                 }}>PATIENT FOR APPOINTMENT</Text>
 
                 <Surface style={{ flexDirection: 'row', margin: 12, padding: 30 }}>
-                    <View>
+                    <View style={{ marginLeft: -10 }}>
 
 
                         <Avatar
+
                             rounded
                             size='large'
                             source={{
@@ -536,7 +537,7 @@ export default function AddAppointment({ navigation, route }) {
                 />
             </ScrollView>
 
-        </View>
+        </View >
 
 
 

@@ -35,9 +35,9 @@ export default function CustomDrawerContent({ navigation }) {
         setUserdata()
     }
     return (
-        <View style={{ backgroundColor: Colors.background }}>
+        <View style={{ backgroundColor: Colors.background, height: "100%" }}>
             <View style={{
-                paddingTop: 90, paddingLeft: 20,
+                paddingTop: 70, paddingLeft: 20,
                 backgroundColor: 'white',
                 shadowColor: '#000',
                 shadowOffset: { width: 0, height: 2 },
@@ -67,15 +67,15 @@ export default function CustomDrawerContent({ navigation }) {
                         , padding: 15
                     }}>
                         <Text style={{
-                            fontSize: 18
+                            fontSize: 16
                             , marginBottom: 8
                         }}>{fullname}</Text>
                         <Text style={{
                             color: Colors.lightGray,
-                            fontSize: 18, marginBottom: 8
+                            fontSize: 15, marginBottom: 8
                         }}>{email}</Text>
                         <Pressable ><Text style={{
-                            fontSize: 18
+                            fontSize: 15
                             , color: Colors.darkGreen
                             , marginBottom: 10,
                             fontWeight: "bold"
@@ -84,11 +84,8 @@ export default function CustomDrawerContent({ navigation }) {
                 </View>
             </View>
             <ScrollView
-                // contentContainerStyle={ }
-                style={{
-                    height: '100%'
-
-                }}>
+            // contentContainerStyle={ }
+            >
                 <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeScreen"} />
                 {/* <NavigationComponent name={"Set Appoinment"} navigation={navigation} where={"AddAppointmentMain"} /> */}
                 <NavigationComponent name={"Add Patient"} navigation={navigation} where={"AddPatientMain"} />
@@ -96,6 +93,8 @@ export default function CustomDrawerContent({ navigation }) {
                 <NavigationComponent name={"Calendar"} navigation={navigation} />
                 <NavigationComponent name={"Process Payment"} navigation={navigation} />
                 <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />
+
+
 
                 {/* <NavigationComponent />
                 <NavigationComponent />
