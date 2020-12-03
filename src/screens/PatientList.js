@@ -52,7 +52,66 @@ export default function ({ navigation, route }) {
     // for overlay
     const [overlayOn, setoverlayOn] = useState("")
 
-    const onChangeSearch = query => setSearchQuery(query);
+    const onChangeSearch = (text) => {
+        // Check if searched text is not blank
+        if (text) {
+            // Inserted text is not blank
+            // Filter the masterDataSource and update FilteredDataSource
+            const newData = patientsNameList.filter(
+                function (item) {
+                    // Applying filter for the inserted text in search bar
+                    const itemData = item.fullname
+                        ? item.fullname.toUpperCase()
+                        : ''.toUpperCase();
+                    const textData = text.toUpperCase();
+                    console.log(itemData)
+                    return itemData.indexOf(textData) > -1;
+                }
+
+            );
+
+            setfilteredpatientsNameList(newData);
+            setSearchQuery(text);
+        } else {
+            // Inserted text is blank
+            // Update FilteredDataSource with masterDataSource
+            setfilteredpatientsNameList(patientsNameList);
+            setSearchQuery(text);
+        }
+    };
+
+    // const onChangeSearch = query => {
+
+    //     setSearchQuery(query)
+    //     patientsNameList.filter((x) => {
+    //         //console.log(x.fullname);
+    //         var arr = []
+    //         if (x.fullname.includes(query)) {
+    //             console.log([x]);
+
+    //             arr.push(x)
+
+    //         }
+    //         // else {
+    //         //     arr = []
+    //         // }
+
+    //         // else {
+    //         //     setfilteredpatientsNameList([])
+    //         // }
+    //         //Saif (arr.length >= 1) {
+    //         setfilteredpatientsNameList(arr)
+
+
+
+
+    //     })
+    //     if (query == "") {
+    //         setfilteredpatientsNameList(patientsNameList)
+    //     }
+    //     console.log(query);
+
+    // }
 
     // ------------------------------------------------------------------------------------------------ //
     // ------------------------------------------------------------------------------------------------ //
@@ -83,7 +142,6 @@ export default function ({ navigation, route }) {
             }
         })
     }
-    console.log("patient list rendered");
 
     // runs only for adding new appointment
     useEffect(() => {
@@ -91,15 +149,18 @@ export default function ({ navigation, route }) {
         const addNewAppointment = (uuid, newAppointmentDetails) => {
             let updatedPatientData = allPatientsData.map(patient => {
                 if (patient.uuid == uuid && patient.appointments) {
-                    if (patient.appointments.length > 1) {
+                    if (patient.appointments.length >= 1) {
                         let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
                         sortedAppointmentList.sort(function (a, b) {
                             // Turn your strings into dates, and then subtract them
                             // to get a value that is either negative, positive, or zero.
                             return new Date(a.fulldate) - new Date(b.fulldate);
                         });
-                        return sortedAppointmentList;
+                        return {
+                            ...patient, appointments: sortedAppointmentList
+                        }
                     }
+                    // already sorted
                     return {
                         ...patient, appointments: [
                             ...patient.appointments, newAppointmentDetails
@@ -108,19 +169,19 @@ export default function ({ navigation, route }) {
                 }
                 return patient
             })
-            console.log("updatedPatientData", updatedPatientData);
             // add updated patient data to user
             let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
             // add updated user to all data
             let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
             // util: update entire global users
+            console.log();
+            console.log();
             updateGlobalUsersAsync(updatedAllUsersData)
             setallusersData(updatedAllUsersData)
         }
 
         // only runs if routed from add appointments
         if (route.params) {
-            console.log("got params");
             addNewAppointment(route.params.patientUuid, route.params.newAppointmentDetails)
         }
     }, [route.params])
@@ -135,7 +196,6 @@ export default function ({ navigation, route }) {
     // working
     useEffect(() => {
         if (username && usersData) {
-            // console.log(usersData[username].patients, "....");
             try {
                 var patientsDataList = usersData[username].patients
                 if (patientsDataList.length) {
@@ -153,9 +213,11 @@ export default function ({ navigation, route }) {
                             imageuri: patient.patientImage
                         }
                     })
+                    // console.log("second usef", usersData);
                     sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
                     // segmented list
                     setpatientsNameList(sortedPatientList)
+                    setfilteredpatientsNameList(sortedPatientList)
                     settotalPatients(sortedPatientList.length)
                 }
             }
@@ -164,12 +226,6 @@ export default function ({ navigation, route }) {
             }
         }
     }, [usersData, username])
-
-    // const Item = ({ title }) => (
-    //     <View style={styles.item}>
-    //         <Text style={styles.title}>{title}</Text>
-    //     </View>
-    // );
 
     const Overlay = (l) => {
         return (
@@ -301,10 +357,10 @@ export default function ({ navigation, route }) {
                 />
             </View>
             <Divider />
-            <ScrollView contentContainerStyle={{ height: "100%" }}>
+            <ScrollView style={{ height: '100%', }} contentContainerStyle={{ height: "100%" }}>
                 {
                     patientsNameList.length ? (
-                        patientsNameList.map((l, i) => (
+                        filteredpatientsNameList.map((l, i) => (  //patientNameList
                             <View key={i}>
                                 <ListItem
                                     onLongPress={
@@ -366,7 +422,17 @@ export default function ({ navigation, route }) {
 
 
 
-
+                {/* {patientsNameList.length && <Text style={{
+                    textAlign: 'center',
+                    color: 'grey',
+                    fontSize: 20,
+                    // justifyContent: 'flex-end',
+                    // alignItems: 'flex-end'
+                    position: 'absolute',
+                    bottom: 50,
+                    right: 100,
+                    left: 100
+                }}>{totalPatients} Patients</Text>} */}
 
             </ScrollView >
             {/* {patientsNameList.length &&

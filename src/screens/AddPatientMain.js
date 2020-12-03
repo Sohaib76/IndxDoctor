@@ -37,7 +37,7 @@ export default function AddPatientMain({ navigation }) {
                 onPress={() => navigation.navigate("AddPatient")}
             /> */}
 
-            <View style={{ alignItems: 'center' }}>
+            <ScrollView style={{ height: "100%" }} contentContainerStyle={{ alignItems: 'center' }}>
 
                 <TouchableOpacity
                     onPress={() => navigation.navigate("PatientList")}
@@ -54,7 +54,7 @@ export default function AddPatientMain({ navigation }) {
 
 
                 <View
-                    style={{ alignItems: 'center' }}
+                    style={{ alignItems: 'center', marginBottom: 250 }}
                 >
 
                     <TouchableOpacity
@@ -73,10 +73,10 @@ export default function AddPatientMain({ navigation }) {
 
 
                 </View>
-            </View>
+            </ScrollView >
 
 
-        </View>
+        </View >
     )
 }
 

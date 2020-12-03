@@ -71,7 +71,7 @@ export default function One({ ScreenCounter, navigation, handleAddPatientData })
 const styles = StyleSheet.create({
     blockTextStyle: {
         alignSelf: "center",
-        width: wp("50"),
+        width: wp("60"),
         marginTop: 10,
     },
     blockTextStyles: {
@@ -79,8 +79,10 @@ const styles = StyleSheet.create({
         marginTop: 20,
         // lineHeight: 20,
         // letterSpacing: 0.4,
-        fontWeight: "600",
+        fontWeight: "bold",
         color: colors.lightGreen,
+        textAlign: 'center'
+
     },
     ButtonStyles: {
         ...ButtonStyle.InputBlockStyle,
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
         color: colors.Gray,
     },
     BelowPart: {
-        top: "70%",
+        top: "60%",
         flexDirection: "row",
         justifyContent: "space-around",
     },
