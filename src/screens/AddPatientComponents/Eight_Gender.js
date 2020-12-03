@@ -37,12 +37,13 @@ const Eight_Gender = ({ ScreenCounter, signupState, setsignUpState, handleAddPat
                     ]}
                 >
                     <TouchableOpacity
+                        style={{ width: '100%', height: "100%", justifyContent: 'center' }}
                         onPress={() => {
                             setGenderShower(!genderShower);
                             setMale(true);
                         }}
                     >
-                        <Text style={{ paddingLeft: 10, marginLeft: -100, color: colors.Gray }}>Choose your gender </Text>
+                        <Text style={{ paddingLeft: 10, color: colors.Gray }}>Choose your gender </Text>
                     </TouchableOpacity>
                 </View>
 

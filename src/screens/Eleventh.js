@@ -127,7 +127,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 23,
     marginLeft: widthPercentageToDP("10%"),
+    //marginRight: widthPercentageToDP("10%"),
     marginTop: 20,
+    letterSpacing: 0.9
   },
   secondTextStyle: {
     color: "gray",

@@ -13,6 +13,7 @@ import { RadioButton } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
 import Colors from '../config/colors';
+import { set } from 'react-native-reanimated';
 const uuid = require("react-native-uuid")
 // import { LocaleConfig } from 'react-native-calendars';
 
@@ -42,7 +43,7 @@ export default function AddAppointment({ navigation, route }) {
     const [lastAppointment, setlastAppointment] = useState("6 months ago")
     const [firstname, setfirstname] = useState("Alexander")
     const [lastname, setlastname] = useState("Dela Costa")
-    const [image, setimage] = useState('https://reactnative.dev/img/tiny_logo.png')
+    const [image, setimage] = useState('')//https://reactnative.dev/img/tiny_logo.png
 
 
     //Will be fetched locally
@@ -63,7 +64,7 @@ export default function AddAppointment({ navigation, route }) {
     //Giving Date OBJ
     const [dateobject, setdateobject] = useState("")
 
-    const [markDates, setmarkDates] = useState(['2020-12-22', '2020-12-23'])
+    const [markDates, setmarkDates] = useState({})
 
 
     //Testing
@@ -174,9 +175,67 @@ export default function AddAppointment({ navigation, route }) {
         if (route.params.patientDetails) {
             setfirstname(route.params.patientDetails.firstname)
             setlastname(route.params.patientDetails.lastname)
+            setimage(route.params.patientDetails.patientImage)
+
+
+            //TEsting
+
+
+            // let appointedDaysObject = {};
+
+            // appointedDays.forEach((day) => {
+            //     appointedDaysObject[day] = {
+            //         selected: true,
+            //         // marked: true
+            //     };
+            // });
+
+            // appointedDaysObject[[selected]] = {
+            //     selected: true,
+            //     disableTouchEvent: true,
+            //     selectedColor: '#00adf5',
+
+            // }
+            // console.log(appointedDaysObject);
+
+            //setmarkDates(appointedDaysObject)
+
+
+
             // setlastAppointment(getLastAppointment(route.params.patientDetails.appointments))
         }
+        else {
+            setimage('https://reactnative.dev/img/tiny_logo.png')
+        }
     }, [])
+
+
+    //GETIING PREVIOUS APPOINTMENTS
+    useEffect(() => {
+        const appointedDays = [
+            '2020-12-22',
+            '2020-12-23'
+
+        ];
+        let appointedDaysObject = {};
+
+        appointedDays.forEach((day) => {
+            appointedDaysObject[day] = {
+                selected: true,
+                // marked: true
+            };
+        });
+
+        appointedDaysObject[[selected]] = {
+            selected: true,
+            disableTouchEvent: true,
+            selectedColor: '#00adf5',
+
+        }
+        console.log(appointedDaysObject);
+
+        setmarkDates(appointedDaysObject)
+    }, [selected])
 
     return (
         <View>
@@ -218,10 +277,13 @@ export default function AddAppointment({ navigation, route }) {
                         <Text
                             style={{ fontWeight: 'bold', fontSize: 20 }}
                         >{firstname} {lastname}</Text>
-                        <Text style={{ color: Colors.lightGreen, fontWeight: 'bold' }}>Last appointment: {lastAppointment}</Text>
+                        <Text style={{
+                            fontSize: 13,
+                            color: Colors.lightGreen, fontWeight: 'bold'
+                        }}>Last appointment: {lastAppointment}</Text>
                         <Text
                             onPress={() => navigation.navigate("PatientList")}
-                            style={{ color: Colors.darkGreen }}>Tap to change Patient</Text>
+                            style={{ fontSize: 13, color: Colors.darkGreen }}>Tap to change Patient</Text>
                     </View>
                 </Surface>
                 <Text style={{
@@ -233,18 +295,34 @@ export default function AddAppointment({ navigation, route }) {
                     <Calendar
 
 
-                        markedDates={{
+                        markedDates={
+                            markDates
+                            // {
+                            //     [selected]: {
+                            //         selected: true,
+                            //         disableTouchEvent: true,
+                            //         selectedColor: '#00adf5',
+                            //         // selectedTextColor: 'red'
+                            //     }
+                            // }
 
-                            [markDates[0]]: { selectedColor: 'grey', textColor: 'white', selected: true },
+
+                            // [markDates]: {
+                            //     selected: true
+                            // },
+
+
                             // '2021-01-23': { color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white' },
                             // '2021-01-24': { color: '#70d7c7', textColor: 'white' },
-                            [selected]: {
-                                selected: true,
-                                disableTouchEvent: true,
-                                // selectedColor: 'orange',
-                                // selectedTextColor: 'red'
-                            }
-                        }}
+
+                        }
+
+                        //  [selected]: {
+                        //     selected: true,
+                        //     disableTouchEvent: true,
+                        //     selectedColor: '#00adf5',
+                        //     // selectedTextColor: 'red'
+                        // }
 
                         // Initially visible month. Default = Date()
                         // current={'2021-03-01'}
@@ -293,7 +371,7 @@ export default function AddAppointment({ navigation, route }) {
                             calendarBackground: '#ffffff',
                             textSectionTitleColor: '#b6c1cd',
                             textSectionTitleDisabledColor: '#d9e1e8',
-                            selectedDayBackgroundColor: '#00adf5',
+                            selectedDayBackgroundColor: 'grey',
                             selectedDayTextColor: '#ffffff',
                             todayTextColor: '#00adf5',
                             dayTextColor: '#2d4150',
@@ -412,11 +490,16 @@ export default function AddAppointment({ navigation, route }) {
 
 
                             }}
-                            style={{ flexDirection: 'row', alignItems: 'center' }}
+                            style={{
+
+                                height: '100%',
+                                width: '100%',
+                                flexDirection: 'row', alignItems: 'center'
+                            }}
                         >
                             <AntDesign
                                 style={{
-                                    paddingLeft: 20, marginLeft: -158
+                                    paddingLeft: 10,
                                 }}
                                 name="clockcircleo" size={24} color="black" />
                             <Text style={{ marginLeft: 20, color: 'grey', fontWeight: 'bold' }}>{appointmentTime}</Text>
@@ -483,7 +566,7 @@ export default function AddAppointment({ navigation, route }) {
                                         , marginBottom: 10
                                     }}
                                 >{lastname}, {firstname}</Text>
-                                <Text style={{ color: 'grey' }}>EXISTING PATIENT</Text>
+                                <Text style={{ fontSize: 13, color: 'grey' }}>EXISTING PATIENT</Text>
                             </View>
                             <View style={{
                                 flex: 2.4,
@@ -492,13 +575,13 @@ export default function AddAppointment({ navigation, route }) {
 
                                 <Text
                                     style={{
-                                        fontSize: 34,
+                                        fontSize: 30,
                                         color: 'teal',
                                         marginBottom: 5
                                     }}
                                 >{appointmentTime}</Text>
                                 <Text style={
-                                    { color: 'teal' }
+                                    { color: 'teal', fontSize: 13 }
                                 }
 
                                 >{appointmentMonth} {appointmentDate}, {appointmentWeekDay}</Text>
@@ -513,8 +596,8 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    disabled={true}
-                    // disabled={doneDate && doneTime ? false : true}
+                    //disabled={true}
+                    disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',
                         padding: 16
@@ -532,7 +615,9 @@ export default function AddAppointment({ navigation, route }) {
                     }}
                     title="FINISH APPOINTMENT"
                     onPress={() =>
+
                         handleAddAppointment()
+                        //alert("Appointment Added For Date ", appointmentDate)
                     }
                 />
             </ScrollView>
