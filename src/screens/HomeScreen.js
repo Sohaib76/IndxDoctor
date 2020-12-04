@@ -86,17 +86,18 @@ export default function HomeScreen({ route, navigation }) {
         setappointmentTimings(todayAppointmentsWithTime)
         setnoOfAppointmentsToday(todayAppointmentsList.length)
         settotalNoOfPatients(patientlist.length)
-        // console.log(todayAppointmentsWithTime);
     }
 
-    const [today, settoday] = useState(new Date("27 December 2020"))
+    const [today, settoday] = useState(new Date())
 
     useEffect(() => {
         getUserData([setAllusersData, setusername], ["globalUsers", "username"])
+    }, [route.params])
+    useEffect(() => {
         if (username && allUsersData) {
             showAppointmentsOnDate(today, allUsersData[username].patients)
         }
-    }, [])
+    }, [allUsersData])
 
     // cancell appointment
     const handleCancel = (appnmntuuid, pntuuid) => {

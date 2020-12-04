@@ -6,10 +6,22 @@ import Colors from '../config/colors';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function NavigationComponent({ name, navigation, where }) {
+    const handleOnPress = () => {
+        if (where) {
+            if (where == "HomeScreen") {
+                navigation.navigate(where, { changesMade: true })
+            } else {
+                navigation.navigate(where)
+            }
+        }
+        else {
+            alert(name)
+        }
+    }
     return (
         <TouchableOpacity
 
-            onPress={() => where ? navigation.navigate(where) : alert(`${name}`)}
+            onPress={handleOnPress}
             style={{
                 backgroundColor: 'white',
                 flexDirection: "row", alignItems: 'center', paddingLeft: 15
