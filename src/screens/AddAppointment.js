@@ -116,7 +116,9 @@ export default function AddAppointment({ navigation, route }) {
             date: appointmentDate,
             month: appointmentMonth,
             uuid: uuid.v4(),
-            fulldate: dateobject.toDateString()
+            fulldate: dateobject.toDateString(),
+            queued: true,
+            cancelled: false
         }
         alert("Appointment Added!")
         // console.log("newAppointmentDetails, ", newAppointmentDetails);

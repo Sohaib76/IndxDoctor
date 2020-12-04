@@ -8,6 +8,7 @@ import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import { getUserData } from "../utils/GetAsyncData"
+import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 
 
 import Colors from '../config/colors';
@@ -85,6 +86,7 @@ export default function HomeScreen({ route, navigation }) {
         setappointmentTimings(todayAppointmentsWithTime)
         setnoOfAppointmentsToday(todayAppointmentsList.length)
         settotalNoOfPatients(patientlist.length)
+        // console.log(todayAppointmentsWithTime);
     }
 
     const [today, settoday] = useState(new Date("27 December 2020"))
@@ -92,14 +94,60 @@ export default function HomeScreen({ route, navigation }) {
     useEffect(() => {
         getUserData([setAllusersData, setusername], ["globalUsers", "username"])
         if (username && allUsersData) {
-            console.log("runing");
             showAppointmentsOnDate(today, allUsersData[username].patients)
         }
     }, [])
 
+    // cancell appointment
+    const handleCancel = (appnmntuuid, pntuuid) => {
+        const userPatientsData = allUsersData[username].patients
+        let updatedPatientData = userPatientsData.map(ptnt => {
+            if (ptnt.uuid == pntuuid) {
+                let allapnmtns = ptnt.appointments.map(appntmnt => {
+                    if (appntmnt.uuid == appnmntuuid) {
+                        return { ...appntmnt, cancelled: true }
+                    }
+                    return appntmnt
+                })
+                return { ...ptnt, appointments: allapnmtns }
+            } else {
+                return ptnt
+            }
+        })
+        const updatedAllUsersData = {
+            ...allUsersData, [username]: {
+                ...allUsersData[username], patients: updatedPatientData
+            }
+        }
+        setAllusersData(updatedAllUsersData)
+        showAppointmentsOnDate(today, updatedAllUsersData[username].patients)
+        updateGlobalUsersAsync(updatedAllUsersData)
+    }
 
-    const handleNavigation = (screen) => {
-        navigation.navigate(screen)
+    // queu appointment
+    const handleQueue = (appnmntuuid, pntuuid) => {
+        const userPatientsData = allUsersData[username].patients
+        let updatedPatientData = userPatientsData.map(ptnt => {
+            if (ptnt.uuid == pntuuid) {
+                let allapnmtns = ptnt.appointments.map(appntmnt => {
+                    if (appntmnt.uuid == appnmntuuid) {
+                        return { ...appntmnt, queued: false }
+                    }
+                    return appntmnt
+                })
+                return { ...ptnt, appointments: allapnmtns }
+            } else {
+                return ptnt
+            }
+        })
+        const updatedAllUsersData = {
+            ...allUsersData, [username]: {
+                ...allUsersData[username], patients: updatedPatientData
+            }
+        }
+        setAllusersData(updatedAllUsersData)
+        showAppointmentsOnDate(today, updatedAllUsersData[username].patients)
+        updateGlobalUsersAsync(updatedAllUsersData)
     }
 
     return (
@@ -268,7 +316,7 @@ export default function HomeScreen({ route, navigation }) {
                 </Surface>
 
                 {/* Another 3 */}
-                <DashboardQueue patientDetails={appointmentTimings} today={today} />
+                <DashboardQueue patientDetails={appointmentTimings} today={today} handleCancel={handleCancel} handleQueue={handleQueue} />
 
                 <View style={styles.container}>
                     <Text>Home</Text>

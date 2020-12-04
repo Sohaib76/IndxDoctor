@@ -8,33 +8,43 @@ import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import Colors from '../config/colors';
 
 
-export default function PatientQueue({ isQueued, isCancelled, details, time }) {
+export default function PatientQueue({ details, time, handleCancel, handleQueue }) {
 
-    console.log("details", details);
+    const [queued, setqueued] = useState(false)
+    const [cancelled, setcancelled] = useState(false)
     const [patientname, setpatientname] = useState("")
     useEffect(() => {
         setpatientname(details.patientfullname)
-    }, [])
+        setqueued(details.queued)
+        setcancelled(details.cancelled)     
+    }, [details])
+
+    const handleCancelButton = () => {
+        handleCancel(details.uuid, details.patientUuid)
+    }
+
+    const handleQueueButton = () => {
+        handleQueue(details.uuid, details.patientUuid)
+    }
 
     const RenderBtn = () => {
-        if (isQueued) {
+        if (queued) {
             return (
-
                 <Button
                     labelStyle={{ color: 'red', fontWeight: 'bold', fontSize: 12 }}
                     style={{ borderColor: 'red', borderWidth: 2 }}
-                    mode="outlined" onPress={() => console.log('Pressed')}>
+                    mode="outlined" onPress={handleCancelButton}>
                     Cancel
                 </Button>
             )
         }
-        else if (!isQueued && !isCancelled) {
+        else if (!queued && !cancelled) {
             return (
                 <>
                     <Button
                         labelStyle={{ fontWeight: 'bold', fontSize: 12 }}
                         style={{ backgroundColor: 'darkblue', marginRight: -16, borderWidth: 0 }}
-                        mode="contained" onPress={() => console.log('Pressed')}>
+                        mode="contained" onPress={handleQueueButton}>
                         Check
                 </Button>
 
@@ -44,13 +54,13 @@ export default function PatientQueue({ isQueued, isCancelled, details, time }) {
                             borderColor: 'red', borderWidth: 2
                             , width: 93, height: 35, marginLeft: 10
                         }}
-                        mode="outlined" onPress={() => console.log('Pressed')}>
+                        mode="outlined" onPress={handleCancelButton}>
                         Cancel
                 </Button>
                 </>
             )
         }
-        else if (isCancelled) {
+        else if (cancelled) {
             return (
                 <View></View>)
         }
@@ -91,13 +101,13 @@ export default function PatientQueue({ isQueued, isCancelled, details, time }) {
                         <Text style={{ fontSize: 20, color: 'grey' }}>Patient Name </Text>
                         <Text style={{ fontSize: 25, }}>{patientname}</Text>
                         {
-                            isQueued && (
+                            queued && (
                                 <Text style={{ fontSize: 20, color: "green" }}>Queued</Text>
 
                             )
                         }
                         {
-                            isCancelled && (
+                            cancelled && (
                                 <Text style={{ fontSize: 20, color: "red" }}>Cancelled</Text>
 
                             )

@@ -12,8 +12,7 @@ import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import Colors from '../config/colors';
 import PatientQueue from './PatientQueue';
 
-export default function DashboardQueue({ patientDetails, today }) {
-    console.log("INSIDE ", patientDetails);
+export default function DashboardQueue({ patientDetails, today, handleCancel, handleQueue }) {
     const [dayname, setdayname] = useState("")
     const [date, setdate] = useState("")
     useEffect(() => {
@@ -26,7 +25,7 @@ export default function DashboardQueue({ patientDetails, today }) {
         let main = []
         timeslots.forEach(slot => {
             data[slot].map(appnmnt => {
-                main.push(<PatientQueue key={appnmnt.uuid} isQueued={false} isCancelled={false} time={slot} details={appnmnt} />)
+                main.push(<PatientQueue key={appnmnt.uuid} time={slot} details={appnmnt} handleCancel={handleCancel} handleQueue={handleQueue} />)
             })
         })
         return main
