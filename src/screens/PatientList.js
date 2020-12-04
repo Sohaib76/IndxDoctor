@@ -127,22 +127,6 @@ export default function ({ navigation, route }) {
         return a
     }
 
-    // returns all appointments on a date/day
-    const showAppointmentsOnDate = (date) => {
-        allPatientsData.forEach(patient => {
-            let hasApnmnt = patient.appointments.find(apnmnt => {
-                apnmnt.fulldate == date
-            })
-            // return patient basic details if has appointment
-            if (hasApnmnt) {
-                return {
-                    fullname: patient.fullname,
-                    uuid: patient.uuid
-                }
-            }
-        })
-    }
-
     // runs only for adding new appointment
     useEffect(() => {
         // add new appointment details to patient data

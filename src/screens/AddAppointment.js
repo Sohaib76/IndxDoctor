@@ -161,7 +161,6 @@ export default function AddAppointment({ navigation, route }) {
         // console.log(route.params.patientDetails);
         const appointedDays = route.params.patientDetails.appointments.map(appntmnt => {
             let aDate = new Date(appntmnt.fulldate)
-            console.log(aDate);
             aDate = new Date(aDate.setDate(aDate.getDate() + 1))
             return aDate.toISOString().slice(0, 10)
         });
