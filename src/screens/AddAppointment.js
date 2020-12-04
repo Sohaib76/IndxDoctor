@@ -13,7 +13,7 @@ import { RadioButton } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import { LogBox } from 'react-native';
 import Colors from '../config/colors';
-import { set } from 'react-native-reanimated';
+import { diff, set } from 'react-native-reanimated';
 const uuid = require("react-native-uuid")
 // import { LocaleConfig } from 'react-native-calendars';
 
@@ -29,9 +29,6 @@ export default function AddAppointment({ navigation, route }) {
     //https://github.com/wix/react-native-calendars
     //https://github.com/amhinson/react-native-calendar
     //https://react-native-components.gitbook.io/calendar/
-
-
-
 
     // const [appointment, setappointmen] = useState("6/12/2019")
 
@@ -74,17 +71,10 @@ export default function AddAppointment({ navigation, route }) {
 
 
     const setDate = (day) => {
-        // var ds = JSON.stringify(d.startDate)
-        // var year = ds.substr(1, 4)
-        // var month = ds.substr(6, 2)
-        // var day = JSON.stringify(Number(ds.substr(9, 2)) + 1)
-
-        console.log('selected day', day)
         setselected(day.dateString)
 
         var date_ob = new Date(day.timestamp);
         setdateobject(date_ob)
-        console.log(date_ob, "dob");
 
         var weekday = new Array(7);
         weekday[0] = "Sunday";
@@ -113,19 +103,10 @@ export default function AddAppointment({ navigation, route }) {
         month[11] = "December";
         var monthn = month[date_ob.getMonth()];
 
-        // setfulldate(year)
         setappointmentMonth(monthn)
         setappointmentDate(day.day)
         setappointmentWeekDay(weekn)
         setdoneDate(true)
-
-
-
-        // let copyOf = d.startDate.toDateString()
-        // // var x = new Date(copyOf)
-        // setdateobject(copyOf)
-
-        // console.log(copyOf, "as");
     }
 
     const handleAddAppointment = () => {
@@ -135,9 +116,12 @@ export default function AddAppointment({ navigation, route }) {
             date: appointmentDate,
             month: appointmentMonth,
             uuid: uuid.v4(),
-            // fulldate: new Date()
+            fulldate: dateobject.toDateString(),
+            queued: true,
+            cancelled: false
         }
         alert("Appointment Added!")
+        // console.log("newAppointmentDetails, ", newAppointmentDetails);
         navigation.navigate("PatientList", {
             patientUuid: route.params.patientUuid,
             newAppointmentDetails
@@ -146,23 +130,12 @@ export default function AddAppointment({ navigation, route }) {
 
     const getLastAppointment = (allAppointments) => {
         if (allAppointments.length > 1) {
-            let lastUuid = ""
-            let lastDate;
+            let lastDate = allAppointments[allAppointments.length - 1].fulldate
+            lastDate = new Date(lastDate)
             let today = new Date()
-            allAppointments.forEach((appntmnt, i) => {
-                let adate = new Date(appntmnt.fulldate)
-                if (i == 0) {
-                    lastDate = adate
-                    lastUuid = appntmnt.uuid
-                }
-                if (i > 0 && adate > lastDate) {
-                    lastUuid = appntmnt.uuid
-                    lastDate = adate
-                }
-            })
+            // check for after and before today and return diff
             const diffTime = Math.abs(today - lastDate);
             const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            // return `${diffDays} days`
             return lastDate.toDateString()
         }
         return "NA"
@@ -176,33 +149,7 @@ export default function AddAppointment({ navigation, route }) {
             setfirstname(route.params.patientDetails.firstname)
             setlastname(route.params.patientDetails.lastname)
             setimage(route.params.patientDetails.patientImage)
-
-
-            //TEsting
-
-
-            // let appointedDaysObject = {};
-
-            // appointedDays.forEach((day) => {
-            //     appointedDaysObject[day] = {
-            //         selected: true,
-            //         // marked: true
-            //     };
-            // });
-
-            // appointedDaysObject[[selected]] = {
-            //     selected: true,
-            //     disableTouchEvent: true,
-            //     selectedColor: '#00adf5',
-
-            // }
-            // console.log(appointedDaysObject);
-
-            //setmarkDates(appointedDaysObject)
-
-
-
-            // setlastAppointment(getLastAppointment(route.params.patientDetails.appointments))
+            setlastAppointment(getLastAppointment(route.params.patientDetails.appointments))
         }
         else {
             setimage('https://reactnative.dev/img/tiny_logo.png')
@@ -212,11 +159,13 @@ export default function AddAppointment({ navigation, route }) {
 
     //GETIING PREVIOUS APPOINTMENTS
     useEffect(() => {
-        const appointedDays = [
-            '2020-12-22',
-            '2020-12-23'
-
-        ];
+        console.log("hello ", route.params.patientDetails.appointments);
+        // console.log(route.params.patientDetails);
+        const appointedDays = route.params.patientDetails.appointments.map(appntmnt => {
+            let aDate = new Date(appntmnt.fulldate)
+            aDate = new Date(aDate.setDate(aDate.getDate() + 1))
+            return aDate.toISOString().slice(0, 10)
+        });
         let appointedDaysObject = {};
 
         appointedDays.forEach((day) => {
@@ -232,7 +181,7 @@ export default function AddAppointment({ navigation, route }) {
             selectedColor: '#00adf5',
 
         }
-        console.log(appointedDaysObject);
+        // console.log(appointedDaysObject);
 
         setmarkDates(appointedDaysObject)
     }, [selected])
@@ -253,7 +202,6 @@ export default function AddAppointment({ navigation, route }) {
                 centerComponent={{ text: 'Add Appointment', style: { color: 'darkblue', fontSize: 30, fontWeight: "bold" } }} //default 35
             />
             <ScrollView>
-
                 <Text style={{
                     color: 'grey', margin: 25, marginBottom: 0
                 }}>PATIENT FOR APPOINTMENT</Text>
@@ -261,16 +209,20 @@ export default function AddAppointment({ navigation, route }) {
                 <Surface style={{ flexDirection: 'row', margin: 12, padding: 30 }}>
                     <View style={{ marginLeft: -10 }}>
 
+                        {
+                            image ? (
+                                <Avatar
 
-                        <Avatar
+                                    rounded
+                                    size='large'
+                                    source={{
+                                        uri:
+                                            image,
+                                    }}
+                                />
 
-                            rounded
-                            size='large'
-                            source={{
-                                uri:
-                                    image,
-                            }}
-                        />
+                            ) : (null)
+                        }
 
                     </View>
                     <View style={{ justifyContent: 'space-between', marginLeft: 15 }}>
@@ -297,40 +249,9 @@ export default function AddAppointment({ navigation, route }) {
 
                         markedDates={
                             markDates
-                            // {
-                            //     [selected]: {
-                            //         selected: true,
-                            //         disableTouchEvent: true,
-                            //         selectedColor: '#00adf5',
-                            //         // selectedTextColor: 'red'
-                            //     }
-                            // }
-
-
-                            // [markDates]: {
-                            //     selected: true
-                            // },
-
-
-                            // '2021-01-23': { color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white' },
-                            // '2021-01-24': { color: '#70d7c7', textColor: 'white' },
 
                         }
 
-                        //  [selected]: {
-                        //     selected: true,
-                        //     disableTouchEvent: true,
-                        //     selectedColor: '#00adf5',
-                        //     // selectedTextColor: 'red'
-                        // }
-
-                        // Initially visible month. Default = Date()
-                        // current={'2021-03-01'}
-                        // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
-                        // minDate={'2012-05-10'}
-                        // Maximum date that can be selected, dates after maxDate will be grayed out. Default = undefined
-                        // maxDate={'2012-05-30'}
-                        // Handler which gets executed on day press. Default = undefined
                         onDayPress={(day) => { setDate(day) }}
                         // Handler which gets executed on day long press. Default = undefined
                         onDayLongPress={(day) => { console.log('selected day', day) }}
@@ -339,13 +260,6 @@ export default function AddAppointment({ navigation, route }) {
                         // Handler which gets executed when visible month changes in calendar. Default = undefined
                         onMonthChange={(month) => { console.log('month changed', month) }}
                         // Hide month navigation arrows. Default = false
-                        //hideArrows={true}
-                        // Replace default arrows with custom ones (direction can be 'left' or 'right')
-                        // renderArrow={(direction) => (<Arrow />)}
-                        // Do not show days of other months in month page. Default = false
-                        //hideExtraDays={true}
-                        // If hideArrows=false and hideExtraDays=false do not switch month when tapping on greyed out
-                        // day from another month that is visible in calendar page. Default = false
                         disableMonthChange={false}
                         // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                         firstDay={1}
@@ -359,11 +273,6 @@ export default function AddAppointment({ navigation, route }) {
                         onPressArrowLeft={subtractMonth => subtractMonth()}
                         // Handler which gets executed when press arrow icon right. It receive a callback can go next month
                         onPressArrowRight={addMonth => addMonth()}
-                        // Disable left arrow. Default = false
-                        // disableArrowLeft={false}
-                        // Disable right arrow. Default = false
-                        // disableArrowRight={false}
-                        // Disable all touch events for disabled days. can be override with disableTouchEvent in markedDates
                         disableAllTouchEventsForDisabledDays={true}
 
                         theme={{
@@ -392,72 +301,8 @@ export default function AddAppointment({ navigation, route }) {
                             textMonthFontSize: 16,
                             textDayHeaderFontSize: 16
                         }}
-                    // Replace default month and year title with custom one. the function receive a date as parameter.
-                    //renderHeader={(date) => { }}
-                    // Enable the option to swipe between months. Default = false
-                    //enableSwipeMonths={true}
                     />
-                    {/* <Calendar
-                        nestedScrollEnabled={true}
-                        numberOfMonths={2}
-                        disableRange={true}
-                        onChange={(range) => {
-                            setDate(range)
 
-                        }
-                        }
-                        minDate={new Date(2018, 3, 20)}
-                        theme={{
-                            activeDayColor: {},
-                            monthContainerStyle: {
-                                backgroundColor: "#fff"
-                            },
-
-                            monthTitleTextStyle: {
-                                color: '#6d95da',
-                                fontWeight: '300',
-                                fontSize: 16,
-
-                            },
-                            emptyMonthContainerStyle: {},
-                            emptyMonthTextStyle: {
-                                fontWeight: '200',
-                            },
-                            weekColumnsContainerStyle: {},
-                            weekColumnStyle: {
-                                paddingVertical: 10,
-                            },
-                            weekColumnTextStyle: {
-                                color: '#b6c1cd',
-                                fontSize: 13,
-                            },
-                            nonTouchableDayContainerStyle: {},
-                            nonTouchableDayTextStyle: {},
-                            startDateContainerStyle: {},
-                            endDateContainerStyle: {
-
-                            },
-                            dayContainerStyle: {},
-                            dayTextStyle: {
-                                color: '#2d4150',
-                                fontWeight: '200',
-                                fontSize: 15,
-                            },
-                            dayOutOfRangeContainerStyle: {},
-                            dayOutOfRangeTextStyle: {},
-                            todayContainerStyle: {},
-                            todayTextStyle: {
-                                color: '#6d95da',
-                            },
-                            activeDayContainerStyle: {
-                                backgroundColor: '#6d95da',
-                            },
-                            activeDayTextStyle: {
-                                color: 'white',
-                            },
-                            nonTouchableLastMonthDayTextStyle: {},
-                        }}
-                    /> */}
                 </Surface>
 
 
@@ -596,7 +441,7 @@ export default function AddAppointment({ navigation, route }) {
                 }
                 {/* light-blue darken-4 */}
                 <Button
-                    //disabled={true}
+                    // disabled={true}
                     disabled={doneDate && doneTime ? false : true}
                     buttonStyle={{
                         backgroundColor: '#01579b',

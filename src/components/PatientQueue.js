@@ -1,34 +1,50 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors, Header } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
-
-
 import Colors from '../config/colors';
-export default function PatientQueue({ isQueued, isCancelled }) {
+
+
+export default function PatientQueue({ details, time, handleCancel, handleQueue }) {
+
+    const [queued, setqueued] = useState(false)
+    const [cancelled, setcancelled] = useState(false)
+    const [patientname, setpatientname] = useState("")
+    useEffect(() => {
+        setpatientname(details.patientfullname)
+        setqueued(details.queued)
+        setcancelled(details.cancelled)     
+    }, [details])
+
+    const handleCancelButton = () => {
+        handleCancel(details.uuid, details.patientUuid)
+    }
+
+    const handleQueueButton = () => {
+        handleQueue(details.uuid, details.patientUuid)
+    }
 
     const RenderBtn = () => {
-        if (isQueued) {
+        if (queued) {
             return (
-
                 <Button
                     labelStyle={{ color: 'red', fontWeight: 'bold', fontSize: 12 }}
                     style={{ borderColor: 'red', borderWidth: 2 }}
-                    mode="outlined" onPress={() => console.log('Pressed')}>
+                    mode="outlined" onPress={handleCancelButton}>
                     Cancel
                 </Button>
             )
         }
-        else if (!isQueued && !isCancelled) {
+        else if (!queued && !cancelled) {
             return (
                 <>
                     <Button
                         labelStyle={{ fontWeight: 'bold', fontSize: 12 }}
                         style={{ backgroundColor: 'darkblue', marginRight: -16, borderWidth: 0 }}
-                        mode="contained" onPress={() => console.log('Pressed')}>
+                        mode="contained" onPress={handleQueueButton}>
                         Check
                 </Button>
 
@@ -38,13 +54,13 @@ export default function PatientQueue({ isQueued, isCancelled }) {
                             borderColor: 'red', borderWidth: 2
                             , width: 93, height: 35, marginLeft: 10
                         }}
-                        mode="outlined" onPress={() => console.log('Pressed')}>
+                        mode="outlined" onPress={handleCancelButton}>
                         Cancel
                 </Button>
                 </>
             )
         }
-        else if (isCancelled) {
+        else if (cancelled) {
             return (
                 <View></View>)
         }
@@ -54,7 +70,7 @@ export default function PatientQueue({ isQueued, isCancelled }) {
     }
     return (
         <View>
-            <Text style={{ fontSize: 18, color: 'grey', marginStart: 20, marginTop: 20 }}>8:45 AM</Text>
+            <Text style={{ fontSize: 18, color: 'grey', marginStart: 20, marginTop: 20 }}>{time}</Text>
 
             <Surface style={{ padding: 20, margin: 20 }}>
 
@@ -79,23 +95,19 @@ export default function PatientQueue({ isQueued, isCancelled }) {
                             <Text style={{ fontSize: 40, color: "blue" }}>65</Text>
                         </View>
 
-
-
-
-
                     </View>
 
                     <View style={{ justifyContent: 'flex-start' }}>
                         <Text style={{ fontSize: 20, color: 'grey' }}>Patient Name </Text>
-                        <Text style={{ fontSize: 25, }}>Juan B. Dela Cruz</Text>
+                        <Text style={{ fontSize: 25, }}>{patientname}</Text>
                         {
-                            isQueued && (
+                            queued && (
                                 <Text style={{ fontSize: 20, color: "green" }}>Queued</Text>
 
                             )
                         }
                         {
-                            isCancelled && (
+                            cancelled && (
                                 <Text style={{ fontSize: 20, color: "red" }}>Cancelled</Text>
 
                             )

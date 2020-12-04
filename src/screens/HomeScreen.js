@@ -7,6 +7,8 @@ import { colors, Header } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
+import { getUserData } from "../utils/GetAsyncData"
+import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
 
 
 import Colors from '../config/colors';
@@ -38,35 +40,119 @@ export default function HomeScreen({ route, navigation }) {
         userObject = route.params.userObject;
     }
     const [username, setusername] = useState("")
+    const [allUsersData, setAllusersData] = useState(null)
 
     const [visible, setVisible] = React.useState(false);
 
     const openMenu = () => setVisible(true);
-
     const closeMenu = () => setVisible(false);
 
+    const [noOfAppointmentsToday, setnoOfAppointmentsToday] = useState(0)
+    const [totalNoOfPatients, settotalNoOfPatients] = useState(0)
+    const [appointmentTimings, setappointmentTimings] = useState({})
+
+    // returns all appointments on a date/day
+    const showAppointmentsOnDate = (date, patientlist) => {
+        // appointments with patient detials
+        let todayAppointments = [];
+        // appntmnts list only (not patient details)
+        let todayAppointmentsList = []
+        // appnmtnts categorized with time
+        let todayAppointmentsWithTime = {}
+
+        patientlist.forEach(patient => {
+            let hasApnmnt = patient.appointments.find(apnmnt => {
+                return new Date(apnmnt.fulldate).toDateString() == date.toDateString()
+            })
+            // return patient basic details if has appointment
+            if (hasApnmnt) {
+                // all appntmnts
+                todayAppointmentsList.push(hasApnmnt)
+                // add appnmnt to time category
+                if (todayAppointmentsWithTime[hasApnmnt["time"]]) {
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [...todayAppointmentsWithTime[hasApnmnt["time"]], { ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
+                } else {
+                    // create first 
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [{ ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
+                }
+                // set patient wise appntmtnts
+                todayAppointments.push({
+                    fullname: patient.fullname,
+                    uuid: patient.uuid,
+                    appoointmentdetials: hasApnmnt
+                })
+            }
+        })
+        setappointmentTimings(todayAppointmentsWithTime)
+        setnoOfAppointmentsToday(todayAppointmentsList.length)
+        settotalNoOfPatients(patientlist.length)
+    }
+
+    const [today, settoday] = useState(new Date())
+
     useEffect(() => {
-        const getusername = async () => {
-            try {
-                const username = await AsyncStorage.getItem("username");
-                const item = await AsyncStorage.getItem("globalUsers");
-                // console.log("Start", item, "End")
-                setusername(username)
-            } catch (e) {
-                console.log(e);
+        getUserData([setAllusersData, setusername], ["globalUsers", "username"])
+    }, [route.params])
+    useEffect(() => {
+        if (username && allUsersData) {
+            showAppointmentsOnDate(today, allUsersData[username].patients)
+        }
+    }, [allUsersData])
+
+    // cancell appointment
+    const handleCancel = (appnmntuuid, pntuuid) => {
+        const userPatientsData = allUsersData[username].patients
+        let updatedPatientData = userPatientsData.map(ptnt => {
+            if (ptnt.uuid == pntuuid) {
+                let allapnmtns = ptnt.appointments.map(appntmnt => {
+                    if (appntmnt.uuid == appnmntuuid) {
+                        return { ...appntmnt, cancelled: true }
+                    }
+                    return appntmnt
+                })
+                return { ...ptnt, appointments: allapnmtns }
+            } else {
+                return ptnt
+            }
+        })
+        const updatedAllUsersData = {
+            ...allUsersData, [username]: {
+                ...allUsersData[username], patients: updatedPatientData
             }
         }
-        getusername()
-    }, [route])
+        setAllusersData(updatedAllUsersData)
+        showAppointmentsOnDate(today, updatedAllUsersData[username].patients)
+        updateGlobalUsersAsync(updatedAllUsersData)
+    }
 
-
-    const handleNavigation = (screen) => {
-        navigation.navigate(screen)
+    // queu appointment
+    const handleQueue = (appnmntuuid, pntuuid) => {
+        const userPatientsData = allUsersData[username].patients
+        let updatedPatientData = userPatientsData.map(ptnt => {
+            if (ptnt.uuid == pntuuid) {
+                let allapnmtns = ptnt.appointments.map(appntmnt => {
+                    if (appntmnt.uuid == appnmntuuid) {
+                        return { ...appntmnt, queued: false }
+                    }
+                    return appntmnt
+                })
+                return { ...ptnt, appointments: allapnmtns }
+            } else {
+                return ptnt
+            }
+        })
+        const updatedAllUsersData = {
+            ...allUsersData, [username]: {
+                ...allUsersData[username], patients: updatedPatientData
+            }
+        }
+        setAllusersData(updatedAllUsersData)
+        showAppointmentsOnDate(today, updatedAllUsersData[username].patients)
+        updateGlobalUsersAsync(updatedAllUsersData)
     }
 
     return (
         <Provider>
-
             <Header
                 containerStyle={{ backgroundColor: 'white', padding: 20, height: 150 }}
                 placement="left"
@@ -84,7 +170,6 @@ export default function HomeScreen({ route, navigation }) {
             />
             {/* <Text style={{ fontSize: 20, margin: 10 }}>Logged IN: {username}</Text> */}
             <ScrollView>
-
                 <Text style={{ fontSize: 18, color: 'grey', fontWeight: 'bold', marginStart: 20, marginTop: 20 }}>APPOINTMENTS</Text>
 
                 <Surface style={{ padding: 20, margin: 20 }}>
@@ -107,7 +192,7 @@ export default function HomeScreen({ route, navigation }) {
                         <Text style={{
                             fontSize: 20, marginTop: 10
                             , color: Colors.lightGray
-                        }}>November 22,2019</Text>
+                        }}>{today.toDateString()}</Text>
                     </View>
                     <View style={{ marginLeft: 8, paddingBottom: 10, paddingTop: 18, flexDirection: 'row', justifyContent: 'space-between' }}>
 
@@ -120,7 +205,7 @@ export default function HomeScreen({ route, navigation }) {
                                 backgroundColor: "rgba(176,224,230,0.4)", borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 50, color: "darkblue" }}>5</Text>
+                                <Text style={{ fontSize: 50, color: "darkblue" }}>{noOfAppointmentsToday}</Text>
                             </View>
                             <Text style={{
 
@@ -187,7 +272,7 @@ export default function HomeScreen({ route, navigation }) {
                             backgroundColor: "rgba(176,224,230,0.4)", borderRadius: 400
 
                         }}>
-                            <Text style={{ fontSize: 40, color: "blue" }}>65</Text>
+                            <Text style={{ fontSize: 40, color: "blue" }}>{totalNoOfPatients}</Text>
                         </View>
 
 
@@ -232,9 +317,7 @@ export default function HomeScreen({ route, navigation }) {
                 </Surface>
 
                 {/* Another 3 */}
-                <DashboardQueue />
-
-
+                <DashboardQueue patientDetails={appointmentTimings} today={today} handleCancel={handleCancel} handleQueue={handleQueue} />
 
                 <View style={styles.container}>
                     <Text>Home</Text>

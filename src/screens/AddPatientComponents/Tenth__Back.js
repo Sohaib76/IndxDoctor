@@ -32,7 +32,7 @@ export default function Tenth__Back({ navigation }) {
 
             <Button
                 onPress={() => {
-                    navigation.navigate("HomeScreen")
+                    navigation.navigate("HomeScreen", { changesMade: true })
                 }}
 
                 // style={{

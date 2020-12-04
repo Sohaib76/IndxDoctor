@@ -127,33 +127,24 @@ export default function ({ navigation, route }) {
         return a
     }
 
-    // returns all appointments on a date/day
-    const showAppointmentsOnDate = (date) => {
-        allPatientsData.forEach(patient => {
-            let hasApnmnt = patient.appointments.find(apnmnt => {
-                apnmnt.date == date
-            })
-            // return patient basic details if has appointment
-            if (hasApnmnt) {
-                return {
-                    fullname: patient.fullname,
-                    uuid: patient.uuid
-                }
-            }
-        })
-    }
-
     // runs only for adding new appointment
     useEffect(() => {
         // add new appointment details to patient data
         const addNewAppointment = (uuid, newAppointmentDetails) => {
             let updatedPatientData = allPatientsData.map(patient => {
                 if (patient.uuid == uuid && patient.appointments) {
-                    // if (patient.appointments.length > 1) {
-                    //     let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
-                    //     sortedAppointmentList.sort(function (a, b) { return a["fulldate"].localeCompare(b["fulldate"]); });
-                    //     console.log("sortedAppointmentList", sortedAppointmentList);
-                    // }
+                    if (patient.appointments.length >= 1) {
+                        let sortedAppointmentList = [...patient.appointments, newAppointmentDetails];
+                        sortedAppointmentList.sort(function (a, b) {
+                            // Turn your strings into dates, and then subtract them
+                            // to get a value that is either negative, positive, or zero.
+                            return new Date(a.fulldate) - new Date(b.fulldate);
+                        });
+                        return {
+                            ...patient, appointments: sortedAppointmentList
+                        }
+                    }
+                    // already sorted
                     return {
                         ...patient, appointments: [
                             ...patient.appointments, newAppointmentDetails
@@ -162,13 +153,15 @@ export default function ({ navigation, route }) {
                 }
                 return patient
             })
-            // console.log("updatedPatientData", updatedPatientData);
             // add updated patient data to user
             let updatedUserDate = { ...usersData[username], patients: updatedPatientData }
             // add updated user to all data
             let updatedAllUsersData = { ...usersData, [username]: updatedUserDate }
             // util: update entire global users
+            console.log();
+            console.log();
             updateGlobalUsersAsync(updatedAllUsersData)
+            setallusersData(updatedAllUsersData)
         }
 
         // only runs if routed from add appointments
@@ -187,7 +180,6 @@ export default function ({ navigation, route }) {
     // working
     useEffect(() => {
         if (username && usersData) {
-            // console.log(usersData[username].patients, "....");
             try {
                 var patientsDataList = usersData[username].patients
                 if (patientsDataList.length) {
@@ -205,6 +197,7 @@ export default function ({ navigation, route }) {
                             imageuri: patient.patientImage
                         }
                     })
+                    // console.log("second usef", usersData);
                     sortedPatientList.sort(function (a, b) { return a["fullname"].localeCompare(b["fullname"]); });
                     // segmented list
                     setpatientsNameList(sortedPatientList)
@@ -217,12 +210,6 @@ export default function ({ navigation, route }) {
             }
         }
     }, [usersData, username])
-
-    // const Item = ({ title }) => (
-    //     <View style={styles.item}>
-    //         <Text style={styles.title}>{title}</Text>
-    //     </View>
-    // );
 
     const Overlay = (l) => {
         return (
@@ -432,7 +419,6 @@ export default function ({ navigation, route }) {
                 }}>{totalPatients} Patients</Text>} */}
 
             </ScrollView >
-            {console.log("Total Patients", totalPatients)}
             {/* {patientsNameList.length &&
 
                 <Text style={{
