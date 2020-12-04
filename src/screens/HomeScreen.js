@@ -67,13 +67,12 @@ export default function HomeScreen({ route, navigation }) {
             if (hasApnmnt) {
                 // all appntmnts
                 todayAppointmentsList.push(hasApnmnt)
-
                 // add appnmnt to time category
                 if (todayAppointmentsWithTime[hasApnmnt["time"]]) {
-                    todayAppointmentsWithTime[hasApnmnt["time"]] = [...todayAppointmentsWithTime[hasApnmnt["time"]], hasApnmnt]
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [...todayAppointmentsWithTime[hasApnmnt["time"]], { ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
                 } else {
                     // create first 
-                    todayAppointmentsWithTime[hasApnmnt["time"]] = [hasApnmnt]
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [{ ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
                 }
                 // set patient wise appntmtnts
                 todayAppointments.push({
@@ -84,34 +83,19 @@ export default function HomeScreen({ route, navigation }) {
             }
         })
         setappointmentTimings(todayAppointmentsWithTime)
-        console.log(todayAppointmentsWithTime);
         setnoOfAppointmentsToday(todayAppointmentsList.length)
         settotalNoOfPatients(patientlist.length)
     }
 
-    const [today, settoday] = useState(new Date("26 December 2020"))
+    const [today, settoday] = useState(new Date("27 December 2020"))
 
     useEffect(() => {
         getUserData([setAllusersData, setusername], ["globalUsers", "username"])
         if (username && allUsersData) {
+            console.log("runing");
             showAppointmentsOnDate(today, allUsersData[username].patients)
-            // console.log(allUsersData[username].patients);
         }
-
-        // const getusername = async () => {
-        //     try {
-        //         const username = await AsyncStorage.getItem("username");
-        //         const item = await AsyncStorage.getItem("globalUsers");
-        //         // console.log("Start", item, "End")
-        //         setusername(username)
-        //         setallUsersDatte(item)
-        //         console.log(item);
-        //     } catch (e) {
-        //         console.log(e);
-        //     }
-        // }
-        // getusername()
-    }, [route])
+    }, [])
 
 
     const handleNavigation = (screen) => {
@@ -284,9 +268,7 @@ export default function HomeScreen({ route, navigation }) {
                 </Surface>
 
                 {/* Another 3 */}
-                <DashboardQueue />
-
-
+                <DashboardQueue patientDetails={appointmentTimings} today={today} />
 
                 <View style={styles.container}>
                     <Text>Home</Text>

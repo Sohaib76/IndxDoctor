@@ -1,14 +1,20 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors, Header } from 'react-native-elements';
 import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
-
-
 import Colors from '../config/colors';
-export default function PatientQueue({ isQueued, isCancelled }) {
+
+
+export default function PatientQueue({ isQueued, isCancelled, details, time }) {
+
+    console.log("details", details);
+    const [patientname, setpatientname] = useState("")
+    useEffect(() => {
+        setpatientname(details.patientfullname)
+    }, [])
 
     const RenderBtn = () => {
         if (isQueued) {
@@ -54,7 +60,7 @@ export default function PatientQueue({ isQueued, isCancelled }) {
     }
     return (
         <View>
-            <Text style={{ fontSize: 18, color: 'grey', marginStart: 20, marginTop: 20 }}>8:45 AM</Text>
+            <Text style={{ fontSize: 18, color: 'grey', marginStart: 20, marginTop: 20 }}>{time}</Text>
 
             <Surface style={{ padding: 20, margin: 20 }}>
 
@@ -79,15 +85,11 @@ export default function PatientQueue({ isQueued, isCancelled }) {
                             <Text style={{ fontSize: 40, color: "blue" }}>65</Text>
                         </View>
 
-
-
-
-
                     </View>
 
                     <View style={{ justifyContent: 'flex-start' }}>
                         <Text style={{ fontSize: 20, color: 'grey' }}>Patient Name </Text>
-                        <Text style={{ fontSize: 25, }}>Juan B. Dela Cruz</Text>
+                        <Text style={{ fontSize: 25, }}>{patientname}</Text>
                         {
                             isQueued && (
                                 <Text style={{ fontSize: 20, color: "green" }}>Queued</Text>
