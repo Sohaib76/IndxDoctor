@@ -13,10 +13,14 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
     const [queued, setqueued] = useState(false)
     const [cancelled, setcancelled] = useState(false)
     const [patientname, setpatientname] = useState("")
+    const [patientimage, setpatientimage] = useState("")
+
+
     useEffect(() => {
         setpatientname(details.patientfullname)
         setqueued(details.queued)
-        setcancelled(details.cancelled)     
+        setcancelled(details.cancelled)
+        console.log(details);
     }, [details])
 
     const handleCancelButton = () => {
@@ -100,17 +104,20 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
                     <View style={{ justifyContent: 'flex-start' }}>
                         <Text style={{ fontSize: 20, color: 'grey' }}>Patient Name </Text>
                         <Text style={{ fontSize: 25, }}>{patientname}</Text>
-                        {
+                        {/* {
                             queued && (
                                 <Text style={{ fontSize: 20, color: "green" }}>Queued</Text>
 
                             )
-                        }
+                        } */}
                         {
-                            cancelled && (
+                            cancelled ? (
                                 <Text style={{ fontSize: 20, color: "red" }}>Cancelled</Text>
 
-                            )
+                            ) : (
+                                    <Text style={{ fontSize: 20, color: "green" }}>Queued</Text>
+
+                                )
                         }
 
 

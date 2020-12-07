@@ -5,6 +5,9 @@ import { widthPercentageToDP } from "react-native-responsive-screen";
 import { Ionicons } from "@expo/vector-icons";
 import InputStyle from "../components/InputStyle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+import { Colors } from "react-native/Libraries/NewAppScreen";
+
 
 export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
   const [input, setInput] = useState("");
@@ -19,6 +22,9 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
 
   const [inputFour, setInputFour] = useState("");
   const [colorFour, SetColorFour] = useState(colors.Gray);
+
+  const [thecode, setthecode] = useState("");
+
 
   const [numb, setnumb] = useState(0)
 
@@ -38,14 +44,14 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
   const submitHandler = () => {
     const inputvalue = `${inputOne}${inputTwo}${inputThree}${inputFour}`
     // console.log(inputvalue);
-    setsignUpState({ otpcode: inputvalue })
+    setsignUpState({ otpcode: thecode })
     ScreenCounter(6)
   }
 
   return (
     <View>
       <Text style={styles.textStyle}>Please verify by entering your 4 digit code</Text>
-      <Text style={styles.textStyleTwo}>We sent a text message to {numb}</Text>
+      <Text style={styles.textStyleTwo}>We sent a text message to number</Text>
       <View style={{ flexDirection: "row" }}>
         <Text
           style={[
@@ -77,7 +83,51 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
 
       {/**Input Validation */}
       <View style={styles.inputContainer}>
-        <TextInput
+
+        <OTPInputView pinCount={4}
+
+
+
+          autoFocusOnLoad
+          style={{ width: '80%', marginLeft: "10%", opacity: '1', marginTop: 20 }}
+          codeInputHighlightStyle={{
+            borderColor: colors.darkGreen,
+
+          }}
+          codeInputFieldStyle={{
+            width: 50,
+            height: 55,
+            borderWidth: 0,
+            borderBottomWidth: 4,
+            borderColor: "lightgrey",
+            opacity: 1,
+            backgroundColor: 'white'
+
+          }}
+          // keyboardAppearance="dark"
+          // placeholderCharacter={{
+          //   fontSize: 30
+          // }}
+
+          placeholderTextColor="black"
+          // codeInputTextStyle={{
+          //   color: 'red'
+          // }}
+          // onCodeFilled={(code) => {
+          //   setthecode(code)
+          //   console.log(code);
+          // }}
+
+          onCodeChanged={(change) => {
+            console.log(change);
+            setthecode(change)
+          }}
+
+        />
+
+
+        {/* ------------------------------ */}
+        {/* <TextInput
           keyboardType="numeric"
           onTouchStart={() => {
             SetColorOne(colors.darkGreen);
@@ -142,19 +192,20 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
           onChangeText={(val) => setInputFour(val)}
           maxLength={1}
           style={[styles.textInputStyle, { borderBottomWidth: 3, borderBottomColor: colorFour }]}
-        />
+        /> */}
       </View>
 
       {/* Proceed */}
       <TouchableOpacity
         onPress={submitHandler}
-        disabled={input !== "" ? false : true}
+        disabled={thecode.length == 4 ? false : true}
         style={[
           InputStyle.InputBlockStyle,
           {
-            opacity: input !== "" ? 1 : 0.3,
+            opacity: thecode.length == 4 ? 1 : 0.3,
             backgroundColor: colors.darkGreen,
             width: widthPercentageToDP("60%"),
+            marginTop: 40
           },
         ]}
       >

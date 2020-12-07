@@ -111,7 +111,7 @@ export default function PatientDetailScreen({ navigation, route }) {
                             style={{ fontWeight: 'bold', fontSize: 20, marginBottom: 8 }}
                         >{firstname} {lastname}</Text>
                         <Text
-                            onPress={() => navigation.navigate("PatientList")}
+                            onPress={() => navigation.navigate("EditPatientInfo")}
                             style={{ color: 'teal' }}>Tap to edit patient information</Text>
                     </View>
 

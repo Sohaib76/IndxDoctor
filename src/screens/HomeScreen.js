@@ -181,7 +181,12 @@ export default function HomeScreen({ route, navigation }) {
                         <Menu
                             visible={visible}
                             onDismiss={closeMenu}
-                            anchor={<Button color="darkblue" onPress={openMenu}>+ Add appointment</Button>}>
+                            anchor={<Button color="darkblue" onPress={
+                                () => navigation.navigate("PatientList")
+                            }
+                            >+ Add appointment</Button>}>
+                            {/* 
+                                onPress={openMenu}*/}
                             <Menu.Item onPress={() => { }} title="Add New Patient" />
                             <Divider />
                             <Menu.Item onPress={() => { }} title="Add Existing Patient" />
@@ -227,6 +232,7 @@ export default function HomeScreen({ route, navigation }) {
 
                             }}>
                                 <Text style={{ fontSize: 50, color: "green" }}>3</Text>
+                                {/* Uncomment  ??? */}
                             </View>
                             <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Pending {"\n"} Appointments</Text>
                         </View>
@@ -244,6 +250,7 @@ export default function HomeScreen({ route, navigation }) {
 
                             }}>
                                 <Text style={{ fontSize: 50, color: "red" }}>1</Text>
+                                {/* Uncomment  ??? */}
                             </View>
                             <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Cancelled Appointments</Text>
                         </View>
@@ -289,7 +296,8 @@ export default function HomeScreen({ route, navigation }) {
                         <Menu
                             visible={visible}
                             onDismiss={closeMenu}
-                            anchor={<Button color="darkblue" onPress={openMenu}>+ Add Patient</Button>}>
+                            anchor={<Button onPress={() => navigation.navigate("AddPatient")} color="darkblue" >+ Add Patient</Button>}>
+                            {/* onPress={openMenu} */}
                             <Menu.Item onPress={() => { }} title="Add New Patient" />
                             <Divider />
                             <Menu.Item onPress={() => { }} title="Add Existing Patient" />
@@ -311,6 +319,7 @@ export default function HomeScreen({ route, navigation }) {
                             color: 'green'
                             , fontSize: 20
                         }}>1 Recent Patient Added</Text>
+                        {/* Uncomment ??? */}
                     </View>
 
 
@@ -319,14 +328,14 @@ export default function HomeScreen({ route, navigation }) {
                 {/* Another 3 */}
                 <DashboardQueue patientDetails={appointmentTimings} today={today} handleCancel={handleCancel} handleQueue={handleQueue} />
 
-                <View style={styles.container}>
+                {/* <View style={styles.container}>
                     <Text>Home</Text>
                     <Text>Hi {username}</Text>
                     <Pressable onPress={() => navigation.navigate("AddPatient")}>
                         <Text>Add Patient</Text>
                     </Pressable>
 
-                </View>
+                </View> */}
             </ScrollView>
         </Provider>
     )
