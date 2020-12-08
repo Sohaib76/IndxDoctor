@@ -6,6 +6,7 @@ import { Icon } from 'react-native-elements';
 import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import Colors from '../config/colors';
+import { Avatar, Accessory } from 'react-native-elements';
 
 
 export default function PatientQueue({ details, time, handleCancel, handleQueue }) {
@@ -17,7 +18,9 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
 
 
     useEffect(() => {
+        //alert(JSON.stringify(details), "details");
         setpatientname(details.patientfullname)
+        setpatientimage(details.image)
         setqueued(details.queued)
         setcancelled(details.cancelled)
         console.log(details);
@@ -80,8 +83,20 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
 
                 <View style={{ flexDirection: 'row' }}>
 
+                    <View style={{ marginRight: 20 }}>
 
-                    <View style={{
+
+                        <Avatar
+                            rounded
+                            size='large'
+                            source={{
+                                uri:
+                                    patientimage,
+                            }}
+                        />
+
+                    </View>
+                    {/* <View style={{
                         flexDirection: "row", alignItems: 'center'
 
                         , justifyContent: 'space-between'
@@ -99,7 +114,7 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
                             <Text style={{ fontSize: 40, color: "blue" }}>65</Text>
                         </View>
 
-                    </View>
+                    </View> */}
 
                     <View style={{ justifyContent: 'flex-start' }}>
                         <Text style={{ fontSize: 20, color: 'grey' }}>Patient Name </Text>

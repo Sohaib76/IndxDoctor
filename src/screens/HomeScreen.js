@@ -9,11 +9,17 @@ import { Surface } from 'react-native-paper';
 import { Button, Menu, Divider, Provider } from 'react-native-paper';
 import { getUserData } from "../utils/GetAsyncData"
 import { updateGlobalUsersAsync } from "../utils/updateGlobalUsers"
+import { useIsFocused } from '@react-navigation/native'
+
 
 
 import Colors from '../config/colors';
 import DashboardQueue from '../components/DashboardQueue';
 
+function useForceUpdate() {
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => ++value); // update the state to force render
+}
 
 export default function HomeScreen({ route, navigation }) {
     //------------------
@@ -70,16 +76,17 @@ export default function HomeScreen({ route, navigation }) {
                 todayAppointmentsList.push(hasApnmnt)
                 // add appnmnt to time category
                 if (todayAppointmentsWithTime[hasApnmnt["time"]]) {
-                    todayAppointmentsWithTime[hasApnmnt["time"]] = [...todayAppointmentsWithTime[hasApnmnt["time"]], { ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [...todayAppointmentsWithTime[hasApnmnt["time"]], { ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname, image: patient.patientImage }]
                 } else {
                     // create first 
-                    todayAppointmentsWithTime[hasApnmnt["time"]] = [{ ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname }]
+                    todayAppointmentsWithTime[hasApnmnt["time"]] = [{ ...hasApnmnt, patientUuid: patient.uuid, patientfullname: patient.fullname, image: patient.patientImage }]
                 }
                 // set patient wise appntmtnts
                 todayAppointments.push({
                     fullname: patient.fullname,
                     uuid: patient.uuid,
-                    appoointmentdetials: hasApnmnt
+                    appoointmentdetials: hasApnmnt,
+                    image: patient.patientImage
                 })
             }
         })
@@ -90,14 +97,44 @@ export default function HomeScreen({ route, navigation }) {
 
     const [today, settoday] = useState(new Date())
 
+    const isFocused = useIsFocused()
+
+    // const restart = async () => {
+    //     await getUserData([setAllusersData, setusername], ["globalUsers", "username"])
+    //     // if (username && allUsersData) {
+    //     //     alert("oo")
+    //     //     showAppointmentsOnDate(today, allUsersData[username].patients)
+    //     // }
+    // }
+
+    //create your forceUpdate hook
+
+
+    const forceUpdate = useForceUpdate();
+
     useEffect(() => {
+        // restart()
         getUserData([setAllusersData, setusername], ["globalUsers", "username"])
+
+        // alert(allUsersData)
+        // alert("ppp")
+        // getUserData([setAllusersData, setusername], ["globalUsers", "username"])
+
     }, [route.params])
+
     useEffect(() => {
         if (username && allUsersData) {
+            // alert("oo")
             showAppointmentsOnDate(today, allUsersData[username].patients)
         }
     }, [allUsersData])
+    // useEffect(() => {
+    //     alert(allUsersData)
+    //     if (username && allUsersData) {
+    //         alert("oo")
+    //         showAppointmentsOnDate(today, allUsersData[username].patients)
+    //     }
+    // }, [allUsersData])
 
     // cancell appointment
     const handleCancel = (appnmntuuid, pntuuid) => {

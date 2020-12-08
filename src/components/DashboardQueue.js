@@ -21,6 +21,7 @@ export default function DashboardQueue({ patientDetails, today, handleCancel, ha
     }, [today, patientDetails])
 
     const mapAll = (data) => {
+        // console.log(alert(JSON.stringify(data)));
         let timeslots = Object.keys(data)
         let main = []
         timeslots.forEach(slot => {
