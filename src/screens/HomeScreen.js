@@ -71,6 +71,17 @@ export default function HomeScreen({ route, navigation }) {
                 return new Date(apnmnt.fulldate).toDateString() == date.toDateString()
             })
             // return patient basic details if has appointment
+
+            console.log(patient.appointments);
+
+            let noOfCancelled = patient.appointments.filter(a => {
+                return a.cancelled == true
+
+            })
+            console.log(noOfCancelled.length);
+            setcancelledAppointments(noOfCancelled.length)
+            setpendingAppointments(patient.appointments.length - noOfCancelled.length)
+
             if (hasApnmnt) {
                 // all appntmnts
                 todayAppointmentsList.push(hasApnmnt)
@@ -112,15 +123,24 @@ export default function HomeScreen({ route, navigation }) {
 
     const forceUpdate = useForceUpdate();
 
+    const [message, setMessage] = useState(0);
+
+
     useEffect(() => {
         // restart()
         getUserData([setAllusersData, setusername], ["globalUsers", "username"])
 
+        const unsubscribe = navigation.addListener('focus', () => {
+            const massage = message + 1;
+            setMessage(massage);
+        });
+
+        return unsubscribe;
         // alert(allUsersData)
         // alert("ppp")
         // getUserData([setAllusersData, setusername], ["globalUsers", "username"])
 
-    }, [route.params])
+    }, [message])
 
     useEffect(() => {
         if (username && allUsersData) {
@@ -268,7 +288,7 @@ export default function HomeScreen({ route, navigation }) {
                                 , borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 50, color: "green" }}>3</Text>
+                                <Text style={{ fontSize: 50, color: "green" }}>{pendingAppointments}</Text>
                                 {/* Uncomment  ??? */}
                             </View>
                             <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Pending {"\n"} Appointments</Text>
@@ -286,7 +306,7 @@ export default function HomeScreen({ route, navigation }) {
                                 backgroundColor: "rgba(176,224,230,0.4)", borderRadius: 400
 
                             }}>
-                                <Text style={{ fontSize: 50, color: "red" }}>1</Text>
+                                <Text style={{ fontSize: 50, color: "red" }}>{cancelledAppointments}</Text>
                                 {/* Uncomment  ??? */}
                             </View>
                             <Text style={{ marginLeft: -20, marginTop: 8, fontSize: 12, textAlign: 'center' }}>Cancelled Appointments</Text>
@@ -355,7 +375,7 @@ export default function HomeScreen({ route, navigation }) {
                         <Text style={{
                             color: 'green'
                             , fontSize: 20
-                        }}>1 Recent Patient Added</Text>
+                        }}>{totalNoOfPatients} Recent Patient Added</Text>
                         {/* Uncomment ??? */}
                     </View>
 
