@@ -15,7 +15,9 @@ export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
 
   const setNumber = async () => {
     setsignUpState({ phone: `+63${input}` })
-    ScreenCounter(5)
+    // ScreenCounter(5)
+    // setsignUpState({ otpcode: 0 })
+    ScreenCounter(6)
   }
 
   return (
@@ -77,7 +79,7 @@ export default function Fourth({ ScreenCounter, signupState, setsignUpState }) {
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => ScreenCounter(5)} disabled={true}>
-            <Text style={{ marginLeft: 5, opacity: 0.45, color: colors.darkGreen }}>Skip</Text>
+            <Text style={{ marginLeft: 5, color: colors.darkGreen }}>Skip</Text>
           </TouchableOpacity>
         </View>
       </View>

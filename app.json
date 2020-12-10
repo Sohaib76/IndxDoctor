@@ -4,7 +4,7 @@
     "slug": "INDX",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/Logo.png",
+    "icon": "./src/assets/logos.png",
     "splash": {
       "image": "./src/assets/SplashLogo.png",
       "resizeMode": "contain",

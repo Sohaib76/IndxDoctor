@@ -39,6 +39,9 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
     // setTimeout(function () {
     //   getNumber()
     // }, 100);
+    alert("ooo")
+    setsignUpState({ otpcode: 0 })
+    ScreenCounter(6)
   }, [])
 
   const submitHandler = () => {
@@ -89,7 +92,7 @@ export default function Fifth({ ScreenCounter, signupState, setsignUpState }) {
 
 
           autoFocusOnLoad
-          style={{ width: '80%', marginLeft: "10%", opacity: '1', marginTop: 20 }}
+          style={{ width: '80%', marginLeft: "10%", opacity: 1, marginTop: 20 }}
           codeInputHighlightStyle={{
             borderColor: colors.darkGreen,
 
