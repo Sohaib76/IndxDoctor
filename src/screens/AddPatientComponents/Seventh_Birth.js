@@ -13,6 +13,9 @@ export default function Seventh_Birth({ ScreenCounter, handleAddPatientData }) {
     const [calenderShower, setCalenderShower] = useState(false);
     const [date, setDate] = useState(new Date(1598051730000));
 
+    const [age, setAge] = useState(31);
+
+
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setCalenderShower(Platform.OS === 'ios');
@@ -22,12 +25,21 @@ export default function Seventh_Birth({ ScreenCounter, handleAddPatientData }) {
         var dd = JSON.stringify(currentDate).substr(9, 2)
         dd = parseInt(dd) + 1
         setCalenderValue(`${dd}/${mm}/${yyyy}`)
+
+        var now = new Date()
+        var diff = now - currentDate; // This is the difference in milliseconds
+        var age = Math.floor(diff / 31557600000); // Divide by 1000*60*60*24*365.25
+
+        setAge(age)
+
+
+
     };
 
     const setBirthDay = () => {
         //setsignUpState({ dob: calenderValue })
         ScreenCounter(8)
-        handleAddPatientData({ dob: calenderValue })
+        handleAddPatientData({ dob: calenderValue, age: age })
     }
 
     return (

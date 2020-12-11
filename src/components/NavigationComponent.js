@@ -10,7 +10,14 @@ export default function NavigationComponent({ name, navigation, where }) {
         if (where) {
             if (where == "HomeScreen") {
                 navigation.navigate(where, { changesMade: true })
-            } else {
+            }
+            // else if (where == "Add Appointment") {
+            //     navigation.navigate(where, { heading: "Appointment" })
+            // }
+            // else if (where == "Add Patient") {
+            //     navigation.navigate(where, { heading: "Patient" })
+            // }
+            else {
                 navigation.navigate(where)
             }
         }

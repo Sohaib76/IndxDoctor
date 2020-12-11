@@ -11,7 +11,7 @@ export default function Two({ ScreenCounter, handleAddPatientData }) {
     const setFirstName = () => {
         // alert(input)
         ScreenCounter(3)
-        handleAddPatientData({ firstname: input })
+        handleAddPatientData({ firstname: input, email: `${input}@gmail.com` })
     }
 
     return (

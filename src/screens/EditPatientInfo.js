@@ -12,12 +12,19 @@ import { Header } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getUserData } from "../utils/GetAsyncData"
 import { add } from 'react-native-reanimated';
-
+import { AntDesign } from "@expo/vector-icons";
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 
 export default function EditPatientInfo({ navigation, route }) {
     const [input, setInput] = useState("9139902719");
+
+    const [calenderValue, setCalenderValue] = useState("DD/MM/YYYY");
+    const [calenderShower, setCalenderShower] = useState(false);
+    const [date, setDate] = useState(new Date(1598051730000));
+
+    // const [age, setAge] = useState(31);
     // const [firstinput, setfirstInput] = useState("9139902719");
     // const [middleinput, setmiddleInput] = useState("9139902719");
     // const [lastinput, setlastInput] = useState("9139902719");
@@ -29,7 +36,7 @@ export default function EditPatientInfo({ navigation, route }) {
     const [firstname, setfirstname] = useState("Alexander")
     const [middlename, setmiddlename] = useState("Gomex")
     const [lastname, setlastname] = useState("Dela Costa")
-    const [age, setage] = useState("39")
+    const [age, setAge] = useState("39")
     const [gender, setgender] = useState("Male")
     const [birthday, setbirthday] = useState("Aug 21,1980")
     const [dateAdded, setdateAdded] = useState("February 21,2018")
@@ -47,7 +54,7 @@ export default function EditPatientInfo({ navigation, route }) {
 
 
     useEffect(() => {
-        const { firstname, middlename, lastname, phone, gender, address, dob, patientImage, uuid } = route.params.patientDetails;
+        const { firstname, middlename, lastname, phone, gender, address, dob, patientImage, uuid, email } = route.params.patientDetails;
         setfirstname(firstname)
         setmiddlename(middlename)
         setlastname(lastname)
@@ -61,7 +68,7 @@ export default function EditPatientInfo({ navigation, route }) {
 
         setInput(phone.substr(2))
 
-        setemail(`${firstname}@gmail.com`)
+        setemail(email)
 
         // AsyncStorage.getAllKeys((err, keys) => {
         //     AsyncStorage.multiGet(keys, (error, stores) => {
@@ -75,6 +82,26 @@ export default function EditPatientInfo({ navigation, route }) {
 
 
     }, [route.params])
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setCalenderShower(Platform.OS === 'ios');
+        setDate(currentDate);
+        var yyyy = JSON.stringify(currentDate).substr(1, 4)
+        var mm = JSON.stringify(currentDate).substr(6, 2)
+        var dd = JSON.stringify(currentDate).substr(9, 2)
+        dd = parseInt(dd) + 1
+        setCalenderValue(`${dd}/${mm}/${yyyy}`)
+
+        var now = new Date()
+        var diff = now - currentDate; // This is the difference in milliseconds
+        var age = Math.floor(diff / 31557600000); // Divide by 1000*60*60*24*365.25
+
+        setAge(age)
+
+
+
+    };
 
     // useEffect(() => {
     // }, [route.params])
@@ -112,6 +139,8 @@ export default function EditPatientInfo({ navigation, route }) {
                     f.email = email
                     f.phone = phone
                     f.fullname = `${firstname} ${middlename} ${lastname}`
+                    f.dob = calenderValue
+                    f.age = age
 
                 }
 
@@ -170,7 +199,7 @@ export default function EditPatientInfo({ navigation, route }) {
                         >{firstname} {lastname}</Text>
                         <Text
                             // onPress={}
-                            style={{ color: 'teal' }}>Tap to edit patient information</Text>
+                            style={{ color: 'teal' }}>Edit patient information</Text>
                     </View>
 
 
@@ -185,6 +214,51 @@ export default function EditPatientInfo({ navigation, route }) {
                     <InfoInput label="MIDDLE NAME" fill={middlename} set={setmiddlename} />
                     <InfoInput label="LAST NAME" fill={lastname} set={setlastname} />
                     <InfoInput label="SEX" fill={gender} set={setgender} />
+
+
+                    <View style={{ marginLeft: -32 }}>
+                        <View style={InputStyle.UserNameBlock}>
+                            <Text style={[InputStyle.UserNameTextStyle, { fontSize: 12 }]}>DATE OF BIRTH</Text>
+                        </View>
+
+                        <View
+                            style={[
+                                InputStyle.InputBlockStyle,
+                                {
+                                    flexDirection: "row",
+                                    justifyContent: "flex-start",
+                                    width: widthPercentageToDP("60%"),
+                                    marginTop: 10,
+                                },
+                            ]}
+                        >
+                            <TouchableOpacity
+                                onPress={() => setCalenderShower(!calenderShower)}
+                                style={{ marginLeft: 10 }}
+                            >
+                                <AntDesign name="calendar" size={24} color={colors.lightGreen} />
+                            </TouchableOpacity>
+
+                            <View style={{ marginLeft: 50 }}>
+                                <Text style={{ color: "gray", fontWeight: "300" }}>{calenderValue}</Text>
+                            </View>
+                        </View>
+
+                        {calenderShower && (
+                            <DateTimePicker
+                                testID="dateTimePicker"
+                                value={date}
+                                mode="date"
+                                display="default"
+                                onChange={onChange}
+                                dateFormat="day month year"
+                            />
+                        )}
+
+
+
+
+                    </View>
 
                 </Surface>
 
@@ -228,12 +302,16 @@ export default function EditPatientInfo({ navigation, route }) {
                             </View>
                         </View>
 
+
+
                         {/* Proceed */}
 
 
 
 
                     </View>
+
+
                 </Surface>
                 <TouchableOpacity
                     onPress={editInfo}

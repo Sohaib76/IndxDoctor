@@ -32,7 +32,7 @@ export default function PatientDetailScreen({ navigation, route }) {
 
     useEffect(() => {
         // console.log(route.params);
-        const { firstname, middlename, createdon, lastname, phone, gender, address, dob, patientImage } = route.params.patientDetails;
+        const { firstname, middlename, createdon, lastname, phone, gender, address, dob, patientImage, age, email } = route.params.patientDetails;
         // get difference
         let createdDiff = new Date() - new Date(createdon)
         createdDiff = Math.floor(createdDiff / (1000 * 60 * 60))
@@ -63,7 +63,8 @@ export default function PatientDetailScreen({ navigation, route }) {
         setimage(patientImage)
         setdateAdded(createdon.slice(0, 10))
         setdateDifference(createdDiff)
-        setemail(`${firstname}@gmail.com`)
+        setemail(email)
+        setage(age)
     }, [route.params])
 
 

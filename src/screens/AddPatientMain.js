@@ -8,7 +8,10 @@ import { Menu, Divider, Provider } from 'react-native-paper';
 import { AntDesign } from '@expo/vector-icons';
 import Colors from '../config/colors';
 
-export default function AddPatientMain({ navigation }) {
+export default function AddPatientMain({ navigation, route }) {
+
+    // const heading = route.params.heading
+
     return (
         <View>
             <Header

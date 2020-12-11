@@ -89,7 +89,9 @@ export default function CustomDrawerContent({ navigation }) {
                 <NavigationComponent name={"Dashboard"} navigation={navigation} where={"HomeScreen"} />
                 {/* <NavigationComponent name={"Set Appoinment"} navigation={navigation} where={"AddAppointmentMain"} /> */}
                 <NavigationComponent name={"Add Patient"} navigation={navigation} where={"AddPatientMain"} />
-                <NavigationComponent name={"Add Appointment"} navigation={navigation} where={"PatientList"} />
+                <NavigationComponent name={"Add Appointment"} navigation={navigation} where={"AddAppointmentMain"} />
+                <NavigationComponent name={"All Patients"} navigation={navigation} where={"PatientList"} />
+
                 <NavigationComponent name={"Calendar"} navigation={navigation} />
                 <NavigationComponent name={"Process Payment"} navigation={navigation} />
                 <NavigationComponent name={"Logout"} navigation={navigation} where={"Logout"} />

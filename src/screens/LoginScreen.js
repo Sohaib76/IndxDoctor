@@ -20,6 +20,9 @@ import {
 import InputStyle from "../components/InputStyle";
 import Logo from "../assets/Images";
 import { dummydataValue, setdummydata } from "../utils/setDummyData"
+import Images from "../assets/Images";
+import { widthPercentageToDP, heightPercentageToDP } from "react-native-responsive-screen";
+
 
 export default function LoginScreen({ navigation, route }) {
 
@@ -29,6 +32,10 @@ export default function LoginScreen({ navigation, route }) {
   const [password, setpassword] = useState("")
   // const [userData, setuserData] = useState({})
   const [globalData, setglobalData] = useState({})
+
+  const [inputOne, setInputOne] = useState(true)
+
+
 
   // empty async storage
   const clearAsyncStorage = async () => {
@@ -157,11 +164,28 @@ export default function LoginScreen({ navigation, route }) {
           </View>
 
           {/* Password */}
-          <View style={InputStyle.InputBlockStyle}>
+          <View style={[InputStyle.InputBlockStyle, {
+            flexDirection: 'row'
+            // , justifyContent: 'flex-start',
+            , width: widthPercentageToDP("70%"),
+
+
+          }]}>
             <TextInput
+              secureTextEntry={inputOne}
               autoCapitalize="none"
               onChangeText={handlePassword}
-              placeholder="Password" style={InputStyle.TextInputStyle} />
+              placeholder="Password" style={[InputStyle.TextInputStyle
+                , { marginLeft: 0 }
+              ]} />
+
+            {/* PasswordViewer*/}
+            <TouchableOpacity
+              onPress={() => setInputOne(!inputOne)}
+              style={{ marginLeft: -50, marginTop: 14 }}
+            >
+              <Image source={Images.Eye} style={{ width: 18, height: 18 }} resizeMode="contain" />
+            </TouchableOpacity>
           </View>
 
           {/* LogIn */}
