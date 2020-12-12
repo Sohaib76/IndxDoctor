@@ -66,6 +66,9 @@ export default function HomeScreen({ route, navigation }) {
         // appnmtnts categorized with time
         let todayAppointmentsWithTime = {}
 
+
+        var totalPendingAppointments = 0
+        var totalCancelledAppointments = 0
         patientlist.forEach(patient => {
             let hasApnmnt = patient.appointments.find(apnmnt => {
                 return new Date(apnmnt.fulldate).toDateString() == date.toDateString()
@@ -79,8 +82,11 @@ export default function HomeScreen({ route, navigation }) {
 
             })
             console.log(noOfCancelled.length);
-            setcancelledAppointments(noOfCancelled.length)
-            setpendingAppointments(patient.appointments.length - noOfCancelled.length)
+
+            totalPendingAppointments += patient.appointments.length
+            totalCancelledAppointments += noOfCancelled.length
+            // setcancelledAppointments(noOfCancelled.length)
+            // setpendingAppointments(patient.appointments.length - noOfCancelled.length)
 
             if (hasApnmnt) {
                 // all appntmnts
@@ -102,8 +108,13 @@ export default function HomeScreen({ route, navigation }) {
             }
         })
         setappointmentTimings(todayAppointmentsWithTime)
-        setnoOfAppointmentsToday(todayAppointmentsList.length)
+        setnoOfAppointmentsToday(todayAppointmentsList.length - totalCancelledAppointments)
         settotalNoOfPatients(patientlist.length)
+
+
+        var noOfAppointmentNow = todayAppointmentsList.length - totalCancelledAppointments
+        setpendingAppointments(totalPendingAppointments - totalCancelledAppointments - noOfAppointmentNow)
+        setcancelledAppointments(totalCancelledAppointments)
     }
 
     const [today, settoday] = useState(new Date())

@@ -35,7 +35,12 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
     }
 
     const RenderBtn = () => {
-        if (queued) {
+        if (cancelled) {
+            return (
+                <View></View>
+            )
+        }
+        else if (queued) {
             return (
                 <Button
                     labelStyle={{ color: 'red', fontWeight: 'bold', fontSize: 12 }}
@@ -44,6 +49,7 @@ export default function PatientQueue({ details, time, handleCancel, handleQueue 
                     Cancel
                 </Button>
             )
+
         }
         else if (!queued && !cancelled) {
             return (
